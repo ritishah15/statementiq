@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StatementIQ — Architecture & Technical Documentation</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root{
+    --navy:#0B1F3A; --navy2:#172B4D; --teal:#0D9488; --teal2:#14B8A6;
+    --ink:#0F172A; --body:#334155; --muted:#64748B; --faint:#94A3B8;
+    --line:#E2E8F0; --soft:#F8FAFC; --teal-soft:#F0FDFA; --amber:#D97706;
+    --red:#DC2626; --purple:#7C3AED; --blue:#2563EB; --green:#059669;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#fff;}
+  body{
+    font-family:"Segoe UI","Inter",Arial,sans-serif; color:var(--ink);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    font-size:12.5px; line-height:1.5;
+  }
+  .page{
+    width:210mm; height:297mm; position:relative; overflow:hidden;
+    background:#fff; page-break-after:always; break-after:page;
+  }
+  .page:last-child{page-break-after:auto; break-after:auto;}
+  .page-inner{
+    position:absolute; inset:0; padding:13mm 15mm 11mm;
+    display:flex; flex-direction:column;
+  }
+  .page-header{
+    height:9mm; display:flex; align-items:flex-start; justify-content:space-between;
+    border-bottom:1px solid var(--line); margin-bottom:6mm; padding-bottom:3mm;
+  }
+  .brandline{display:flex; align-items:center; gap:7px;}
+  .brandmark{
+    width:22px; height:22px; border-radius:6px; background:var(--navy);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .brandmark svg{width:13px;height:13px;}
+  .brandname{font-size:11.5px; font-weight:700; letter-spacing:.02em;}
+  .brandsub{font-size:8px; color:var(--faint); letter-spacing:.12em; text-transform:uppercase; margin-top:1px;}
+  .section-tag{font-size:8.5px; color:var(--muted); letter-spacing:.14em; text-transform:uppercase; padding-top:4px;}
+  .page-footer{
+    height:6mm; border-top:1px solid var(--line); margin-top:4mm; padding-top:2.5mm;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:8px; color:var(--faint); letter-spacing:.04em;
+  }
+  .page-footer .num{font-weight:700;color:var(--navy2);}
+  .page-body{flex:1; min-height:0;}
+  .eyebrow{font-size:8.5px; color:var(--teal); font-weight:700; letter-spacing:.16em; text-transform:uppercase; margin-bottom:5px;}
+  h1.sec{font-size:23px; line-height:1.12; letter-spacing:-.025em; color:var(--navy); margin:0 0 5px; font-weight:750;}
+  .lede{font-size:11.5px; color:var(--muted); max-width:640px; margin:0 0 5mm; line-height:1.55;}
+  p{margin:0 0 8px;}
+  .muted{color:var(--muted);}
+  .small{font-size:10.5px;}
+  .xs{font-size:9px;}
+  .mono{font-family:Consolas,"Cascadia Mono",monospace;}
+  .teal{color:var(--teal);} .navy{color:var(--navy);} .amber{color:var(--amber);} .red{color:var(--red);}
+  .grid{display:grid; gap:10px;}
+  .g2{grid-template-columns:1fr 1fr;}
+  .g3{grid-template-columns:1fr 1fr 1fr;}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:11px; padding:11px 12px;
+    box-shadow:0 1px 2px rgba(15,23,42,.03);
+  }
+  .card.soft{background:var(--soft);}
+  .card.tealcard{background:var(--teal-soft); border-color:#99F6E4;}
+  .card h3{font-size:11.5px; margin:0 0 3px; color:var(--navy); letter-spacing:-.01em;}
+  .card p{font-size:10px; line-height:1.45; color:var(--body); margin:0;}
+  .kpi{font-size:25px; font-weight:750; color:var(--navy); letter-spacing:-.04em; line-height:1;}
+  .kpi-label{font-size:8.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:5px;}
+  .pill{display:inline-block; padding:3px 8px; border-radius:999px; font-size:8.5px; font-weight:700; letter-spacing:.04em;}
+  .pill.teal{background:#CCFBF1;color:#0F766E;}
+  .pill.navy{background:#E2E8F0;color:var(--navy);}
+  .pill.amber{background:#FEF3C7;color:#92400E;}
+  .pill.red{background:#FEE2E2;color:#991B1B;}
+  .pill.purple{background:#EDE9FE;color:#5B21B6;}
+  .pill.blue{background:#DBEAFE;color:#1E40AF;}
+  .rule{height:1px;background:var(--line);margin:10px 0;border:0;}
+  .note{
+    border-left:3px solid var(--teal); background:var(--teal-soft); padding:9px 12px;
+    border-radius:0 8px 8px 0; font-size:10px; color:#134E4A;
+  }
+  .note.warn{border-left-color:var(--amber); background:#FFFBEB; color:#78350F;}
+  .note.red{border-left-color:var(--red); background:#FEF2F2; color:#7F1D1D;}
+  .two-col{display:grid; grid-template-columns:1.65fr 1fr; gap:13px;}
+  .diagram{width:100%; display:block;}
+  .diagram-wrap{border:1px solid var(--line); border-radius:12px; padding:8px; background:#fff;}
+  .caption{font-size:8.5px;color:var(--faint);text-align:center;margin-top:4px;letter-spacing:.02em;}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;font-size:8.5px;color:var(--muted);}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .swatch{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .shot{width:100%;border:1px solid #CBD5E1;border-radius:9px;display:block;box-shadow:0 2px 8px rgba(15,23,42,.08);}
+  .shot-cap{font-size:8px;color:var(--faint);margin-top:4px;letter-spacing:.02em;}
+  .callout-num{
+    width:19px;height:19px;border-radius:50%;background:var(--teal);color:#fff;
+    font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+  }
+  .callout-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;}
+  .callout-row p{font-size:9.5px;margin:0;color:var(--body);line-height:1.4;}
+  .callout-row strong{color:var(--navy);}
+  .code{
+    background:#0B1F3A; color:#D1FAE5; border-radius:9px; padding:9px 11px;
+    font-family:Consolas,"Cascadia Mono",monospace; font-size:8.5px; line-height:1.55; white-space:pre-wrap;
+  }
+  .code .k{color:#5EEAD4;} .code .s{color:#FCD34D;} .code .c{color:#94A3B8;}
+  table.tbl{width:100%; border-collapse:collapse; font-size:9px;}
+  table.tbl th{
+    text-align:left; font-size:8px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--muted); border-bottom:1px solid #CBD5E1; padding:4px 6px; background:var(--soft);
+  }
+  table.tbl td{padding:4px 6px; border-bottom:1px solid #EEF2F7; vertical-align:top; color:var(--body);}
+  table.tbl tr:last-child td{border-bottom:0;}
+  .method{font-family:Consolas,monospace;font-size:7.5px;font-weight:700;padding:1px 5px;border-radius:4px;}
+  .get{background:#DBEAFE;color:#1E40AF;} .post{background:#DCFCE7;color:#166534;}
+  .put{background:#FEF3C7;color:#92400E;} .del{background:#FEE2E2;color:#991B1B;}
+  .num-big{font-size:34px;font-weight:800;color:var(--navy);letter-spacing:-.05em;line-height:.95;}
+  .cover{background:var(--navy); color:#fff;}
+  .cover .inner{position:absolute;inset:0;padding:18mm 17mm 15mm;display:flex;flex-direction:column;}
+  .cover .grid-bg{
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:12mm 12mm;
+  }
+  .cover .glow{
+    position:absolute; width:150mm;height:150mm;border-radius:50%;
+    background:radial-gradient(circle,rgba(13,148,136,.35),rgba(13,148,136,0) 68%);
+    right:-55mm; top:-45mm;
+  }
+  .cover .glow2{
+    position:absolute;width:95mm;height:95mm;border-radius:50%;
+    background:radial-gradient(circle,rgba(37,99,235,.18),rgba(37,99,235,0) 70%);
+    left:-35mm;bottom:-40mm;
+  }
+  .cover-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
+  .cover-brand{display:flex;align-items:center;gap:11px;}
+  .cover-logo{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;}
+  .cover-logo svg{width:24px;height:24px;}
+  .cover-brand-name{font-size:18px;font-weight:750;letter-spacing:-.02em;}
+  .cover-brand-sub{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#94A3B8;margin-top:2px;}
+  .cover-badge{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 11px;font-size:8.5px;letter-spacing:.08em;color:#CBD5E1;}
+  .cover-main{margin-top:auto;margin-bottom:auto;position:relative;z-index:2;max-width:170mm;}
+  .cover-kicker{color:#5EEAD4;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;margin-bottom:9mm;}
+  .cover-title{font-size:48px;line-height:1.02;letter-spacing:-.045em;font-weight:780;margin:0;}
+  .cover-title .thin{color:#99F6E4;font-weight:350;}
+  .cover-desc{font-size:13px;line-height:1.6;color:#CBD5E1;max-width:135mm;margin-top:7mm;}
+  .cover-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9mm;}
+  .cover-chip{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);border-radius:6px;padding:5px 9px;font-size:8.5px;color:#E2E8F0;letter-spacing:.02em;}
+  .cover-bottom{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,.16);padding-top:5mm;}
+  .cover-meta{font-size:8.5px;color:#94A3B8;line-height:1.7;letter-spacing:.04em;}
+  .cover-meta strong{color:#E2E8F0;font-weight:600;}
+  .cover-side{position:absolute;right:8mm;top:50%;transform:rotate(90deg);transform-origin:center;font-size:7.5px;letter-spacing:.34em;color:rgba(148,163,184,.55);text-transform:uppercase;z-index:1;}
+  .toc-row{display:flex;align-items:baseline;gap:9px;padding:6px 0;border-bottom:1px solid #EEF2F7;}
+  .toc-num{font-size:9px;color:var(--teal);font-weight:700;width:20px;flex:0 0 auto;}
+  .toc-title{font-size:10.5px;color:var(--navy);font-weight:600;}
+  .toc-dots{flex:1;border-bottom:1px dotted #CBD5E1;margin:0 4px 3px;}
+  .toc-page{font-size:9px;color:var(--muted);font-weight:600;}
+  .toc-sub{font-size:8.5px;color:var(--faint);margin-left:29px;margin-top:-3px;padding-bottom:5px;}
+  .metastrip{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff;}
+  .metastrip > div{padding:10px 11px;border-right:1px solid var(--line);}
+  .metastrip > div:last-child{border-right:0;}
+  .metastrip .n{font-size:19px;font-weight:750;color:var(--navy);letter-spacing:-.03em;line-height:1;}
+  .metastrip .l{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-top:4px;}
+  .chip{display:inline-block;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:5px;padding:2px 6px;font-size:8px;color:#475569;margin:2px 2px 0 0;}
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — COVER ================= -->
+<section class="page cover">
+  <div class="grid-bg"></div>
+  <div class="glow"></div>
+  <div class="glow2"></div>
+  <div class="cover-side">Deterministic · Auditable · Local</div>
+  <div class="inner">
+    <div class="cover-top">
+      <div class="cover-brand">
+        <div class="cover-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cover-brand-name">StatementIQ</div>
+          <div class="cover-brand-sub">Bank Statement Intelligence</div>
+        </div>
+      </div>
+      <div class="cover-badge">TECHNICAL DOCUMENTATION · V1.0</div>
+    </div>
+
+    <div class="cover-main">
+      <div class="cover-kicker">Architecture &amp; System Design</div>
+      <h1 class="cover-title">From raw PDFs<br>to <span class="thin">reconciled</span><br>financial truth.</h1>
+      <p class="cover-desc">
+        Architecture diagrams, processing flows and implementation notes for a
+        non-LLM bank statement platform combining deterministic rules, computer-vision OCR
+        and classical machine learning.
+      </p>
+      <div class="cover-chips">
+        <span class="cover-chip">React 18 + Vite</span>
+        <span class="cover-chip">FastAPI + Pydantic v2</span>
+        <span class="cover-chip">PyMuPDF + pdfplumber</span>
+        <span class="cover-chip">OpenCV + Tesseract 5</span>
+        <span class="cover-chip">TF-IDF + Multinomial NB</span>
+        <span class="cover-chip">OpenPyXL</span>
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-meta">
+        <strong>Prepared for</strong> &nbsp;Internship assessment review<br>
+        <strong>Scope</strong> &nbsp;System context · containers · data flow · API · deployment<br>
+        <strong>Evidence</strong> &nbsp;Live UI captures · code-level thresholds · evaluation results
+      </div>
+      <div class="cover-meta" style="text-align:right;">
+        <strong>Version 1.0</strong><br>
+        November 2026<br>
+        20 pages · 8 diagrams
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 2 — CONTENTS ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">Contents</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Navigation</div>
+      <h1 class="sec">What is inside this document</h1>
+      <p class="lede">A complete architecture reference: the system boundary, internal containers, every stage of the processing pipeline, the classification logic, deployment model and the evidence captured from the running application.</p>
+
+      <div class="two-col" style="grid-template-columns:1.35fr 1fr;">
+        <div>
+          <div class="toc-row"><span class="toc-num">01</span><span class="toc-title">Executive summary</span><span class="toc-dots"></span><span class="toc-page">03</span></div>
+          <div class="toc-sub">Problem, approach, capabilities and headline facts</div>
+          <div class="toc-row"><span class="toc-num">02</span><span class="toc-title">System context</span><span class="toc-dots"></span><span class="toc-page">04</span></div>
+          <div class="toc-sub">Actors, trust boundary, external dependencies and data stores</div>
+          <div class="toc-row"><span class="toc-num">03</span><span class="toc-title">Container architecture</span><span class="toc-dots"></span><span class="toc-page">05</span></div>
+          <div class="toc-sub">Presentation, API, domain services, engines and persistence</div>
+          <div class="toc-row"><span class="toc-num">04</span><span class="toc-title">End-to-end processing pipeline</span><span class="toc-dots"></span><span class="toc-page">06</span></div>
+          <div class="toc-sub">Six stages, their artefacts, APIs and UI states</div>
+          <div class="toc-row"><span class="toc-num">05</span><span class="toc-title">PDF detection &amp; OCR pipeline</span><span class="toc-dots"></span><span class="toc-page">07</span></div>
+          <div class="toc-sub">Validation, digital/scanned routing and OpenCV preprocessing</div>
+          <div class="toc-row"><span class="toc-num">06</span><span class="toc-title">Parsing &amp; ledger validation</span><span class="toc-dots"></span><span class="toc-page">08</span></div>
+          <div class="toc-sub">Extraction strategies, normalisation, balance formulas and OCR repair</div>
+          <div class="toc-row"><span class="toc-num">07</span><span class="toc-title">Non-LLM classification engine</span><span class="toc-dots"></span><span class="toc-page">09</span></div>
+          <div class="toc-sub">Four-tier priority flow, confidence gates and explainability</div>
+          <div class="toc-row"><span class="toc-num">08</span><span class="toc-title">Data model</span><span class="toc-dots"></span><span class="toc-page">10</span></div>
+          <div class="toc-sub">Statement aggregate, entities and persistence artefacts</div>
+        </div>
+        <div>
+          <div class="toc-row"><span class="toc-num">09</span><span class="toc-title">API surface</span><span class="toc-dots"></span><span class="toc-page">11</span></div>
+          <div class="toc-sub">All 24 REST endpoints grouped by responsibility</div>
+          <div class="toc-row"><span class="toc-num">10</span><span class="toc-title">Deployment topology</span><span class="toc-dots"></span><span class="toc-page">12</span></div>
+          <div class="toc-sub">Local development, Vercel + Render production, runtime dependencies</div>
+          <div class="toc-row"><span class="toc-num">11</span><span class="toc-title">Security &amp; reliability</span><span class="toc-dots"></span><span class="toc-page">13</span></div>
+          <div class="toc-sub">Upload hardening, PII controls, auditability and hardening backlog</div>
+          <div class="toc-row"><span class="toc-num">12</span><span class="toc-title">UI walkthrough</span><span class="toc-dots"></span><span class="toc-page">14</span></div>
+          <div class="toc-sub">Ingestion · extraction · classification · reconciliation (14–17)</div>
+          <div class="toc-row"><span class="toc-num">13</span><span class="toc-title">Model evaluation</span><span class="toc-dots"></span><span class="toc-page">18</span></div>
+          <div class="toc-sub">Held-out metrics, class coverage and transparency notes</div>
+          <div class="toc-row"><span class="toc-num">14</span><span class="toc-title">Testing &amp; quality</span><span class="toc-dots"></span><span class="toc-page">19</span></div>
+          <div class="toc-sub">38 automated tests across extraction, OCR, security and e2e</div>
+          <div class="toc-row"><span class="toc-num">15</span><span class="toc-title">Limitations &amp; roadmap</span><span class="toc-dots"></span><span class="toc-page">20</span></div>
+          <div class="toc-sub">Known constraints, production hardening and next improvements</div>
+
+          <div class="card soft" style="margin-top:12px;">
+            <h3>Document control</h3>
+            <table class="tbl" style="font-size:8.5px;margin-top:4px;">
+              <tr><td style="width:80px;color:#94A3B8;">Version</td><td>1.0 — final</td></tr>
+              <tr><td style="color:#94A3B8;">Date</td><td>05 November 2026</td></tr>
+              <tr><td style="color:#94A3B8;">Audience</td><td>Technical reviewers, assessors, maintainers</td></tr>
+              <tr><td style="color:#94A3B8;">System</td><td>StatementIQ v1.0</td></tr>
+              <tr><td style="color:#94A3B8;">Status</td><td><span class="pill teal">IMPLEMENTED</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:12px;">
+        <strong>Reading guide.</strong> Blue arrows show request flow; dashed arrows show reads/writes or optional paths.
+        All screenshots were captured from the running local application with a processed scanned statement
+        (17 transactions, OCR path). Thresholds and formulas shown in this document are taken from the implementation,
+        not from marketing copy.
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">02</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 3 — EXECUTIVE SUMMARY ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">01 · Executive summary</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">The problem &amp; the response</div>
+      <h1 class="sec">A deterministic pipeline for<br>untrusted financial documents.</h1>
+      <p class="lede">Bank statements arrive in incompatible layouts, as native PDFs or degraded scans. StatementIQ turns them into a validated ledger — then classifies every transaction, proves the arithmetic, and exports an audit-ready workbook. No generative AI is used anywhere in the runtime path.</p>
+
+      <div class="grid g2" style="grid-template-columns:1.15fr 1fr;">
+        <div class="card" style="border-top:3px solid #DC2626;">
+          <h3 style="color:#991B1B;">Why not an LLM?</h3>
+          <p style="margin-top:4px;">Financial extraction demands reproducibility, privacy and a defensible audit trail. Generative models introduce non-deterministic output, prompt-injection exposure, per-page cost and hallucination risk. StatementIQ replaces that with deterministic parsing and a small, inspectable classical model.</p>
+          <div style="margin-top:8px;">
+            <span class="pill red">No OpenAI</span>
+            <span class="pill red">No Gemini</span>
+            <span class="pill red">No Claude</span>
+            <span class="pill red">No network inference</span>
+          </div>
+        </div>
+        <div class="card tealcard">
+          <h3 style="color:#0F766E;">The response</h3>
+          <p style="margin-top:4px;">A six-stage pipeline: validate &amp; hash → detect page type → extract text or OCR → parse &amp; reconcile → classify → export. Every decision is traceable to a keyword, a model probability, or a balance equation.</p>
+          <div style="margin-top:8px;">
+            <span class="pill teal">Deterministic</span>
+            <span class="pill teal">Auditable</span>
+            <span class="pill teal">Local-first</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g4" style="margin-top:11px;">
+        <div class="card"><div class="kpi">01</div><div class="kpi-label">Ingest &amp; protect</div><p style="margin-top:5px;">Magic-byte validation, 25 MB cap, SHA-256 duplicate identity, traversal-safe filenames.</p></div>
+        <div class="card"><div class="kpi">02</div><div class="kpi-label">Detect &amp; extract</div><p style="margin-top:5px;">Page-level DIGITAL / SCANNED / MIXED routing with 300 DPI OCR and OpenCV cleanup.</p></div>
+        <div class="card"><div class="kpi">03</div><div class="kpi-label">Classify &amp; explain</div><p style="margin-top:5px;">Custom rules → merchant heuristics → TF-IDF + Naive Bayes → human review.</p></div>
+        <div class="card"><div class="kpi">04</div><div class="kpi-label">Reconcile &amp; export</div><p style="margin-top:5px;">Running-balance proof, 7-sheet Excel, portfolio export and injection-safe CSV.</p></div>
+      </div>
+
+      <div class="metastrip" style="margin-top:12px;">
+        <div><div class="n">6</div><div class="l">Pipeline stages</div></div>
+        <div><div class="n">24</div><div class="l">REST endpoints</div></div>
+        <div><div class="n">7</div><div class="l">Excel report sheets</div></div>
+        <div><div class="n">211</div><div class="l">Training records</div></div>
+        <div><div class="n">38</div><div class="l">Automated tests</div></div>
+      </div>
+
+      <div class="grid g2" style="margin-top:12px;grid-template-columns:1.05fr 1fr;">
+        <div class="card soft">
+          <h3>What is genuinely different here</h3>
+          <p style="margin-top:4px;"><strong style="color:#0F766E;">1. Layout-aware extraction.</strong> Positional word coordinates are tried first; table grids second; raw text last. A 3-row minimum prevents a single stray line from winning.</p>
+          <p style="margin-top:5px;"><strong style="color:#0F766E;">2. Safe OCR repair.</strong> Ambiguous debit/credit pairs are never guessed. They are corrected only when the running balance uniquely confirms one interpretation; otherwise they are flagged for review.</p>
+          <p style="margin-top:5px;"><strong style="color:#0F766E;">3. Rules before model.</strong> High-specificity merchant rules run before generic rails such as UPI/NEFT, preventing “UPI/SWIGGY” from being lost to Transfers.</p>
+        </div>
+        <div class="card">
+          <h3>Assessment snapshot</h3>
+          <table class="tbl" style="margin-top:4px;">
+            <tr><td style="color:#94A3B8;width:98px;">Frontend</td><td>React 18.3 · Vite 5.4 · Tailwind 3.4 · Lucide</td></tr>
+            <tr><td style="color:#94A3B8;">Backend</td><td>FastAPI 0.115 · Uvicorn · Pydantic v2</td></tr>
+            <tr><td style="color:#94A3B8;">Extraction</td><td>PyMuPDF · pdfplumber · OpenCV · Tesseract 5.5</td></tr>
+            <tr><td style="color:#94A3B8;">Classification</td><td>scikit-learn · TF-IDF (1–2 grams) · Multinomial NB (α=0.2)</td></tr>
+            <tr><td style="color:#94A3B8;">Outputs</td><td>OpenPyXL 7-sheet XLSX · sanitised CSV · portfolio export</td></tr>
+            <tr><td style="color:#94A3B8;">Quality</td><td>38 pytest tests · 4 UI modules · 24 endpoints</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="note warn" style="margin-top:11px;">
+        <strong>Transparency.</strong> The 52.83% held-out accuracy on the small synthetic benchmark is reported as-is. In practice the deterministic rule tier handles the majority of recurring Indian banking narrations; the model is a fallback, not the primary classifier.
+      </div>
+
+      <div class="card" style="margin-top:10px;">
+        <h3 style="margin-bottom:5px;">Requirement traceability</h3>
+        <table class="tbl" style="font-size:8.3px;">
+          <tr><td style="width:190px;color:#0B1F3A;font-weight:600;">No LLM / no external GenAI</td><td>System context (§02), four-tier engine (§07), live classifier capture (§12)</td><td style="width:70px;color:#0F766E;font-weight:700;">implemented</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Digital + scanned ingestion</td><td>Page-level routing (§05), OCR preprocessing (§05), ingestion capture (§12)</td><td style="color:#0F766E;font-weight:700;">implemented</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Structured extraction &amp; validation</td><td>Three-strategy parser, normalisation, flags and OCR repair (§06)</td><td style="color:#0F766E;font-weight:700;">implemented</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Mathematical reconciliation</td><td>Row and statement formulas with ±0.05 tolerance (§06, §12)</td><td style="color:#0F766E;font-weight:700;">implemented</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Safe multi-format export</td><td>7-sheet workbook, portfolio export, formula sanitisation (§11, §12)</td><td style="color:#0F766E;font-weight:700;">implemented</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Automated verification</td><td>38 pytest tests + async API smoke script (§14)</td><td style="color:#0F766E;font-weight:700;">38 passing</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">03</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 4 — SYSTEM CONTEXT ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">02 · System context</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">C4 · Level 1</div>
+      <h1 class="sec">Who talks to the system,<br>and what it never calls.</h1>
+      <p class="lede">StatementIQ is a self-contained desktop-class web application. A single analyst operates it through a browser; all document processing happens inside the application boundary. The only external runtime dependency is the local Tesseract OCR binary.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 565" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="c1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#64748B"/></marker>
+            <marker id="c1art" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+            <marker id="c1arr" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#DC2626"/></marker>
+          </defs>
+
+          <!-- actor -->
+          <rect x="24" y="185" width="172" height="170" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+          <circle cx="110" cy="224" r="21" fill="#E2E8F0"/>
+          <circle cx="110" cy="217" r="7" fill="#64748B"/>
+          <path d="M96 238c2-9 8-13 14-13s12 4 14 13" fill="none" stroke="#64748B" stroke-width="3" stroke-linecap="round"/>
+          <text x="110" y="270" text-anchor="middle" font-size="16" font-weight="700" fill="#0B1F3A">Bank analyst</text>
+          <text x="110" y="290" text-anchor="middle" font-size="12.5" fill="#64748B">Auditor / reviewer</text>
+          <text x="110" y="308" text-anchor="middle" font-size="11.5" fill="#94A3B8">Desktop browser</text>
+          <rect x="45" y="322" width="130" height="22" rx="11" fill="#DBEAFE"/>
+          <text x="110" y="337" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E40AF">PERSON · OPERATOR</text>
+
+          <!-- boundary -->
+          <rect x="240" y="30" width="500" height="505" rx="18" fill="#F0FDFA" stroke="#0D9488" stroke-width="2" stroke-dasharray="9 6"/>
+          <rect x="268" y="18" width="256" height="26" rx="6" fill="#0D9488"/>
+          <text x="396" y="36" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff" letter-spacing="1.2">STATEMENTIQ TRUST BOUNDARY</text>
+
+          <!-- containers -->
+          <g>
+            <rect x="272" y="72" width="436" height="98" rx="11" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+            <rect x="272" y="72" width="6" height="98" rx="3" fill="#2563EB"/>
+            <text x="294" y="99" font-size="16" font-weight="700" fill="#0B1F3A">React single-page application</text>
+            <text x="294" y="119" font-size="12" fill="#475569">4 workflow modules · local UI state · Axios client</text>
+            <text x="294" y="139" font-size="11.5" fill="#64748B">Upload &amp; queue · Extraction audit · Classifier · Reconciliation</text>
+            <rect x="294" y="149" width="118" height="18" rx="4" fill="#EFF6FF"/>
+            <text x="353" y="162" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1E40AF">PORT 5173 · VITE</text>
+          </g>
+
+          <g>
+            <rect x="272" y="196" width="436" height="98" rx="11" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+            <rect x="272" y="196" width="6" height="98" rx="3" fill="#0D9488"/>
+            <text x="294" y="223" font-size="16" font-weight="700" fill="#0B1F3A">FastAPI application</text>
+            <text x="294" y="243" font-size="12" fill="#475569">REST /api · multipart upload · streaming exports</text>
+            <text x="294" y="263" font-size="11.5" fill="#64748B">Pydantic v2 schemas · Uvicorn · async route handlers</text>
+            <rect x="294" y="273" width="132" height="18" rx="4" fill="#F0FDFA"/>
+            <text x="360" y="286" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0F766E">PORT 8000 · UVICORN</text>
+          </g>
+
+          <g>
+            <rect x="272" y="320" width="436" height="170" rx="11" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+            <rect x="272" y="320" width="6" height="170" rx="3" fill="#7C3AED"/>
+            <text x="294" y="347" font-size="16" font-weight="700" fill="#0B1F3A">Local processing engine</text>
+            <text x="294" y="367" font-size="12" fill="#475569">All parsing, inference and arithmetic run in-process</text>
+            <g font-size="11" fill="#334155">
+              <rect x="292" y="381" width="126" height="27" rx="5" fill="#F5F3FF"/><text x="355" y="399" text-anchor="middle">PDF detection</text>
+              <rect x="425" y="381" width="126" height="27" rx="5" fill="#F5F3FF"/><text x="488" y="399" text-anchor="middle">OCR + OpenCV</text>
+              <rect x="558" y="381" width="132" height="27" rx="5" fill="#F5F3FF"/><text x="624" y="399" text-anchor="middle">Rules + ML</text>
+              <rect x="292" y="416" width="126" height="27" rx="5" fill="#F5F3FF"/><text x="355" y="434" text-anchor="middle">Ledger parser</text>
+              <rect x="425" y="416" width="126" height="27" rx="5" fill="#F5F3FF"/><text x="488" y="434" text-anchor="middle">Validation</text>
+              <rect x="558" y="416" width="132" height="27" rx="5" fill="#F5F3FF"/><text x="624" y="434" text-anchor="middle">Reconciliation</text>
+              <rect x="292" y="451" width="259" height="27" rx="5" fill="#F5F3FF"/><text x="421" y="469" text-anchor="middle">Excel / CSV export</text>
+            </g>
+          </g>
+
+          <!-- stores -->
+          <text x="808" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.1">LOCAL ARTEFACTS</text>
+          <g font-size="11.5">
+            <rect x="760" y="76" width="212" height="62" rx="9" fill="#FFF7ED" stroke="#FDBA74"/>
+            <text x="774" y="98" font-size="12.5" font-weight="700" fill="#9A3412">Uploaded PDFs</text>
+            <text x="774" y="116" font-size="10.5" fill="#9A3412">backend/uploads/</text>
+            <text x="774" y="130" font-size="10" fill="#C2410C">STMT-{id}_{filename}</text>
+
+            <rect x="760" y="150" width="212" height="62" rx="9" fill="#EFF6FF" stroke="#93C5FD"/>
+            <text x="774" y="172" font-size="12.5" font-weight="700" fill="#1E3A8A">Session state</text>
+            <text x="774" y="190" font-size="10.5" fill="#1E40AF">data/statement_sessions.json</text>
+            <text x="774" y="204" font-size="10" fill="#3B82F6">full aggregate, rehydrated at boot</text>
+
+            <rect x="760" y="224" width="212" height="62" rx="9" fill="#F5F3FF" stroke="#C4B5FD"/>
+            <text x="774" y="246" font-size="12.5" font-weight="700" fill="#5B21B6">Model &amp; rules</text>
+            <text x="774" y="264" font-size="10.5" fill="#6D28D9">models/*.joblib · data/rules.json</text>
+            <text x="774" y="278" font-size="10" fill="#8B5CF6">training_data.csv (211 rows)</text>
+
+            <rect x="760" y="298" width="212" height="62" rx="9" fill="#F0FDF4" stroke="#86EFAC"/>
+            <text x="774" y="320" font-size="12.5" font-weight="700" fill="#166534">Exports</text>
+            <text x="774" y="338" font-size="10.5" fill="#15803D">XLSX (7 sheets) · CSV</text>
+            <text x="774" y="352" font-size="10" fill="#22C55E">streamed, never persisted server-side</text>
+          </g>
+
+          <!-- tesseract -->
+          <rect x="760" y="398" width="212" height="72" rx="9" fill="#FFFBEB" stroke="#FCD34D" stroke-dasharray="6 4"/>
+          <text x="774" y="420" font-size="12.5" font-weight="700" fill="#92400E">Tesseract OCR 5.5</text>
+          <text x="774" y="438" font-size="10.5" fill="#B45309">External native binary</text>
+          <text x="774" y="454" font-size="10" fill="#D97706">invoked via pytesseract (local)</text>
+
+          <!-- no llm seal -->
+          <g>
+            <rect x="760" y="485" width="212" height="50" rx="9" fill="#FEF2F2" stroke="#FCA5A5"/>
+            <circle cx="782" cy="510" r="10" fill="#FEE2E2"/>
+            <path d="M777 505l10 10M787 505l-10 10" stroke="#DC2626" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <text x="800" y="507" font-size="11.5" font-weight="700" fill="#991B1B">No LLM / GenAI provider</text>
+            <text x="800" y="523" font-size="9.5" fill="#B91C1C">zero outbound inference traffic</text>
+          </g>
+
+          <!-- arrows -->
+          <path d="M198 255 H266" stroke="#0D9488" stroke-width="2" marker-end="url(#c1art)" fill="none"/>
+          <path d="M266 283 H198" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#c1ar)" fill="none"/>
+          <text x="232" y="246" text-anchor="middle" font-size="10" fill="#0F766E">HTTPS</text>
+          <text x="232" y="300" text-anchor="middle" font-size="9.5" fill="#64748B">rendered UI</text>
+
+          <path d="M490 172 V194" stroke="#0D9488" stroke-width="2" marker-end="url(#c1art)" fill="none"/>
+          <text x="502" y="188" font-size="10" fill="#0F766E">REST · JSON / multipart</text>
+          <path d="M468 194 V174" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#c1ar)" fill="none"/>
+
+          <path d="M490 296 V318" stroke="#7C3AED" stroke-width="2" marker-end="url(#c1ar)" fill="none"/>
+          <text x="502" y="312" font-size="10" fill="#6D28D9">in-process service calls</text>
+          <path d="M455 318 V298" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#c1ar)" fill="none"/>
+
+          <path d="M710 220 H758" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#c1ar)" fill="none"/>
+          <path d="M710 180 H758" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#c1ar)" fill="none"/>
+          <text x="734" y="210" text-anchor="middle" font-size="9" fill="#64748B" transform="rotate(-90 734 210)">read / write</text>
+          <path d="M710 360 H758" stroke="#64748B" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#c1ar)" fill="none"/>
+          <path d="M710 388 V430 H756" stroke="#D97706" stroke-width="1.6" stroke-dasharray="5 4" fill="none"/>
+          <path d="M748 426 L758 430 L748 434 z" fill="#D97706"/>
+          <text x="726" y="422" font-size="9.5" fill="#B45309">OCR call</text>
+        </svg>
+        <div class="caption">Figure 1 — System context. The trust boundary contains every processing step; no statement content leaves the host.</div>
+      </div>
+
+      <div class="grid g3" style="margin-top:12px;">
+        <div class="card"><h3>Primary actor</h3><p>One analyst uploads statements, audits extracted rows, corrects fields and downloads reports. No multi-tenant or role model is implemented in v1.</p></div>
+        <div class="card"><h3>External systems</h3><p>None for inference. Tesseract is a local binary; PyMuPDF, OpenCV, scikit-learn and OpenPyXL are in-process libraries. Hosting platforms are deployment targets only.</p></div>
+        <div class="card"><h3>Data movement</h3><p>PDF bytes → uploads directory; processed aggregate → session JSON; exports stream directly to the browser. Nothing is sent to a third-party API.</p></div>
+      </div>
+
+      <div class="legend">
+        <span><span class="swatch" style="background:#0D9488;"></span> Primary request / response</span>
+        <span><span class="swatch" style="background:#64748B;"></span> Read / write or optional path</span>
+        <span><span class="swatch" style="background:#DC2626;"></span> Explicitly absent capability</span>
+      </div>
+
+      <div class="card" style="margin-top:10px;">
+        <h3 style="margin-bottom:5px;">What actually crosses the boundary</h3>
+        <table class="tbl" style="font-size:8.3px;">
+          <tr><td style="width:130px;color:#0B1F3A;font-weight:600;">Inbound</td><td>PDF bytes + filename from the analyst’s browser. Nothing else is accepted.</td><td style="width:90px;color:#0F766E;font-weight:700;">local only</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Outbound to user</td><td>Rendered JSON state, XLSX/CSV streams and the HTML/JS bundle. No raw statement is returned by default.</td><td style="color:#0F766E;font-weight:700;">on demand</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Outbound to vendors</td><td>None. There is no inference endpoint, telemetry pipeline or document-storage bucket in the runtime path.</td><td style="color:#DC2626;font-weight:700;">zero</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Host dependency</td><td>Tesseract binary must be installed and discoverable; all other libraries ship with the Python environment.</td><td style="color:#D97706;font-weight:700;">documented</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">04</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 5 — CONTAINER ARCHITECTURE ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">03 · Container architecture</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">C4 · Level 2</div>
+      <h1 class="sec">Five layers, one request path.</h1>
+      <p class="lede">The frontend never parses documents. The API layer never contains business logic. Domain services orchestrate focused engines, and every service writes through a single session store. This separation is what makes the pipeline testable end-to-end.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 715" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="c2ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+            <marker id="c2arg" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#64748B"/></marker>
+          </defs>
+
+          <!-- layer labels -->
+          <g font-size="9" font-weight="700" fill="#94A3B8" letter-spacing="1.2">
+            <text x="18" y="42">PRESENTATION</text>
+            <text x="18" y="158">API</text>
+            <text x="18" y="326">SERVICES</text>
+            <text x="18" y="580">ENGINES</text>
+            <text x="18" y="672">PERSISTENCE</text>
+          </g>
+
+          <!-- presentation -->
+          <rect x="110" y="20" width="870" height="92" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/>
+          <rect x="126" y="31" width="210" height="64" rx="8" fill="#fff" stroke="#93C5FD"/>
+          <text x="140" y="52" font-size="13" font-weight="700" fill="#0B1F3A">React SPA</text>
+          <text x="140" y="69" font-size="10.5" fill="#475569">Vite · Tailwind · Lucide</text>
+          <text x="140" y="84" font-size="10" fill="#64748B">StatementContext state</text>
+
+          <g font-size="10.5" fill="#1E3A8A">
+            <rect x="354" y="31" width="146" height="27" rx="5" fill="#DBEAFE"/><text x="427" y="49" text-anchor="middle">Upload &amp; queue</text>
+            <rect x="510" y="31" width="146" height="27" rx="5" fill="#DBEAFE"/><text x="583" y="49" text-anchor="middle">Extraction audit</text>
+            <rect x="666" y="31" width="146" height="27" rx="5" fill="#DBEAFE"/><text x="739" y="49" text-anchor="middle">Classifier</text>
+            <rect x="822" y="31" width="140" height="27" rx="5" fill="#DBEAFE"/><text x="892" y="49" text-anchor="middle">Reconciliation</text>
+            <rect x="354" y="66" width="302" height="27" rx="5" fill="#fff" stroke="#BFDBFE"/><text x="505" y="84" text-anchor="middle">Axios API client · multipart + streaming</text>
+            <rect x="666" y="66" width="296" height="27" rx="5" fill="#fff" stroke="#BFDBFE"/><text x="814" y="84" text-anchor="middle">localStorage: active statement identity</text>
+          </g>
+
+          <path d="M545 112 V132" stroke="#0D9488" stroke-width="2.2" marker-end="url(#c2ar)" fill="none"/>
+          <text x="557" y="127" font-size="10" fill="#0F766E">HTTP · /api/*</text>
+
+          <!-- api -->
+          <rect x="110" y="136" width="870" height="128" rx="12" fill="#F0FDFA" stroke="#99F6E4"/>
+          <rect x="126" y="148" width="222" height="102" rx="8" fill="#fff" stroke="#5EEAD4"/>
+          <text x="140" y="169" font-size="13" font-weight="700" fill="#0B1F3A">FastAPI router</text>
+          <text x="140" y="186" font-size="10.5" fill="#475569">app/api/routes.py</text>
+          <text x="140" y="203" font-size="10" fill="#64748B">24 endpoints · /api prefix</text>
+          <text x="140" y="220" font-size="10" fill="#64748B">Pydantic v2 request/response</text>
+          <text x="140" y="237" font-size="10" fill="#64748B">CORS middleware · Uvicorn</text>
+
+          <g font-size="10" fill="#0F766E">
+            <rect x="366" y="148" width="190" height="27" rx="5" fill="#CCFBF1"/><text x="461" y="166" text-anchor="middle">Upload / queue / delete</text>
+            <rect x="566" y="148" width="190" height="27" rx="5" fill="#CCFBF1"/><text x="661" y="166" text-anchor="middle">Process / classify / retry</text>
+            <rect x="766" y="148" width="196" height="27" rx="5" fill="#CCFBF1"/><text x="864" y="166" text-anchor="middle">Transaction correction</text>
+            <rect x="366" y="185" width="190" height="27" rx="5" fill="#CCFBF1"/><text x="461" y="203" text-anchor="middle">Excel / CSV export</text>
+            <rect x="566" y="185" width="190" height="27" rx="5" fill="#CCFBF1"/><text x="661" y="203" text-anchor="middle">Rules / model / evaluate</text>
+            <rect x="766" y="185" width="196" height="27" rx="5" fill="#CCFBF1"/><text x="864" y="203" text-anchor="middle">System / samples</text>
+            <rect x="366" y="222" width="596" height="24" rx="5" fill="#fff" stroke="#99F6E4"/><text x="664" y="238" text-anchor="middle" fill="#475569">Route handlers validate input, call one orchestrator, persist the aggregate, return typed models</text>
+          </g>
+
+          <path d="M545 264 V286" stroke="#0D9488" stroke-width="2.2" marker-end="url(#c2ar)" fill="none"/>
+          <text x="557" y="280" font-size="10" fill="#0F766E">service calls</text>
+
+          <!-- services -->
+          <rect x="110" y="290" width="870" height="270" rx="12" fill="#F5F3FF" stroke="#DDD6FE"/>
+          <g font-size="11">
+            <rect x="126" y="305" width="200" height="68" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="138" y="324" font-size="12.5" font-weight="700" fill="#0B1F3A">PDFDetector</text>
+            <text x="138" y="341" font-size="10" fill="#475569">magic bytes · encryption · pages</text>
+            <text x="138" y="357" font-size="10" fill="#64748B">SHA-256 · per-page classification</text>
+
+            <rect x="336" y="305" width="200" height="68" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="348" y="324" font-size="12.5" font-weight="700" fill="#0B1F3A">PDFExtractor + OCR</text>
+            <text x="348" y="341" font-size="10" fill="#475569">digital / scanned / mixed routing</text>
+            <text x="348" y="357" font-size="10" fill="#64748B">300 DPI · OpenCV · Tesseract</text>
+
+            <rect x="546" y="305" width="200" height="68" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="558" y="324" font-size="12.5" font-weight="700" fill="#0B1F3A">TransactionParser</text>
+            <text x="558" y="341" font-size="10" fill="#475569">account header + ledger rows</text>
+            <text x="558" y="357" font-size="10" fill="#64748B">positional → table → text</text>
+
+            <rect x="756" y="305" width="208" height="68" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="768" y="324" font-size="12.5" font-weight="700" fill="#0B1F3A">DataValidator</text>
+            <text x="768" y="341" font-size="10" fill="#475569">field flags · running balance</text>
+            <text x="768" y="357" font-size="10" fill="#64748B">duplicate detection · OCR repair</text>
+
+            <rect x="126" y="385" width="200" height="76" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="138" y="404" font-size="12.5" font-weight="700" fill="#0B1F3A">ClassificationEngine</text>
+            <text x="138" y="421" font-size="10" fill="#475569">priority orchestration + stats</text>
+            <text x="138" y="437" font-size="10" fill="#64748B">RuleClassifier → MLClassifier</text>
+            <text x="138" y="452" font-size="10" fill="#64748B">explanation contract</text>
+
+            <rect x="336" y="385" width="200" height="76" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="348" y="404" font-size="12.5" font-weight="700" fill="#0B1F3A">ReconciliationService</text>
+            <text x="348" y="421" font-size="10" fill="#475569">debits · credits · net flow</text>
+            <text x="348" y="437" font-size="10" fill="#64748B">opening + credits − debits</text>
+            <text x="348" y="452" font-size="10" fill="#64748B">±0.05 tolerance</text>
+
+            <rect x="546" y="385" width="200" height="76" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="558" y="404" font-size="12.5" font-weight="700" fill="#0B1F3A">ExportService</text>
+            <text x="558" y="421" font-size="10" fill="#475569">7-sheet workbook · portfolio</text>
+            <text x="558" y="437" font-size="10" fill="#64748B">CSV · formula sanitisation</text>
+            <text x="558" y="452" font-size="10" fill="#64748B">styled financial formats</text>
+
+            <rect x="756" y="385" width="208" height="76" rx="8" fill="#fff" stroke="#C4B5FD"/>
+            <text x="768" y="404" font-size="12.5" font-weight="700" fill="#0B1F3A">Session store</text>
+            <text x="768" y="421" font-size="10" fill="#475569">in-memory aggregate</text>
+            <text x="768" y="437" font-size="10" fill="#64748B">load on boot if file exists</text>
+            <text x="768" y="452" font-size="10" fill="#64748B">save after each transition</text>
+          </g>
+
+          <!-- service flow arrows -->
+          <path d="M326 339 H334" stroke="#7C3AED" stroke-width="1.6" marker-end="url(#c2arg)" fill="none"/>
+          <path d="M536 339 H544" stroke="#7C3AED" stroke-width="1.6" marker-end="url(#c2arg)" fill="none"/>
+          <path d="M746 339 H754" stroke="#7C3AED" stroke-width="1.6" marker-end="url(#c2arg)" fill="none"/>
+          <path d="M226 427 H334" stroke="#7C3AED" stroke-width="1.6" marker-end="url(#c2arg)" fill="none"/>
+          <path d="M436 427 H544" stroke="#7C3AED" stroke-width="1.6" marker-end="url(#c2arg)" fill="none"/>
+          <path d="M746 427 H754" stroke="#7C3AED" stroke-width="1.6" marker-end="url(#c2arg)" fill="none"/>
+          <text x="500" y="548" text-anchor="middle" font-size="9.5" fill="#7C3AED">Each service is independently unit-testable; orchestration lives in route handlers, not inside engines</text>
+
+          <path d="M545 560 V584" stroke="#0D9488" stroke-width="2.2" marker-end="url(#c2ar)" fill="none"/>
+          <text x="557" y="577" font-size="10" fill="#0F766E">library calls</text>
+
+          <!-- engines -->
+          <rect x="110" y="588" width="870" height="62" rx="12" fill="#FFF7ED" stroke="#FED7AA"/>
+          <g font-size="10" fill="#9A3412">
+            <rect x="126" y="602" width="132" height="32" rx="6" fill="#FFEDD5"/><text x="192" y="622" text-anchor="middle">PyMuPDF (fitz)</text>
+            <rect x="268" y="602" width="132" height="32" rx="6" fill="#FFEDD5"/><text x="334" y="622" text-anchor="middle">pdfplumber</text>
+            <rect x="410" y="602" width="132" height="32" rx="6" fill="#FFEDD5"/><text x="476" y="622" text-anchor="middle">OpenCV · Pillow</text>
+            <rect x="552" y="602" width="132" height="32" rx="6" fill="#FFEDD5"/><text x="618" y="622" text-anchor="middle">Tesseract 5.5</text>
+            <rect x="694" y="602" width="132" height="32" rx="6" fill="#FFEDD5"/><text x="760" y="622" text-anchor="middle">scikit-learn · joblib</text>
+            <rect x="836" y="602" width="128" height="32" rx="6" fill="#FFEDD5"/><text x="900" y="622" text-anchor="middle">OpenPyXL</text>
+          </g>
+
+          <path d="M545 650 V666" stroke="#64748B" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#c2arg)" fill="none"/>
+
+          <!-- persistence -->
+          <rect x="110" y="668" width="870" height="36" rx="10" fill="#F1F5F9" stroke="#CBD5E1"/>
+          <g font-size="9.5" fill="#475569">
+            <text x="128" y="690">uploads/*.pdf</text>
+            <text x="272" y="690">data/statement_sessions.json</text>
+            <text x="493" y="690">data/rules.json</text>
+            <text x="635" y="690">models/*.joblib</text>
+            <text x="765" y="690">training_data.csv</text>
+            <text x="906" y="690">exports (stream)</text>
+          </g>
+        </svg>
+        <div class="caption">Figure 2 — Container and component view. The API layer is deliberately thin; domain services own all financial logic.</div>
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>Why the split matters</h3><p>PDF detection, OCR, parsing, classification and reconciliation can each be tested without a browser or a network. The API is a transport adapter, not the system.</p></div>
+        <div class="card"><h3>Single aggregate</h3><p>One statement is stored as one object: metadata, account details, transactions, reconciliation and classification stats. Save/load is one JSON write, preserving consistency.</p></div>
+        <div class="card"><h3>No hidden state</h3><p>Rules live in JSON, the model in joblib artefacts, and every derived number is recomputed on classify. There is no opaque external service in the loop.</p></div>
+      </div>
+
+      <div class="card" style="margin-top:9px;background:#F8FAFC;">
+        <h3 style="margin-bottom:5px;">Request lifecycle</h3>
+        <svg viewBox="0 0 1000 58" style="width:100%;height:auto;">
+          <defs><marker id="lc1" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker></defs>
+          <g font-size="9.3">
+            <rect x="0" y="8" width="174" height="38" rx="6" fill="#DBEAFE"/><text x="87" y="24" text-anchor="middle" font-weight="700" fill="#1E40AF">UI event</text><text x="87" y="38" text-anchor="middle" fill="#3B82F6">button / upload / edit</text>
+            <rect x="202" y="8" width="174" height="38" rx="6" fill="#CCFBF1"/><text x="289" y="24" text-anchor="middle" font-weight="700" fill="#0F766E">Route handler</text><text x="289" y="38" text-anchor="middle" fill="#0D9488">validate + orchestrate</text>
+            <rect x="404" y="8" width="174" height="38" rx="6" fill="#EDE9FE"/><text x="491" y="24" text-anchor="middle" font-weight="700" fill="#5B21B6">Domain service</text><text x="491" y="38" text-anchor="middle" fill="#7C3AED">one responsibility</text>
+            <rect x="606" y="8" width="174" height="38" rx="6" fill="#FFEDD5"/><text x="693" y="24" text-anchor="middle" font-weight="700" fill="#92400E">Engine / library</text><text x="693" y="38" text-anchor="middle" fill="#D97706">PyMuPDF · OCR · sklearn</text>
+            <rect x="808" y="8" width="192" height="38" rx="6" fill="#0B1F3A"/><text x="904" y="24" text-anchor="middle" font-weight="700" fill="#5EEAD4">Save aggregate</text><text x="904" y="38" text-anchor="middle" fill="#CBD5E1">JSON + typed response</text>
+          </g>
+          <path d="M176 27 H199" stroke="#0D9488" stroke-width="1.8" marker-end="url(#lc1)" fill="none"/>
+          <path d="M378 27 H401" stroke="#0D9488" stroke-width="1.8" marker-end="url(#lc1)" fill="none"/>
+          <path d="M580 27 H603" stroke="#0D9488" stroke-width="1.8" marker-end="url(#lc1)" fill="none"/>
+          <path d="M782 27 H805" stroke="#0D9488" stroke-width="1.8" marker-end="url(#lc1)" fill="none"/>
+        </svg>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">05</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 6 — PIPELINE ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">04 · Processing pipeline</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">End-to-end flow</div>
+      <h1 class="sec">Six stages from bytes<br>to a reconciled workbook.</h1>
+      <p class="lede">Each stage has a single responsibility, a committed artefact and a visible UI state. A statement never jumps ahead: classification refuses to run without parsed transactions, and reconciliation re-runs after classification to prove the final ledger.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 590" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="p1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+          </defs>
+
+          <!-- stage cards row 1 -->
+          <g>
+            <rect x="20" y="30" width="300" height="190" rx="13" fill="#fff" stroke="#99F6E4" stroke-width="1.6"/>
+            <rect x="20" y="30" width="300" height="6" rx="3" fill="#14B8A6"/>
+            <circle cx="48" cy="65" r="17" fill="#CCFBF1"/>
+            <text x="48" y="71" text-anchor="middle" font-size="14" font-weight="800" fill="#0F766E">01</text>
+            <text x="76" y="62" font-size="15" font-weight="700" fill="#0B1F3A">File uploaded</text>
+            <text x="76" y="79" font-size="10" fill="#64748B">Validate · hash · persist</text>
+            <text x="38" y="104" font-size="10.5" fill="#334155">25 MB limit, %PDF- magic bytes,</text>
+            <text x="38" y="120" font-size="10.5" fill="#334155">PyMuPDF structure check, encrypted</text>
+            <text x="38" y="136" font-size="10.5" fill="#334155">PDF rejection, filename sanitisation.</text>
+            <rect x="38" y="150" width="112" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="94" y="165" text-anchor="middle" font-size="9" fill="#475569">SHA-256 identity</text>
+            <rect x="158" y="150" width="144" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="230" y="165" text-anchor="middle" font-size="9" fill="#475569">upload / upload-batch</text>
+            <rect x="38" y="184" width="264" height="22" rx="5" fill="#F0FDFA"/>
+            <text x="170" y="199" text-anchor="middle" font-size="9" fill="#0F766E">OUTPUT · stored PDF + metadata + hash</text>
+          </g>
+
+          <g>
+            <rect x="350" y="30" width="300" height="190" rx="13" fill="#fff" stroke="#BFDBFE" stroke-width="1.6"/>
+            <rect x="350" y="30" width="300" height="6" rx="3" fill="#3B82F6"/>
+            <circle cx="378" cy="65" r="17" fill="#DBEAFE"/>
+            <text x="378" y="71" text-anchor="middle" font-size="14" font-weight="800" fill="#1E40AF">02</text>
+            <text x="406" y="62" font-size="15" font-weight="700" fill="#0B1F3A">Type detected</text>
+            <text x="406" y="79" font-size="10" fill="#64748B">Page-level inspection</text>
+            <text x="368" y="104" font-size="10.5" fill="#334155">Chars, words, images and drawings are</text>
+            <text x="368" y="120" font-size="10.5" fill="#334155">counted on every page. The document</text>
+            <text x="368" y="136" font-size="10.5" fill="#334155">becomes DIGITAL, SCANNED, MIXED or UNKNOWN.</text>
+            <rect x="368" y="150" width="130" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="433" y="165" text-anchor="middle" font-size="9" fill="#475569">≥60 chars &amp; ≥10 words</text>
+            <rect x="506" y="150" width="124" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="568" y="165" text-anchor="middle" font-size="9" fill="#475569">confidence 0.90–0.98</text>
+            <rect x="368" y="184" width="264" height="22" rx="5" fill="#EFF6FF"/>
+            <text x="500" y="199" text-anchor="middle" font-size="9" fill="#1E40AF">OUTPUT · pdf_type + page_analysis[]</text>
+          </g>
+
+          <g>
+            <rect x="680" y="30" width="300" height="190" rx="13" fill="#fff" stroke="#DDD6FE" stroke-width="1.6"/>
+            <rect x="680" y="30" width="300" height="6" rx="3" fill="#8B5CF6"/>
+            <circle cx="708" cy="65" r="17" fill="#EDE9FE"/>
+            <text x="708" y="71" text-anchor="middle" font-size="14" font-weight="800" fill="#5B21B6">03</text>
+            <text x="736" y="62" font-size="15" font-weight="700" fill="#0B1F3A">Text / OCR extraction</text>
+            <text x="736" y="79" font-size="10" fill="#64748B">Digital stream or vision path</text>
+            <text x="698" y="104" font-size="10.5" fill="#334155">PyMuPDF text + word boxes, pdfplumber</text>
+            <text x="698" y="120" font-size="10.5" fill="#334155">tables, or 300 DPI render → OpenCV →</text>
+            <text x="698" y="136" font-size="10.5" fill="#334155">Tesseract. Mixed documents route per page.</text>
+            <rect x="698" y="150" width="126" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="761" y="165" text-anchor="middle" font-size="9" fill="#475569">raw OCR preserved</text>
+            <rect x="832" y="150" width="130" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="897" y="165" text-anchor="middle" font-size="9" fill="#475569">process endpoint</text>
+            <rect x="698" y="184" width="264" height="22" rx="5" fill="#F5F3FF"/>
+            <text x="830" y="199" text-anchor="middle" font-size="9" fill="#5B21B6">OUTPUT · pages[], tables[], full_text</text>
+          </g>
+
+          <!-- arrows row 1 -->
+          <path d="M320 125 H347" stroke="#0D9488" stroke-width="2.2" marker-end="url(#p1ar)" fill="none"/>
+          <path d="M650 125 H677" stroke="#0D9488" stroke-width="2.2" marker-end="url(#p1ar)" fill="none"/>
+
+          <!-- connector down to row 2 -->
+          <path d="M830 220 V245 H160 V265" stroke="#0D9488" stroke-width="2.2" fill="none" marker-end="url(#p1ar)"/>
+          <text x="500" y="240" text-anchor="middle" font-size="9.5" fill="#0F766E">persisted stage transition · current_stage = 3 → 4</text>
+
+          <!-- stage cards row 2 -->
+          <g>
+            <rect x="20" y="270" width="300" height="190" rx="13" fill="#fff" stroke="#FDE68A" stroke-width="1.6"/>
+            <rect x="20" y="270" width="300" height="6" rx="3" fill="#F59E0B"/>
+            <circle cx="48" cy="305" r="17" fill="#FEF3C7"/>
+            <text x="48" y="311" text-anchor="middle" font-size="14" font-weight="800" fill="#92400E">04</text>
+            <text x="76" y="302" font-size="15" font-weight="700" fill="#0B1F3A">Transaction parsing</text>
+            <text x="76" y="319" font-size="10" fill="#64748B">Ledger + account header</text>
+            <text x="38" y="344" font-size="10.5" fill="#334155">Positional word columns first, table grids</text>
+            <text x="38" y="360" font-size="10.5" fill="#334155">second, text stream last. Running balance</text>
+            <text x="38" y="376" font-size="10.5" fill="#334155">is backfilled when the column is missing.</text>
+            <rect x="38" y="390" width="120" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="98" y="405" text-anchor="middle" font-size="9" fill="#475569">3-row minimum</text>
+            <rect x="166" y="390" width="136" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="234" y="405" text-anchor="middle" font-size="9" fill="#475569">DATA VALIDATOR</text>
+            <rect x="38" y="424" width="264" height="22" rx="5" fill="#FFFBEB"/>
+            <text x="170" y="439" text-anchor="middle" font-size="9" fill="#92400E">OUTPUT · account details + validated rows</text>
+          </g>
+
+          <g>
+            <rect x="350" y="270" width="300" height="190" rx="13" fill="#fff" stroke="#FBCFE8" stroke-width="1.6"/>
+            <rect x="350" y="270" width="300" height="6" rx="3" fill="#EC4899"/>
+            <circle cx="378" cy="305" r="17" fill="#FCE7F3"/>
+            <text x="378" y="311" text-anchor="middle" font-size="14" font-weight="800" fill="#9D174D">05</text>
+            <text x="406" y="302" font-size="15" font-weight="700" fill="#0B1F3A">Classification</text>
+            <text x="406" y="319" font-size="10" fill="#64748B">Non-LLM, priority ordered</text>
+            <text x="368" y="344" font-size="10.5" fill="#334155">Custom rules → merchant heuristics →</text>
+            <text x="368" y="360" font-size="10.5" fill="#334155">TF-IDF + Naive Bayes → needs review.</text>
+            <text x="368" y="376" font-size="10.5" fill="#334155">Every row receives method + confidence + reason.</text>
+            <rect x="368" y="390" width="120" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="428" y="405" text-anchor="middle" font-size="9" fill="#475569">18 categories</text>
+            <rect x="496" y="390" width="136" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="564" y="405" text-anchor="middle" font-size="9" fill="#475569">rules → ML → review</text>
+            <rect x="368" y="424" width="264" height="22" rx="5" fill="#FDF2F8"/>
+            <text x="500" y="439" text-anchor="middle" font-size="9" fill="#9D174D">OUTPUT · categories + explanations + stats</text>
+          </g>
+
+          <g>
+            <rect x="680" y="270" width="300" height="190" rx="13" fill="#fff" stroke="#BBF7D0" stroke-width="1.6"/>
+            <rect x="680" y="270" width="300" height="6" rx="3" fill="#10B981"/>
+            <circle cx="708" cy="305" r="17" fill="#DCFCE7"/>
+            <text x="708" y="311" text-anchor="middle" font-size="14" font-weight="800" fill="#166534">06</text>
+            <text x="736" y="302" font-size="15" font-weight="700" fill="#0B1F3A">Reconcile &amp; export</text>
+            <text x="736" y="319" font-size="10" fill="#64748B">Prove, then publish</text>
+            <text x="698" y="344" font-size="10.5" fill="#334155">Opening + credits − debits must equal</text>
+            <text x="698" y="360" font-size="10.5" fill="#334155">closing within ±0.05. Exports include</text>
+            <text x="698" y="376" font-size="10.5" fill="#334155">7 sheets, portfolio roll-up and safe CSV.</text>
+            <rect x="698" y="390" width="126" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="761" y="405" text-anchor="middle" font-size="9" fill="#475569">±0.05 tolerance</text>
+            <rect x="832" y="390" width="130" height="22" rx="5" fill="#F1F5F9"/>
+            <text x="897" y="405" text-anchor="middle" font-size="9" fill="#475569">XLSX · CSV</text>
+            <rect x="698" y="424" width="264" height="22" rx="5" fill="#F0FDF4"/>
+            <text x="830" y="439" text-anchor="middle" font-size="9" fill="#166534">OUTPUT · reconciliation status + workbook</text>
+          </g>
+
+          <path d="M320 365 H347" stroke="#0D9488" stroke-width="2.2" marker-end="url(#p1ar)" fill="none"/>
+          <path d="M650 365 H677" stroke="#0D9488" stroke-width="2.2" marker-end="url(#p1ar)" fill="none"/>
+
+          <!-- stage strip -->
+          <rect x="20" y="500" width="960" height="52" rx="10" fill="#0B1F3A"/>
+          <g font-size="9" fill="#CBD5E1">
+            <text x="42" y="522" font-weight="700" fill="#5EEAD4">UI STATE MACHINE</text>
+            <text x="42" y="539">Stage 01 · Uploaded</text>
+            <text x="172" y="539">Stage 02 · Type Detected</text>
+            <text x="332" y="539">Stage 03 · Extraction</text>
+            <text x="510" y="539">Stage 04 · Parsing</text>
+            <text x="664" y="539">Stage 05 · Classification</text>
+            <text x="830" y="539">Stage 06 · Complete</text>
+          </g>
+          <g fill="#0D9488">
+            <circle cx="164" cy="535" r="2.5"/><circle cx="324" cy="535" r="2.5"/><circle cx="502" cy="535" r="2.5"/>
+            <circle cx="656" cy="535" r="2.5"/><circle cx="822" cy="535" r="2.5"/>
+          </g>
+        </svg>
+        <div class="caption">Figure 3 — Six-stage pipeline. Stage transitions are persisted so a browser reload reconstructs the same state.</div>
+      </div>
+
+      <div class="grid g2" style="margin-top:9px;">
+        <div class="card">
+          <h3>Failure behaviour</h3>
+          <p>No transactions found → stage 4 <em>Parsing Failed</em> with HTTP 422. Missing Tesseract → HTTP 503 with an actionable message. Corrupt or encrypted PDF → HTTP 400, stage 1. Failed statements remain inspectable and can be retried.</p>
+        </div>
+        <div class="card">
+          <h3>Idempotency</h3>
+          <p>Re-uploading the same bytes returns the existing statement identity with <span class="mono">upload_status = already_processed</span> or <span class="mono">duplicate</span>. Records are never silently duplicated or overwritten; an explicit <span class="mono">allow_duplicate</span> flag exists for intentional re-uploads.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Stage artefacts</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:36px;color:#0D9488;font-weight:700;">01</td><td style="width:130px;color:#0B1F3A;font-weight:600;">File uploaded</td><td>PDF bytes, SHA-256, filename, size, duplicate status</td><td style="width:138px;" class="mono">uploads/ · sessions</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">02</td><td style="color:#0B1F3A;font-weight:600;">Type detected</td><td>pdf_type, per-page analysis, confidence, OCR flag</td><td class="mono">sessions</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">03</td><td style="color:#0B1F3A;font-weight:600;">Extraction</td><td>pages[], raw tables, full text, raw OCR text</td><td class="mono">sessions</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">04</td><td style="color:#0B1F3A;font-weight:600;">Parsing</td><td>account header, validated transactions, preliminary reconciliation</td><td class="mono">sessions</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">05</td><td style="color:#0B1F3A;font-weight:600;">Classification</td><td>category, method, confidence, explanation, aggregate stats</td><td class="mono">sessions</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">06</td><td style="color:#0B1F3A;font-weight:600;">Reconcile &amp; export</td><td>final reconciliation verdict, workbook / CSV stream</td><td class="mono">response only</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">06</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 7 — DETECTION & OCR ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">05 · PDF detection &amp; OCR</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Document routing</div>
+      <h1 class="sec">Not every PDF is text.<br>Treat each page on its own.</h1>
+      <p class="lede">A document can mix native text pages with scanned images. StatementIQ counts characters, words, images and vector drawings per page before choosing a route. The document type is an aggregate of those page decisions, and mixed files switch strategy page by page.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 675" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="d1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+            <marker id="d1arg" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#64748B"/></marker>
+            <marker id="d1arr" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#DC2626"/></marker>
+          </defs>
+
+          <!-- top flow -->
+          <g>
+            <rect x="18" y="22" width="160" height="66" rx="9" fill="#EFF6FF" stroke="#93C5FD"/>
+            <text x="98" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E3A8A">Upload PDF</text>
+            <text x="98" y="64" text-anchor="middle" font-size="9.5" fill="#3B82F6">multipart bytes</text>
+            <text x="98" y="78" text-anchor="middle" font-size="9" fill="#64748B">≤ 25 MB</text>
+
+            <rect x="206" y="22" width="188" height="66" rx="9" fill="#fff" stroke="#CBD5E1"/>
+            <text x="300" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0B1F3A">Structural validation</text>
+            <text x="300" y="61" text-anchor="middle" font-size="9.5" fill="#475569">%PDF- · 0 pages · encrypted</text>
+            <text x="300" y="76" text-anchor="middle" font-size="9" fill="#64748B">PyMuPDF open(stream)</text>
+
+            <rect x="422" y="22" width="164" height="66" rx="9" fill="#fff" stroke="#CBD5E1"/>
+            <text x="504" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0B1F3A">SHA-256 identity</text>
+            <text x="504" y="61" text-anchor="middle" font-size="9.5" fill="#475569">hash of raw bytes</text>
+            <text x="504" y="76" text-anchor="middle" font-size="9" fill="#64748B">duplicate lookup</text>
+
+            <rect x="614" y="22" width="178" height="66" rx="9" fill="#fff" stroke="#CBD5E1"/>
+            <text x="703" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0B1F3A">Page inspection</text>
+            <text x="703" y="61" text-anchor="middle" font-size="9.5" fill="#475569">chars · words · images</text>
+            <text x="703" y="76" text-anchor="middle" font-size="9" fill="#64748B">drawings, per page</text>
+
+            <rect x="820" y="22" width="162" height="66" rx="9" fill="#F0FDFA" stroke="#5EEAD4"/>
+            <text x="901" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0F766E">Document type</text>
+            <text x="901" y="61" text-anchor="middle" font-size="9.5" fill="#0F766E">aggregate page decisions</text>
+            <text x="901" y="76" text-anchor="middle" font-size="9" fill="#0F766E">DIGITAL / SCANNED / MIXED</text>
+          </g>
+          <path d="M178 55 H203" stroke="#0D9488" stroke-width="2" marker-end="url(#d1ar)" fill="none"/>
+          <path d="M394 55 H419" stroke="#0D9488" stroke-width="2" marker-end="url(#d1ar)" fill="none"/>
+          <path d="M586 55 H611" stroke="#0D9488" stroke-width="2" marker-end="url(#d1ar)" fill="none"/>
+          <path d="M792 55 H817" stroke="#0D9488" stroke-width="2" marker-end="url(#d1ar)" fill="none"/>
+
+          <!-- reject path -->
+          <path d="M300 88 V108 H148 V128" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="5 4" fill="none"/>
+          <path d="M144 118 L148 128 L152 118 z" fill="#DC2626"/>
+          <rect x="58" y="128" width="180" height="42" rx="7" fill="#FEF2F2" stroke="#FCA5A5"/>
+          <text x="148" y="146" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">Reject · HTTP 400 / 413</text>
+          <text x="148" y="161" text-anchor="middle" font-size="9" fill="#B91C1C">no record created</text>
+
+          <!-- duplicate path -->
+          <path d="M504 88 V108" stroke="#D97706" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#d1arg)" fill="none"/>
+          <rect x="414" y="108" width="180" height="42" rx="7" fill="#FFFBEB" stroke="#FCD34D"/>
+          <text x="504" y="126" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400E">Duplicate? Return existing</text>
+          <text x="504" y="141" text-anchor="middle" font-size="9" fill="#B45309">status: duplicate / already_processed</text>
+
+          <!-- branch into lanes -->
+          <path d="M901 88 V180 H170 V206" stroke="#0D9488" stroke-width="2" fill="none" marker-end="url(#d1ar)"/>
+          <path d="M901 88 V180 H500 V206" stroke="#0D9488" stroke-width="2" fill="none" marker-end="url(#d1ar)"/>
+          <path d="M901 88 V180 H830 V206" stroke="#0D9488" stroke-width="2" fill="none" marker-end="url(#d1ar)"/>
+          <text x="535" y="175" font-size="9" fill="#0F766E">route by type</text>
+
+          <!-- DIGITAL lane -->
+          <rect x="18" y="206" width="300" height="330" rx="11" fill="#F0FDFA" stroke="#99F6E4"/>
+          <rect x="18" y="206" width="300" height="35" rx="8" fill="#0D9488"/>
+          <text x="168" y="228" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">DIGITAL · native text</text>
+          <g>
+            <rect x="34" y="254" width="268" height="48" rx="7" fill="#fff" stroke="#99F6E4"/>
+            <text x="46" y="273" font-size="11" font-weight="700" fill="#0B1F3A">PyMuPDF text stream</text>
+            <text x="46" y="290" font-size="9.5" fill="#475569">page.get_text("text") + word boxes</text>
+
+            <rect x="34" y="314" width="268" height="48" rx="7" fill="#fff" stroke="#99F6E4"/>
+            <text x="46" y="333" font-size="11" font-weight="700" fill="#0B1F3A">pdfplumber table grid</text>
+            <text x="46" y="350" font-size="9.5" fill="#475569">extract_tables() for structured ledgers</text>
+
+            <rect x="34" y="374" width="268" height="48" rx="7" fill="#fff" stroke="#99F6E4"/>
+            <text x="46" y="393" font-size="11" font-weight="700" fill="#0B1F3A">Coordinate mapping</text>
+            <text x="46" y="410" font-size="9.5" fill="#475569">72 pt → 300 DPI word boxes for parsing</text>
+
+            <rect x="34" y="434" width="268" height="48" rx="7" fill="#fff" stroke="#99F6E4"/>
+            <text x="46" y="453" font-size="11" font-weight="700" fill="#0B1F3A">No OCR required</text>
+            <text x="46" y="470" font-size="9.5" fill="#475569">raw text remains verbatim and searchable</text>
+          </g>
+
+          <!-- SCANNED lane -->
+          <rect x="350" y="206" width="300" height="330" rx="11" fill="#FFFBEB" stroke="#FDE68A"/>
+          <rect x="350" y="206" width="300" height="35" rx="8" fill="#D97706"/>
+          <text x="500" y="228" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">SCANNED · OCR path</text>
+          <g>
+            <rect x="366" y="254" width="268" height="48" rx="7" fill="#fff" stroke="#FDE68A"/>
+            <text x="378" y="273" font-size="11" font-weight="700" fill="#0B1F3A">300 DPI rendering</text>
+            <text x="378" y="290" font-size="9.5" fill="#475569">fitz.Matrix(300/72, 300/72)</text>
+
+            <rect x="366" y="314" width="268" height="48" rx="7" fill="#fff" stroke="#FDE68A"/>
+            <text x="378" y="333" font-size="11" font-weight="700" fill="#0B1F3A">OpenCV conditioning</text>
+            <text x="378" y="350" font-size="9.5" fill="#475569">grayscale → OSD rotation → resize → deskew</text>
+
+            <rect x="366" y="374" width="268" height="48" rx="7" fill="#fff" stroke="#FDE68A"/>
+            <text x="378" y="393" font-size="11" font-weight="700" fill="#0B1F3A">Contrast &amp; binarisation</text>
+            <text x="378" y="410" font-size="9.5" fill="#475569">CLAHE → Gaussian 3×3 → Otsu threshold</text>
+
+            <rect x="366" y="434" width="268" height="48" rx="7" fill="#fff" stroke="#FDE68A"/>
+            <text x="378" y="453" font-size="11" font-weight="700" fill="#0B1F3A">Tesseract 5.5 · OEM 3</text>
+            <text x="378" y="470" font-size="9.5" fill="#475569">text + image_to_data word boxes (conf)</text>
+          </g>
+
+          <!-- MIXED lane -->
+          <rect x="682" y="206" width="300" height="330" rx="11" fill="#F5F3FF" stroke="#DDD6FE"/>
+          <rect x="682" y="206" width="300" height="35" rx="8" fill="#7C3AED"/>
+          <text x="832" y="228" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">MIXED · hybrid</text>
+          <g>
+            <rect x="698" y="254" width="268" height="48" rx="7" fill="#fff" stroke="#DDD6FE"/>
+            <text x="710" y="273" font-size="11" font-weight="700" fill="#0B1F3A">Page map</text>
+            <text x="710" y="290" font-size="9.5" fill="#475569">{page_number: DIGITAL | SCANNED}</text>
+
+            <rect x="698" y="314" width="268" height="48" rx="7" fill="#fff" stroke="#DDD6FE"/>
+            <text x="710" y="333" font-size="11" font-weight="700" fill="#0B1F3A">Digital pages</text>
+            <text x="710" y="350" font-size="9.5" fill="#475569">PyMuPDF text/words + pdfplumber tables</text>
+
+            <rect x="698" y="374" width="268" height="48" rx="7" fill="#fff" stroke="#DDD6FE"/>
+            <text x="710" y="393" font-size="11" font-weight="700" fill="#0B1F3A">Scanned pages</text>
+            <text x="710" y="410" font-size="9.5" fill="#475569">rendered and OCR'd independently</text>
+
+            <rect x="698" y="434" width="268" height="48" rx="7" fill="#fff" stroke="#DDD6FE"/>
+            <text x="710" y="453" font-size="11" font-weight="700" fill="#0B1F3A">Merged output</text>
+            <text x="710" y="470" font-size="9.5" fill="#475569">page order preserved · method tagged per page</text>
+          </g>
+
+          <!-- merge -->
+          <path d="M168 536 V556 H500 V576" stroke="#0D9488" stroke-width="1.8" fill="none"/>
+          <path d="M500 536 V576" stroke="#0D9488" stroke-width="1.8" fill="none"/>
+          <path d="M832 536 V556 H500 V576" stroke="#0D9488" stroke-width="1.8" fill="none" marker-end="url(#d1ar)"/>
+
+          <rect x="222" y="576" width="556" height="54" rx="10" fill="#0B1F3A"/>
+          <text x="500" y="597" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5EEAD4">ExtractionResult</text>
+          <text x="500" y="616" text-anchor="middle" font-size="10" fill="#CBD5E1">pages[] · raw_tables[] · full_text · raw_ocr · detection metadata</text>
+
+          <!-- thresholds note -->
+          <rect x="800" y="576" width="182" height="54" rx="9" fill="#F8FAFC" stroke="#CBD5E1"/>
+          <text x="812" y="594" font-size="9.5" font-weight="700" fill="#0B1F3A">Page rule</text>
+          <text x="812" y="609" font-size="8.7" fill="#475569">DIGITAL if ≥60 chars</text>
+          <text x="812" y="622" font-size="8.7" fill="#475569">&amp; ≥10 words; else visual → OCR</text>
+        </svg>
+        <div class="caption">Figure 4 — Detection and routing. Document type is the aggregate of per-page evidence, not a filename or extension guess.</div>
+      </div>
+
+      <div class="grid g2" style="margin-top:8px;">
+        <div class="card">
+          <h3>Why 300 DPI and deskewing</h3>
+          <p>Bank statements frequently contain thin decimal points and commas. Rendering at ≈4.17× zoom preserves those glyphs. Rotation is corrected with Tesseract OSD first, then small skew is removed via a minimum-area rectangle. CLAHE rescues faint thermal-printer output; Otsu produces a clean binary image for OCR.</p>
+        </div>
+        <div class="card">
+          <h3>Known boundary</h3>
+          <p>The OCR processor is capped at 10 pages per call (<span class="mono">max_pages=10</span>). Longer scanned statements need the cap raised or chunked processing. Scans below ≈150 DPI, severe warping or handwriting remain outside reliable OCR territory and surface as review flags.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Routing thresholds &amp; outcomes</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:270px;" class="mono">text ≥ 60 chars AND words ≥ 10</td><td>Page is DIGITAL; no OCR is performed.</td><td style="width:92px;color:#0F766E;font-weight:700;">DIGITAL</td></tr>
+          <tr><td class="mono">chars &lt; 60 AND (images &gt; 0 OR drawings &gt; 0)</td><td>Page is visual; render and OCR.</td><td style="color:#92400E;font-weight:700;">SCANNED</td></tr>
+          <tr><td class="mono">chars = 0 AND images = 0 AND drawings = 0</td><td>No extractable evidence; reject the document.</td><td style="color:#DC2626;font-weight:700;">UNKNOWN</td></tr>
+          <tr><td class="mono">digital_pages &gt; 0 AND (scanned + unknown) &gt; 0</td><td>Hybrid document; route each page independently.</td><td style="color:#5B21B6;font-weight:700;">MIXED</td></tr>
+          <tr><td class="mono">encrypted · 0 pages · bad header</td><td>Rejected before extraction with an actionable message.</td><td style="color:#DC2626;font-weight:700;">HTTP 400</td></tr>
+          <tr><td class="mono">scanned pages &gt; 10</td><td>Only the first 10 pages are OCR’d by the current cap.</td><td style="color:#D97706;font-weight:700;">LIMIT</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">07</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 8 — PARSING & VALIDATION ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">06 · Parsing &amp; validation</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">From text to trustworthy rows</div>
+      <h1 class="sec">Extract, normalise, then prove<br>the arithmetic.</h1>
+      <p class="lede">Parsing is deliberately layered: coordinate-aware columns first, table grids second, raw text last. Validation is conservative: flag anomalies, repair only what the running balance proves, and preserve the original value whenever a correction is made.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 555" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="v1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+            <marker id="v1arr" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#DC2626"/></marker>
+          </defs>
+
+          <!-- column headers -->
+          <g>
+            <rect x="20" y="18" width="300" height="34" rx="8" fill="#0B1F3A"/>
+            <text x="170" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5EEAD4">1 · EXTRACT</text>
+            <rect x="350" y="18" width="300" height="34" rx="8" fill="#0B1F3A"/>
+            <text x="500" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5EEAD4">2 · NORMALISE</text>
+            <rect x="680" y="18" width="300" height="34" rx="8" fill="#0B1F3A"/>
+            <text x="830" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5EEAD4">3 · VALIDATE</text>
+          </g>
+
+          <!-- column 1 -->
+          <rect x="20" y="62" width="300" height="126" rx="9" fill="#F0FDFA" stroke="#99F6E4"/>
+          <text x="34" y="82" font-size="10.5" font-weight="700" fill="#0F766E">ACCOUNT HEADER</text>
+          <g font-size="9.3" fill="#334155">
+            <text x="34" y="100">Bank name · account holder</text>
+            <text x="34" y="115">Account number → XXXXXX••••</text>
+            <text x="34" y="130">IFSC / routing code</text>
+            <text x="34" y="145">Statement period · currency</text>
+            <text x="34" y="160">Opening balance · closing balance</text>
+            <text x="34" y="175" fill="#64748B">Fallback: known-bank list + labelled fields</text>
+          </g>
+
+          <rect x="20" y="198" width="300" height="148" rx="9" fill="#fff" stroke="#CBD5E1"/>
+          <text x="34" y="218" font-size="10.5" font-weight="700" fill="#0B1F3A">LEDGER ROWS</text>
+          <g font-size="9.3" fill="#475569">
+            <text x="34" y="236">Date · Description / narration</text>
+            <text x="34" y="251">Debit · Credit · Running balance</text>
+            <text x="34" y="266">Multi-line narration joined</text>
+            <text x="34" y="281">Dr / Cr suffix on single amount column</text>
+            <text x="34" y="296">Page continuity across breaks</text>
+          </g>
+          <rect x="34" y="308" width="272" height="26" rx="5" fill="#F8FAFC"/>
+          <text x="170" y="325" text-anchor="middle" font-size="8.8" fill="#64748B">DATE | NARRATION | DEBIT | CREDIT | BALANCE</text>
+
+          <rect x="20" y="356" width="300" height="95" rx="9" fill="#fff" stroke="#CBD5E1"/>
+          <text x="34" y="376" font-size="10.5" font-weight="700" fill="#0B1F3A">STRATEGY FALLBACK</text>
+          <g font-size="9.3">
+            <rect x="34" y="385" width="82" height="23" rx="4" fill="#CCFBF1"/><text x="75" y="401" text-anchor="middle" fill="#0F766E">positional</text>
+            <rect x="122" y="385" width="82" height="23" rx="4" fill="#E0F2FE"/><text x="163" y="401" text-anchor="middle" fill="#0369A1">table grid</text>
+            <rect x="210" y="385" width="82" height="23" rx="4" fill="#F1F5F9"/><text x="251" y="401" text-anchor="middle" fill="#475569">text stream</text>
+            <text x="34" y="425" font-size="8.7" fill="#64748B">Use a strategy only if it yields ≥ 3 rows; otherwise fall through.</text>
+            <text x="34" y="440" font-size="8.7" fill="#64748B">If every balance is missing, backfill from opening balance.</text>
+          </g>
+
+          <!-- column 2 -->
+          <rect x="350" y="62" width="300" height="150" rx="9" fill="#EFF6FF" stroke="#BFDBFE"/>
+          <text x="364" y="82" font-size="10.5" font-weight="700" fill="#1E40AF">AMOUNT NORMALISATION</text>
+          <g font-size="9.3" fill="#334155">
+            <text x="364" y="100">Indian grouping: 1,20,000.00</text>
+            <text x="364" y="115">International: 1,234.56</text>
+            <text x="364" y="130">OCR dots: 1.65.200.00 → 165200.00</text>
+            <text x="364" y="145">Trailing Dr / Cr markers</text>
+            <text x="364" y="160">Accounting negatives: (500.00)</text>
+            <text x="364" y="175">Currency symbols: ₹ / INR / Rs.</text>
+            <text x="364" y="190">Nil, dash, empty → 0.00</text>
+            <text x="364" y="205" fill="#64748B">Pattern fallback extracts first valid float</text>
+          </g>
+
+          <rect x="350" y="222" width="300" height="116" rx="9" fill="#fff" stroke="#CBD5E1"/>
+          <text x="364" y="242" font-size="10.5" font-weight="700" fill="#0B1F3A">DATE NORMALISATION</text>
+          <g font-size="9.3" fill="#334155">
+            <text x="364" y="260">19 accepted formats → ISO YYYY-MM-DD</text>
+            <text x="364" y="275">DD/MM/YYYY · DD-MM-YYYY · DD.MM.YY</text>
+            <text x="364" y="290">DD Mon YYYY · Mon DD, YYYY · ISO</text>
+            <text x="364" y="305">Sanity window: 1990 – 2040</text>
+            <text x="364" y="320">Original date string retained for audit</text>
+          </g>
+
+          <rect x="350" y="348" width="300" height="103" rx="9" fill="#F8FAFC" stroke="#CBD5E1"/>
+          <text x="364" y="368" font-size="10.5" font-weight="700" fill="#0B1F3A">RUNNING BALANCE BACKFILL</text>
+          <text x="364" y="388" font-size="9.3" fill="#334155">If no row has a balance but opening balance</text>
+          <text x="364" y="403" font-size="9.3" fill="#334155">is known, compute:</text>
+          <text x="364" y="427" font-size="10.5" font-family="Consolas,monospace" fill="#0F766E">running += credit − debit</text>
+          <text x="364" y="443" font-size="8.7" fill="#64748B">Each computed balance is rounded to 2 decimals.</text>
+
+          <!-- column 3 -->
+          <rect x="680" y="62" width="300" height="112" rx="9" fill="#FFFBEB" stroke="#FDE68A"/>
+          <text x="694" y="82" font-size="10.5" font-weight="700" fill="#92400E">ANOMALY FLAGS</text>
+          <g font-size="9" fill="#78350F">
+            <text x="694" y="100">missing_date · non_standard_date</text>
+            <text x="694" y="115">empty_or_vague_description</text>
+            <text x="694" y="130">zero_amount · negative_debit / credit</text>
+            <text x="694" y="145">simultaneous_debit_credit</text>
+            <text x="694" y="160">balance_mismatch · overdraft</text>
+            <text x="694" y="174">exact / potential duplicate transaction</text>
+          </g>
+
+          <rect x="680" y="184" width="300" height="137" rx="9" fill="#fff" stroke="#CBD5E1"/>
+          <text x="694" y="204" font-size="10.5" font-weight="700" fill="#0B1F3A">OCR CORRECTION GATE</text>
+          <path d="M830 214 L910 246 L830 278 L750 246 Z" fill="#F5F3FF" stroke="#C4B5FD"/>
+          <text x="830" y="241" text-anchor="middle" font-size="9.2" fill="#5B21B6">Does the running</text>
+          <text x="830" y="254" text-anchor="middle" font-size="9.2" fill="#5B21B6">balance confirm</text>
+          <text x="830" y="267" text-anchor="middle" font-size="9.2" fill="#5B21B6">exactly one reading?</text>
+          <path d="M830 278 V298" stroke="#0D9488" stroke-width="1.5" marker-end="url(#v1ar)" fill="none"/>
+          <text x="843" y="293" font-size="8.7" fill="#0F766E">YES</text>
+          <path d="M750 246 H700 V310" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="4 3" fill="none" marker-end="url(#v1arr)"/>
+          <text x="703" y="240" font-size="8.7" fill="#B91C1C">NO</text>
+          <rect x="694" y="300" width="272" height="14" rx="3" fill="#F0FDFA"/>
+          <text x="830" y="311" text-anchor="middle" font-size="8.5" fill="#0F766E">record correction + original_ocr_value + reason</text>
+
+          <rect x="680" y="331" width="300" height="120" rx="9" fill="#FEF2F2" stroke="#FCA5A5"/>
+          <text x="694" y="351" font-size="10.5" font-weight="700" fill="#991B1B">IF AMBIGUOUS</text>
+          <g font-size="9.1" fill="#7F1D1D">
+            <text x="694" y="369">Do not modify the numbers.</text>
+            <text x="694" y="384">Set validation flag uncertain_ocr_amount.</text>
+            <text x="694" y="399">Set review_status = Needs Review.</text>
+            <text x="694" y="414">Surface the row in the Review Flags sheet.</text>
+            <text x="694" y="429">A human decides; the audit trail stays intact.</text>
+          </g>
+          <text x="694" y="443" font-size="8.7" fill="#B91C1C" font-weight="700">Never guess a debit or credit.</text>
+
+          <!-- formula band -->
+          <rect x="20" y="464" width="960" height="76" rx="10" fill="#0B1F3A"/>
+          <text x="40" y="486" font-size="9" font-weight="700" fill="#5EEAD4" letter-spacing="1">PROOF OBLIGATIONS</text>
+          <text x="40" y="510" font-size="11" font-family="Consolas,monospace" fill="#E2E8F0">B(prev) + Credit − Debit = B(curr)</text>
+          <text x="40" y="528" font-size="9" fill="#94A3B8">row-level running balance · tolerance ±0.05</text>
+          <text x="390" y="510" font-size="11" font-family="Consolas,monospace" fill="#E2E8F0">Opening + ΣCredits − ΣDebits = Closing</text>
+          <text x="390" y="528" font-size="9" fill="#94A3B8">statement-level reconciliation · tolerance ±0.05</text>
+          <text x="760" y="510" font-size="11" font-family="Consolas,monospace" fill="#E2E8F0">discrepancy = calc − reported</text>
+          <text x="760" y="528" font-size="9" fill="#94A3B8">surfaced, never hidden or rounded away</text>
+        </svg>
+        <div class="caption">Figure 5 — Parsing and validation. Corrections are opt-in and evidence-backed; ambiguous OCR is escalated, not invented.</div>
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>Header extraction</h3><p>Labelled fields are searched first, with a known-bank list and line-shape heuristics as fallbacks. Account numbers are masked for display while the full value remains available for audit.</p></div>
+        <div class="card"><h3>Duplicate detection</h3><p>Rows are compared on date, normalised description, amount and direction. Exact matches and same-date/amount candidates are flagged — never deleted automatically.</p></div>
+        <div class="card"><h3>Review semantics</h3><p>Verified means the rule confidence is high or the ML probability is ≥0.70. Needs Review means ambiguous, low-confidence or arithmetic-conflicting. Corrected means a human edited it.</p></div>
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Parsing edge cases explicitly handled</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:210px;color:#0B1F3A;font-weight:600;">Indian digit grouping</td><td><span class="mono">1,20,000.00</span> → 120000.00</td><td style="width:210px;color:#0B1F3A;font-weight:600;">OCR commas read as dots</td><td><span class="mono">1.65.200.00</span> → 165200.00</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Single Dr/Cr column</td><td><span class="mono">1,500.00 Dr</span> → debit 1500</td><td style="color:#0B1F3A;font-weight:600;">Accounting negatives</td><td><span class="mono">(500.00)</span> → −500.00</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Wrapped narrations</td><td>continuation lines joined to the row</td><td style="color:#0B1F3A;font-weight:600;">Missing balance column</td><td>backfilled from opening + flows</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Multi-page ledger</td><td>page breaks treated as separators, not rows</td><td style="color:#0B1F3A;font-weight:600;">Currency noise</td><td>₹, INR, Rs. stripped before parse</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">08</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 9 — CLASSIFICATION ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">07 · Classification engine</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Deterministic first, statistical second</div>
+      <h1 class="sec">Four tiers. No black box.<br>No generative model.</h1>
+      <p class="lede">Classification resolves in strict priority order. A user rule always wins. A high-specificity merchant always beats a generic payment rail. Only when neither fires does the TF-IDF + Naive Bayes model get a vote — and every outcome is accompanied by a human-readable reason.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 610" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="k1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+          </defs>
+
+          <!-- tiers -->
+          <g>
+            <rect x="20" y="20" width="620" height="112" rx="11" fill="#F0FDFA" stroke="#5EEAD4" stroke-width="1.6"/>
+            <rect x="20" y="20" width="6" height="112" rx="3" fill="#0D9488"/>
+            <circle cx="52" cy="52" r="18" fill="#0D9488"/>
+            <text x="52" y="58" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">1</text>
+            <text x="82" y="49" font-size="15.5" font-weight="700" fill="#0B1F3A">Custom user rules</text>
+            <text x="82" y="68" font-size="10.5" fill="#0F766E">confidence 1.00 · method “Custom Rule”</text>
+            <text x="82" y="88" font-size="10" fill="#334155">Keywords registered from the dashboard. Absolute precedence over every</text>
+            <text x="82" y="103" font-size="10" fill="#334155">default rule; ideal for landlord names, internal transfers and rare merchants.</text>
+            <rect x="470" y="38" width="150" height="24" rx="5" fill="#CCFBF1"/>
+            <text x="545" y="54" text-anchor="middle" font-size="9" font-weight="700" fill="#0F766E">EXACT KEYWORD MATCH</text>
+            <rect x="470" y="70" width="150" height="24" rx="5" fill="#fff" stroke="#99F6E4"/>
+            <text x="545" y="86" text-anchor="middle" font-size="9" fill="#0F766E">priority field · case option</text>
+          </g>
+
+          <g>
+            <rect x="20" y="148" width="620" height="126" rx="11" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.6"/>
+            <rect x="20" y="148" width="6" height="126" rx="3" fill="#2563EB"/>
+            <circle cx="52" cy="180" r="18" fill="#2563EB"/>
+            <text x="52" y="186" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">2</text>
+            <text x="82" y="177" font-size="15.5" font-weight="700" fill="#0B1F3A">Predefined heuristics</text>
+            <text x="82" y="196" font-size="10.5" fill="#1E40AF">confidence 0.90 – 0.98 · method “Rule-Based”</text>
+            <text x="82" y="216" font-size="10" fill="#334155">High-specificity merchants (SWIGGY, ZOMATO, BESCOM, AMAZON, UBER,</text>
+            <text x="82" y="231" font-size="10" fill="#334155">APOLLO, SALARY CREDIT) are evaluated before generic rails (UPI, NEFT,</text>
+            <text x="82" y="246" font-size="10" fill="#334155">IMPS, TRANSFER). Word boundaries prevent substring false positives.</text>
+            <rect x="470" y="166" width="150" height="24" rx="5" fill="#DBEAFE"/>
+            <text x="545" y="182" text-anchor="middle" font-size="9" font-weight="700" fill="#1E40AF">18 CATEGORIES</text>
+            <rect x="470" y="198" width="150" height="24" rx="5" fill="#fff" stroke="#BFDBFE"/>
+            <text x="545" y="214" text-anchor="middle" font-size="9" fill="#1E40AF">merchant → category map</text>
+            <rect x="470" y="230" width="150" height="24" rx="5" fill="#fff" stroke="#BFDBFE"/>
+            <text x="545" y="246" text-anchor="middle" font-size="9" fill="#1E40AF">JSON overlay: data/rules.json</text>
+          </g>
+
+          <g>
+            <rect x="20" y="288" width="620" height="152" rx="11" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.6"/>
+            <rect x="20" y="288" width="6" height="152" rx="3" fill="#7C3AED"/>
+            <circle cx="52" cy="320" r="18" fill="#7C3AED"/>
+            <text x="52" y="326" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">3</text>
+            <text x="82" y="317" font-size="15.5" font-weight="700" fill="#0B1F3A">Supervised machine learning</text>
+            <text x="82" y="336" font-size="10.5" fill="#5B21B6">TF-IDF (1–2 grams) + Multinomial Naive Bayes (α = 0.2)</text>
+            <text x="82" y="356" font-size="10" fill="#334155">Description is lowercased, punctuation stripped, then vectorised with</text>
+            <text x="82" y="371" font-size="10" fill="#334155">sublinear TF and unigrams + bigrams. The model returns the top-3 class</text>
+            <text x="82" y="386" font-size="10" fill="#334155">probabilities. It is evaluated only when tiers 1 and 2 produce no rule.</text>
+
+            <rect x="82" y="402" width="254" height="24" rx="5" fill="#fff" stroke="#C4B5FD"/>
+            <text x="209" y="418" text-anchor="middle" font-size="9" fill="#5B21B6">p ≥ 0.45 → assign predicted category</text>
+            <rect x="344" y="402" width="276" height="24" rx="5" fill="#fff" stroke="#C4B5FD"/>
+            <text x="482" y="418" text-anchor="middle" font-size="9" fill="#5B21B6">p ≥ 0.70 → Verified · 0.45–0.70 → Review</text>
+            <rect x="470" y="306" width="150" height="24" rx="5" fill="#EDE9FE"/>
+            <text x="545" y="322" text-anchor="middle" font-size="9" font-weight="700" fill="#5B21B6">MODEL ARTEFACTS</text>
+            <rect x="470" y="338" width="150" height="24" rx="5" fill="#fff" stroke="#DDD6FE"/>
+            <text x="545" y="354" text-anchor="middle" font-size="9" fill="#5B21B6">211 training records</text>
+            <rect x="470" y="370" width="150" height="24" rx="5" fill="#fff" stroke="#DDD6FE"/>
+            <text x="545" y="386" text-anchor="middle" font-size="9" fill="#5B21B6">joblib · local inference</text>
+          </g>
+
+          <g>
+            <rect x="20" y="454" width="620" height="96" rx="11" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.6"/>
+            <rect x="20" y="454" width="6" height="96" rx="3" fill="#DC2626"/>
+            <circle cx="52" cy="486" r="18" fill="#DC2626"/>
+            <text x="52" y="492" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">4</text>
+            <text x="82" y="483" font-size="15.5" font-weight="700" fill="#0B1F3A">Fallback · needs review</text>
+            <text x="82" y="502" font-size="10.5" fill="#991B1B">category “Others” · method “ML” or “Unclassified”</text>
+            <text x="82" y="521" font-size="10" fill="#334155">No rule fired and the top probability is below 0.45. The transaction is</text>
+            <text x="82" y="536" font-size="10" fill="#334155">kept, labelled Others, and pushed to the review queue with its candidate</text>
+            <text x="82" y="551" font-size="10" fill="#334155">probabilities intact. Manual override remains preserved on re-runs.</text>
+          </g>
+
+          <path d="M330 132 V146" stroke="#0D9488" stroke-width="2" marker-end="url(#k1ar)" fill="none"/>
+          <path d="M330 274 V286" stroke="#0D9488" stroke-width="2" marker-end="url(#k1ar)" fill="none"/>
+          <path d="M330 440 V452" stroke="#0D9488" stroke-width="2" marker-end="url(#k1ar)" fill="none"/>
+
+          <!-- right column -->
+          <rect x="668" y="20" width="312" height="290" rx="11" fill="#0B1F3A"/>
+          <text x="686" y="44" font-size="10" font-weight="700" fill="#5EEAD4" letter-spacing="1">OUTPUT CONTRACT · EVERY ROW</text>
+          <text x="686" y="66" font-size="8.7" font-family="Consolas,monospace" fill="#E2E8F0">{</text>
+          <text x="700" y="82" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"category"<tspan fill="#E2E8F0">: </tspan><tspan fill="#5EEAD4">"Food &amp; Dining"</tspan><tspan fill="#E2E8F0">,</tspan></text>
+          <text x="700" y="98" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"classification_method"<tspan fill="#E2E8F0">: </tspan><tspan fill="#5EEAD4">"Rule-Based"</tspan><tspan fill="#E2E8F0">,</tspan></text>
+          <text x="700" y="114" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"confidence"<tspan fill="#E2E8F0">: </tspan><tspan fill="#93C5FD">0.98</tspan><tspan fill="#E2E8F0">,</tspan></text>
+          <text x="700" y="130" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"review_status"<tspan fill="#E2E8F0">: </tspan><tspan fill="#5EEAD4">"Verified"</tspan><tspan fill="#E2E8F0">,</tspan></text>
+          <text x="700" y="146" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"explanation"<tspan fill="#E2E8F0">: {</tspan></text>
+          <text x="714" y="162" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"matched_keyword"<tspan fill="#E2E8F0">: </tspan><tspan fill="#5EEAD4">"SWIGGY"</tspan><tspan fill="#E2E8F0">,</tspan></text>
+          <text x="714" y="178" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"reason"<tspan fill="#E2E8F0">: </tspan><tspan fill="#5EEAD4">"Matched rule keyword"</tspan><tspan fill="#E2E8F0">,</tspan></text>
+          <text x="714" y="194" font-size="8.7" font-family="Consolas,monospace" fill="#FCD34D">"model_probabilities"<tspan fill="#E2E8F0">: []</tspan></text>
+          <text x="700" y="210" font-size="8.7" font-family="Consolas,monospace" fill="#E2E8F0">}</text>
+          <text x="686" y="230" font-size="8.7" font-family="Consolas,monospace" fill="#E2E8F0">}</text>
+          <line x1="686" y1="244" x2="962" y2="244" stroke="#1E3A5F"/>
+          <text x="686" y="262" font-size="9" fill="#94A3B8">ML rows replace the keyword with</text>
+          <text x="686" y="277" font-size="9" fill="#94A3B8">top-3 class probabilities.</text>
+          <text x="686" y="296" font-size="10" fill="#5EEAD4" font-weight="700">No external inference call.</text>
+
+          <rect x="668" y="326" width="312" height="224" rx="11" fill="#fff" stroke="#CBD5E1"/>
+          <text x="684" y="348" font-size="10" font-weight="700" fill="#0B1F3A">CATEGORY TAXONOMY</text>
+          <g font-size="8.6" fill="#334155">
+            <rect x="684" y="358" width="84" height="21" rx="4" fill="#DCFCE7"/><text x="726" y="372" text-anchor="middle">Salary</text>
+            <rect x="774" y="358" width="98" height="21" rx="4" fill="#FFEDD5"/><text x="823" y="372" text-anchor="middle">Food &amp; Dining</text>
+            <rect x="878" y="358" width="84" height="21" rx="4" fill="#FCE7F3"/><text x="920" y="372" text-anchor="middle">Shopping</text>
+            <rect x="684" y="385" width="120" height="21" rx="4" fill="#FEF3C7"/><text x="744" y="399" text-anchor="middle">Travel &amp; Transport</text>
+            <rect x="810" y="385" width="112" height="21" rx="4" fill="#CFFAFE"/><text x="866" y="399" text-anchor="middle">Utilities &amp; Bills</text>
+            <rect x="684" y="412" width="72" height="21" rx="4" fill="#F3E8FF"/><text x="720" y="426" text-anchor="middle">Rent</text>
+            <rect x="762" y="412" width="92" height="21" rx="4" fill="#CCFBF1"/><text x="808" y="426" text-anchor="middle">Healthcare</text>
+            <rect x="860" y="412" width="102" height="21" rx="4" fill="#ECFCCB"/><text x="911" y="426" text-anchor="middle">Education</text>
+            <rect x="684" y="439" width="90" height="21" rx="4" fill="#FEF9C3"/><text x="729" y="453" text-anchor="middle">EMI/Loan</text>
+            <rect x="780" y="439" width="118" height="21" rx="4" fill="#FFE4E6"/><text x="839" y="453" text-anchor="middle">ATM Withdrawal</text>
+            <rect x="684" y="466" width="104" height="21" rx="4" fill="#FEE2E2"/><text x="736" y="480" text-anchor="middle">Bank Charges</text>
+            <rect x="794" y="466" width="80" height="21" rx="4" fill="#D1FAE5"/><text x="834" y="480" text-anchor="middle">Interest</text>
+            <rect x="880" y="466" width="82" height="21" rx="4" fill="#CCFBF1"/><text x="921" y="480" text-anchor="middle">Refunds</text>
+            <rect x="684" y="493" width="82" height="21" rx="4" fill="#DBEAFE"/><text x="725" y="507" text-anchor="middle">Transfers</text>
+            <rect x="772" y="493" width="100" height="21" rx="4" fill="#DCFCE7"/><text x="822" y="507" text-anchor="middle">Other Income</text>
+            <rect x="878" y="493" width="84" height="21" rx="4" fill="#F1F5F9"/><text x="920" y="507" text-anchor="middle">Others</text>
+            <rect x="684" y="520" width="104" height="21" rx="4" fill="#E0E7FF"/><text x="736" y="534" text-anchor="middle">Investments</text>
+            <rect x="794" y="520" width="168" height="21" rx="4" fill="#E2E8F0"/><text x="878" y="534" text-anchor="middle">Other Expenses</text>
+          </g>
+
+          <rect x="668" y="562" width="312" height="38" rx="8" fill="#F0FDFA" stroke="#99F6E4"/>
+          <text x="824" y="578" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0F766E">Deterministic rules handle recurring spend;</text>
+          <text x="824" y="592" text-anchor="middle" font-size="9" fill="#0F766E">ML is a fallback, never the first word.</text>
+        </svg>
+        <div class="caption">Figure 6 — Four-tier classification. Rules encode domain knowledge; the model only resolves narrations the rules cannot.</div>
+      </div>
+
+      <div class="grid g3" style="margin-top:8px;">
+        <div class="card"><h3>Rules before rails</h3><p>“UPI/SWIGGY” must become Food &amp; Dining, not Transfers. Specific merchants are evaluated before channel words, and word-boundary regex avoids matching “CAB” inside “CABIN”.</p></div>
+        <div class="card"><h3>Confidence semantics</h3><p>A rule carries a fixed confidence (0.90–0.98); an ML row carries the actual posterior. The threshold is not cosmetic: it decides Verified vs Needs Review in the UI.</p></div>
+        <div class="card"><h3>Manual override</h3><p>Once a user edits a category, the row is marked Manual Override and reclassification leaves it untouched. The audit history records what changed and when.</p></div>
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Confidence → UI state</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:150px;color:#0B1F3A;font-weight:600;">Custom Rule</td><td style="width:120px;">confidence = 1.00</td><td>Verified — user intent is authoritative.</td><td style="width:78px;color:#0F766E;font-weight:700;">Verified</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Rule-Based</td><td>0.90 – 0.98</td><td>Verified if ≥ 0.85; otherwise review.</td><td style="color:#0F766E;font-weight:700;">Verified</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">ML</td><td>≥ 0.70</td><td>Predicted class accepted with high posterior.</td><td style="color:#0F766E;font-weight:700;">Verified</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">ML</td><td>0.45 – 0.699</td><td>Prediction accepted but escalated for audit.</td><td style="color:#D97706;font-weight:700;">Needs Review</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Fallback</td><td>&lt; 0.45 or no model</td><td>Category “Others”, candidates retained, human decides.</td><td style="color:#DC2626;font-weight:700;">Needs Review</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Manual Override</td><td>1.00 (human)</td><td>Preserved across reclassification; audit entry appended.</td><td style="color:#2563EB;font-weight:700;">Corrected</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">09</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 10 — DATA MODEL ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">08 · Data model</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">One aggregate, five entities</div>
+      <h1 class="sec">The statement is the unit<br>of consistency.</h1>
+      <p class="lede">Metadata, account details, transactions, reconciliation and classification statistics belong to one statement aggregate. The API returns the complete aggregate; the session store persists it as one JSON document. Transaction-level evidence stays attached to the row.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 590" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="e1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#64748B"/></marker>
+          </defs>
+
+          <!-- metadata -->
+          <rect x="320" y="18" width="360" height="152" rx="10" fill="#0B1F3A"/>
+          <text x="338" y="42" font-size="13" font-weight="700" fill="#5EEAD4">StatementMetadata</text>
+          <text x="338" y="58" font-size="8.7" fill="#94A3B8">PK · statement_id</text>
+          <g font-size="8.8" fill="#E2E8F0">
+            <text x="338" y="76">filename · file_size · file_hash</text>
+            <text x="338" y="91">pdf_type · page_count · digital/scanned pages</text>
+            <text x="338" y="106">detection_confidence · text_density_score</text>
+            <text x="338" y="121">status · current_stage · stage_name</text>
+            <text x="338" y="136">ocr_applied · is_duplicate · duplicate_of</text>
+            <text x="338" y="151">created_at · transaction_count</text>
+          </g>
+
+          <!-- account -->
+          <rect x="18" y="206" width="282" height="184" rx="10" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+          <rect x="18" y="206" width="282" height="30" rx="8" fill="#EFF6FF"/>
+          <text x="32" y="226" font-size="11.5" font-weight="700" fill="#1E3A8A">AccountDetails</text>
+          <g font-size="8.8" fill="#334155">
+            <text x="32" y="254">bank_name · account_holder</text>
+            <text x="32" y="270">account_number (internal)</text>
+            <text x="32" y="286">masked_account_number (display)</text>
+            <text x="32" y="302">ifsc_code · currency</text>
+            <text x="32" y="318">statement_period_start / end</text>
+            <text x="32" y="334">opening_balance</text>
+            <text x="32" y="350">closing_balance</text>
+            <text x="32" y="372" fill="#64748B">1 : 1 with statement</text>
+          </g>
+
+          <!-- transaction -->
+          <rect x="320" y="206" width="360" height="292" rx="10" fill="#fff" stroke="#5EEAD4" stroke-width="1.8"/>
+          <rect x="320" y="206" width="360" height="30" rx="8" fill="#F0FDFA"/>
+          <text x="334" y="226" font-size="11.5" font-weight="700" fill="#0F766E">Transaction</text>
+          <g font-size="8.8" fill="#334155">
+            <text x="334" y="254">PK · id  ·  FK · statement_id</text>
+            <text x="334" y="270">date · description</text>
+            <text x="334" y="286">debit · credit · balance</text>
+            <text x="334" y="302">category · classification_method</text>
+            <text x="334" y="318">confidence · review_status</text>
+            <text x="334" y="334">validation_flags[]</text>
+            <text x="334" y="350">explanation { reason, matched_keyword,</text>
+            <text x="334" y="365">model_probabilities[] }</text>
+            <text x="334" y="381">original_ocr_value { ... }</text>
+            <text x="334" y="397">ocr_correction { field, reason, ... }</text>
+            <text x="334" y="413">audit_history[]</text>
+            <text x="334" y="429">raw_text (original line)</text>
+            <text x="334" y="451" fill="#64748B">1 : N from statement · evidence stays on the row</text>
+            <text x="334" y="466" fill="#64748B">Every correction stores the prior value.</text>
+            <text x="334" y="481" fill="#64748B">Review flags are additive; rows are never deleted.</text>
+          </g>
+
+          <!-- reconciliation -->
+          <rect x="700" y="206" width="282" height="184" rx="10" fill="#fff" stroke="#BBF7D0" stroke-width="1.5"/>
+          <rect x="700" y="206" width="282" height="30" rx="8" fill="#F0FDF4"/>
+          <text x="714" y="226" font-size="11.5" font-weight="700" fill="#166534">ReconciliationSummary</text>
+          <g font-size="8.8" fill="#334155">
+            <text x="714" y="254">total_transactions</text>
+            <text x="714" y="270">total_debits · total_credits · net_flow</text>
+            <text x="714" y="286">opening_balance · closing_balance</text>
+            <text x="714" y="302">calculated_closing_balance</text>
+            <text x="714" y="318">discrepancy</text>
+            <text x="714" y="334">is_reconciled</text>
+            <text x="714" y="350">reconciliation_status</text>
+            <text x="714" y="366">notes</text>
+            <text x="714" y="382" fill="#64748B">1 : 1 with statement</text>
+          </g>
+
+          <!-- classification stats -->
+          <rect x="700" y="410" width="282" height="168" rx="10" fill="#fff" stroke="#C4B5FD" stroke-width="1.5"/>
+          <rect x="700" y="410" width="282" height="30" rx="8" fill="#F5F3FF"/>
+          <text x="714" y="430" font-size="11.5" font-weight="700" fill="#5B21B6">ClassificationStats</text>
+          <g font-size="8.8" fill="#334155">
+            <text x="714" y="458">total_classified</text>
+            <text x="714" y="474">rule_based_count · rule_based_pct</text>
+            <text x="714" y="490">ml_count · ml_pct</text>
+            <text x="714" y="506">needs_review_count · pct</text>
+            <text x="714" y="522">average_confidence</text>
+            <text x="714" y="538">category_distribution {}</text>
+            <text x="714" y="554">spend_by_category {}</text>
+            <text x="714" y="570" fill="#64748B">1 : 1 · recomputed on every classify</text>
+          </g>
+
+          <!-- audit card -->
+          <rect x="18" y="410" width="282" height="168" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
+          <text x="32" y="432" font-size="11.5" font-weight="700" fill="#9A3412">Persistence artefacts</text>
+          <g font-size="8.8" fill="#7C2D12">
+            <text x="32" y="454">data/statement_sessions.json</text>
+            <text x="32" y="470">→ complete aggregate, rehydrated at boot</text>
+            <text x="32" y="488">backend/uploads/</text>
+            <text x="32" y="504">→ original PDF bytes, hash-identified</text>
+            <text x="32" y="522">models/classifier_model.joblib</text>
+            <text x="32" y="538">models/tfidf_vectorizer.joblib</text>
+            <text x="32" y="556">data/rules.json · training_data.csv</text>
+            <text x="32" y="572" fill="#B45309">Exports stream; they are not stored server-side.</text>
+          </g>
+
+          <!-- relationship lines -->
+          <path d="M320 112 H160 V204" stroke="#64748B" stroke-width="1.4" fill="none" marker-end="url(#e1ar)"/>
+          <text x="236" y="101" text-anchor="middle" font-size="8.5" fill="#64748B">1 : 1</text>
+          <path d="M500 170 V204" stroke="#64748B" stroke-width="1.4" marker-end="url(#e1ar)" fill="none"/>
+          <text x="512" y="190" font-size="8.5" fill="#64748B">1 : N</text>
+          <path d="M680 112 H840 V204" stroke="#64748B" stroke-width="1.4" fill="none" marker-end="url(#e1ar)"/>
+          <text x="782" y="101" text-anchor="middle" font-size="8.5" fill="#64748B">1 : 1</text>
+          <path d="M840 390 V408" stroke="#64748B" stroke-width="1.4" marker-end="url(#e1ar)" fill="none"/>
+          <text x="852" y="402" font-size="8.5" fill="#64748B">1 : 1</text>
+        </svg>
+        <div class="caption">Figure 7 — Statement aggregate. Embedded evidence (flags, explanations, OCR corrections) keeps the audit trail co-located with the transaction.</div>
+      </div>
+
+      <div class="grid g2" style="margin-top:8px;">
+        <div class="card"><h3>Why one aggregate?</h3><p>A statement is processed, corrected and exported as a unit. Persisting one document avoids partial writes, orphan rows and inconsistent statistics. The trade-off is that very large ledgers will eventually need a real database and paginated transactions.</p></div>
+        <div class="card"><h3>What is intentionally absent</h3><p>No user table, no tenant column, no soft-delete model. v1 is a single-operator assessment build. Authentication and multi-tenancy are listed as production hardening, not pretended to exist.</p></div>
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>Invariant · one parent</h3><p>Every transaction, reconciliation and stats record belongs to exactly one statement. Orphan rows are not representable in the aggregate.</p></div>
+        <div class="card"><h3>Invariant · evidence retained</h3><p>A correction never destroys the prior value. <span class="mono">original_ocr_value</span> and the reason are stored alongside the corrected field.</p></div>
+        <div class="card"><h3>Invariant · recompute, don’t trust</h3><p>Classification stats and reconciliation are recomputed from the current rows, not incrementally patched — so manual edits cannot leave stale totals.</p></div>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">10</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 11 — API SURFACE ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">09 · API surface</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">REST · JSON, multipart and streams</div>
+      <h1 class="sec">24 endpoints, one prefix.</h1>
+      <p class="lede">Every route is under <span class="mono">/api</span> and returns typed models. Mutating operations persist the statement aggregate; export routes stream a generated file and never write it to disk. The frontend consumes exactly this surface.</p>
+
+      <table class="tbl" style="font-size:7.8px; line-height:1.28;">
+        <thead>
+          <tr><th style="width:58px;">Method</th><th style="width:255px;">Path</th><th>Purpose</th><th style="width:53px;">Stage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" style="background:#F0FDFA;color:#0F766E;font-weight:700;font-size:8px;letter-spacing:.08em;">INGESTION &amp; LIFECYCLE</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/statements/upload</td><td>Upload one PDF; validate, hash, detect type, queue.</td><td>1–2</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/statements/upload-batch</td><td>Upload multiple PDFs; per-file validation and error collection.</td><td>1–2</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements</td><td>List queue metadata for every statement.</td><td>—</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/{id}</td><td>Full aggregate: metadata, account, rows, reconciliation, stats.</td><td>—</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/{id}/transactions</td><td>Transaction-only view of a statement.</td><td>4</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/{id}/results</td><td>Compact result envelope for downstream consumers.</td><td>6</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/statements/{id}/process</td><td>Run extraction and parsing (stages 3–4).</td><td>3–4</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/statements/{id}/classify</td><td>Run rules + ML classification and final reconciliation.</td><td>5–6</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/statements/{id}/retry</td><td>Re-run the pipeline from the appropriate stage after failure.</td><td>any</td></tr>
+          <tr><td><span class="method put">PUT</span></td><td class="mono">/api/statements/{id}/transactions/{txn_id}</td><td>Manual correction; recalculates balances and audit history.</td><td>4–6</td></tr>
+          <tr><td><span class="method del">DEL</span></td><td class="mono">/api/statements/{id}</td><td>Delete one statement and its uploaded file.</td><td>—</td></tr>
+          <tr><td><span class="method del">DEL</span></td><td class="mono">/api/statements</td><td>Clear the entire queue with filesystem cleanup.</td><td>—</td></tr>
+
+          <tr><td colspan="4" style="background:#EFF6FF;color:#1E40AF;font-weight:700;font-size:8px;letter-spacing:.08em;">EXPORTS</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/{id}/export/excel</td><td>7-sheet styled statement workbook.</td><td>6</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/{id}/export/csv</td><td>Formula-sanitised transaction CSV.</td><td>6</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/export/excel</td><td>Portfolio workbook across all statements.</td><td>6</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/statements/export/csv</td><td>Combined ledger CSV with source references.</td><td>6</td></tr>
+
+          <tr><td colspan="4" style="background:#F5F3FF;color:#5B21B6;font-weight:700;font-size:8px;letter-spacing:.08em;">CLASSIFIER &amp; MODEL</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/classifier/rules</td><td>Active default and custom rule dictionary.</td><td>5</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/classifier/rules</td><td>Register a custom keyword rule with category and priority.</td><td>5</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/classifier/info</td><td>Model status, classes, vocabulary and artefact metadata.</td><td>5</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/classifier/evaluate</td><td>Held-out accuracy, precision, recall, F1 and confusion matrix.</td><td>5</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/classifier/retrain</td><td>Retrain TF-IDF + Naive Bayes from the labelled CSV.</td><td>5</td></tr>
+
+          <tr><td colspan="4" style="background:#FFF7ED;color:#9A3412;font-weight:700;font-size:8px;letter-spacing:.08em;">SYSTEM &amp; DIAGNOSTICS</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/system</td><td>Tesseract availability, model state and runtime health.</td><td>—</td></tr>
+          <tr><td><span class="method get">GET</span></td><td class="mono">/api/sample-statements</td><td>List bundled digital, scanned and edge-case samples.</td><td>—</td></tr>
+          <tr><td><span class="method post">POST</span></td><td class="mono">/api/sample-statements/{filename}/load</td><td>Load a bundled sample into the active queue.</td><td>1</td></tr>
+        </tbody>
+      </table>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>Transport</h3><p>JSON for state; multipart for uploads; streaming responses for XLSX/CSV. CORS middleware is enabled for the Vite origin during development.</p></div>
+        <div class="card"><h3>Validation</h3><p>Pydantic v2 models reject malformed payloads before they reach a service. Upload validation is deeper: bytes, structure, page count and encryption are checked.</p></div>
+        <div class="card"><h3>Errors</h3><p>400 invalid PDF · 413 oversize · 404 unknown statement · 422 no transactions · 503 OCR unavailable. Errors are actionable and do not erase the statement.</p></div>
+      </div>
+
+      <div class="code" style="margin-top:9px;"><span class="c"># the full pipeline over HTTP — replace {id} with the upload response</span>
+curl -F <span class="s">"file=@hdfc_digital_statement.pdf"</span> http://127.0.0.1:8000/api/statements/upload
+curl -X POST http://127.0.0.1:8000/api/statements/{id}/process
+curl -X POST http://127.0.0.1:8000/api/statements/{id}/classify
+curl -OJ http://127.0.0.1:8000/api/statements/{id}/export/excel</div>
+
+      <div class="note" style="margin-top:8px;">
+        <strong>Interactive contract.</strong> FastAPI generates OpenAPI documentation at <span class="mono">http://127.0.0.1:8000/docs</span>. Every request/response model shown there is the same Pydantic model the frontend consumes — there is no second, undocumented API.
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">11</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 12 — DEPLOYMENT ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">10 · Deployment topology</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Local-first, container-ready</div>
+      <h1 class="sec">Runs on one machine.<br>Deploys as two services.</h1>
+      <p class="lede">The development topology is deliberately simple: Vite on 5173, FastAPI on 8000, and everything else in-process. For a public demo, the SPA is static-hosted on Vercel and the API runs as a Docker container on Render with Tesseract and OpenCV installed at the OS level.</p>
+
+      <div class="diagram-wrap">
+        <svg class="diagram" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="o1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker>
+            <marker id="o1arg" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#64748B"/></marker>
+          </defs>
+
+          <!-- local -->
+          <rect x="18" y="18" width="964" height="166" rx="12" fill="#F8FAFC" stroke="#CBD5E1"/>
+          <text x="36" y="42" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.2">LOCAL DEVELOPMENT · SINGLE HOST</text>
+          <g>
+            <rect x="36" y="56" width="190" height="106" rx="9" fill="#fff" stroke="#93C5FD"/>
+            <text x="131" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">Browser</text>
+            <text x="131" y="98" text-anchor="middle" font-size="9.5" fill="#64748B">http://localhost:5173</text>
+            <text x="131" y="115" text-anchor="middle" font-size="9" fill="#94A3B8">4 workflow modules</text>
+            <text x="131" y="131" text-anchor="middle" font-size="9" fill="#94A3B8">Axios API client</text>
+            <rect x="131" y="141" width="104" height="14" rx="3" fill="#DBEAFE"/>
+            <text x="131" y="152" text-anchor="middle" font-size="7.5" fill="#1E40AF">VITE DEV SERVER</text>
+          </g>
+          <g>
+            <rect x="268" y="56" width="206" height="106" rx="9" fill="#fff" stroke="#5EEAD4"/>
+            <text x="371" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#0F766E">FastAPI · Uvicorn</text>
+            <text x="371" y="98" text-anchor="middle" font-size="9.5" fill="#64748B">http://127.0.0.1:8000</text>
+            <text x="371" y="115" text-anchor="middle" font-size="9" fill="#94A3B8">/api · /docs · /health</text>
+            <text x="371" y="131" text-anchor="middle" font-size="9" fill="#94A3B8">python run.py</text>
+            <rect x="371" y="141" width="118" height="14" rx="3" fill="#CCFBF1"/>
+            <text x="371" y="152" text-anchor="middle" font-size="7.5" fill="#0F766E">UVICORN · RELOAD</text>
+          </g>
+          <g>
+            <rect x="516" y="56" width="214" height="106" rx="9" fill="#fff" stroke="#C4B5FD"/>
+            <text x="623" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#5B21B6">Local engines</text>
+            <text x="623" y="98" text-anchor="middle" font-size="9.3" fill="#64748B">Tesseract binary · OpenCV</text>
+            <text x="623" y="114" text-anchor="middle" font-size="9.3" fill="#64748B">scikit-learn · joblib</text>
+            <text x="623" y="130" text-anchor="middle" font-size="9.3" fill="#64748B">PyMuPDF · pdfplumber</text>
+            <text x="623" y="152" text-anchor="middle" font-size="8" fill="#8B5CF6">installed on host</text>
+          </g>
+          <g>
+            <rect x="772" y="56" width="190" height="106" rx="9" fill="#fff" stroke="#FCD34D"/>
+            <text x="867" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#92400E">Local filesystem</text>
+            <text x="867" y="98" text-anchor="middle" font-size="9.3" fill="#64748B">backend/uploads/</text>
+            <text x="867" y="114" text-anchor="middle" font-size="9.3" fill="#64748B">backend/data/*.json</text>
+            <text x="867" y="130" text-anchor="middle" font-size="9.3" fill="#64748B">backend/models/*.joblib</text>
+            <text x="867" y="152" text-anchor="middle" font-size="8" fill="#B45309">no cloud storage</text>
+          </g>
+          <path d="M226 109 H265" stroke="#0D9488" stroke-width="2" marker-end="url(#o1ar)" fill="none"/>
+          <path d="M474 109 H513" stroke="#0D9488" stroke-width="2" marker-end="url(#o1ar)" fill="none"/>
+          <path d="M730 109 H769" stroke="#0D9488" stroke-width="2" marker-end="url(#o1ar)" fill="none"/>
+
+          <!-- production -->
+          <path d="M500 184 V218" stroke="#64748B" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#o1arg)" fill="none"/>
+          <text x="512" y="207" font-size="9" fill="#64748B">git push · CI build</text>
+
+          <rect x="18" y="228" width="452" height="272" rx="12" fill="#fff" stroke="#BFDBFE"/>
+          <rect x="18" y="228" width="452" height="34" rx="8" fill="#EFF6FF"/>
+          <text x="36" y="250" font-size="11" font-weight="700" fill="#1E3A8A">VERCEL · STATIC FRONTEND</text>
+          <g font-size="9" fill="#475569">
+            <text x="36" y="282">Build: <tspan font-family="Consolas,monospace" fill="#1E40AF">npm run build</tspan> → <tspan font-family="Consolas,monospace" fill="#1E40AF">dist/</tspan></text>
+            <text x="36" y="299">Framework preset: Vite · root: frontend</text>
+            <text x="36" y="316">env: <tspan font-family="Consolas,monospace" fill="#1E40AF">VITE_API_URL</tspan> → Render API URL</text>
+            <text x="36" y="333">rewrites: SPA fallback in vercel.json</text>
+            <text x="36" y="350">output: static assets + index.html served at edge</text>
+          </g>
+          <rect x="36" y="366" width="416" height="70" rx="7" fill="#F8FAFC" stroke="#DBEAFE"/>
+          <text x="48" y="385" font-size="9" font-weight="700" fill="#1E3A8A">Request path</text>
+          <text x="48" y="402" font-size="8.8" fill="#475569">Browser → Vercel edge (HTML/JS/CSS)</text>
+          <text x="48" y="418" font-size="8.8" fill="#475569">→ VITE_API_URL → Render FastAPI container</text>
+          <text x="48" y="432" font-size="8.5" fill="#94A3B8">No API proxy on Vercel; the SPA calls the API directly.</text>
+          <rect x="36" y="448" width="130" height="35" rx="6" fill="#DBEAFE"/>
+          <text x="101" y="463" text-anchor="middle" font-size="8" fill="#1E40AF">vercel.json</text>
+          <text x="101" y="475" text-anchor="middle" font-size="7.5" fill="#3B82F6">SPA rewrite</text>
+          <rect x="176" y="448" width="130" height="35" rx="6" fill="#DBEAFE"/>
+          <text x="241" y="463" text-anchor="middle" font-size="8" fill="#1E40AF">Vite 5.4</text>
+          <text x="241" y="475" text-anchor="middle" font-size="7.5" fill="#3B82F6">production bundle</text>
+          <rect x="316" y="448" width="136" height="35" rx="6" fill="#DBEAFE"/>
+          <text x="384" y="463" text-anchor="middle" font-size="8" fill="#1E40AF">React 18</text>
+          <text x="384" y="475" text-anchor="middle" font-size="7.5" fill="#3B82F6">4 modules · Tailwind</text>
+
+          <rect x="486" y="228" width="496" height="272" rx="12" fill="#fff" stroke="#FCD34D"/>
+          <rect x="486" y="228" width="496" height="34" rx="8" fill="#FFF7ED"/>
+          <text x="504" y="250" font-size="11" font-weight="700" fill="#9A3412">RENDER · DOCKER BACKEND</text>
+          <g font-size="9" fill="#475569">
+            <text x="504" y="282">Base: <tspan font-family="Consolas,monospace" fill="#92400E">python:3.11-slim</tspan></text>
+            <text x="504" y="299">OS packages: tesseract-ocr · libtesseract-dev · libgl1 · libglib2.0-0</text>
+            <text x="504" y="316">Python: requirements.txt (FastAPI, PyMuPDF, OpenCV, scikit-learn, OpenPyXL)</text>
+            <text x="504" y="333">Start: <tspan font-family="Consolas,monospace" fill="#92400E">python backend/run.py</tspan> · port <tspan font-family="Consolas,monospace" fill="#92400E">8000</tspan></text>
+            <text x="504" y="350">Health: <tspan font-family="Consolas,monospace" fill="#92400E">GET /health</tspan> → {"status":"healthy"}</text>
+          </g>
+          <rect x="504" y="366" width="218" height="94" rx="7" fill="#FFFBEB" stroke="#FDE68A"/>
+          <text x="516" y="385" font-size="9" font-weight="700" fill="#92400E">Runtime caveat</text>
+          <text x="516" y="402" font-size="8.6" fill="#78350F">Render free instances use an ephemeral</text>
+          <text x="516" y="417" font-size="8.6" fill="#78350F">filesystem. Uploads and session JSON</text>
+          <text x="516" y="432" font-size="8.6" fill="#78350F">survive only for the instance lifetime.</text>
+          <text x="516" y="449" font-size="8.6" font-weight="700" fill="#B45309">Attach a disk or external DB for production.</text>
+
+          <rect x="736" y="366" width="228" height="94" rx="7" fill="#F0FDFA" stroke="#99F6E4"/>
+          <text x="748" y="385" font-size="9" font-weight="700" fill="#0F766E">Environment</text>
+          <text x="748" y="403" font-size="8.8" font-family="Consolas,monospace" fill="#0F766E">PORT=8000</text>
+          <text x="748" y="419" font-size="8.8" font-family="Consolas,monospace" fill="#0F766E">TESSERACT_CMD=...</text>
+          <text x="748" y="435" font-size="8.8" font-family="Consolas,monospace" fill="#0F766E">VITE_API_URL=...</text>
+          <text x="748" y="451" font-size="8.5" fill="#64748B">Tesseract auto-discovered on PATH.</text>
+
+          <rect x="486" y="462" width="496" height="24" rx="6" fill="#0B1F3A"/>
+          <text x="734" y="478" text-anchor="middle" font-size="8.6" fill="#CBD5E1">Container isolation makes OCR/OpenCV reproducible across hosts.</text>
+        </svg>
+        <div class="caption">Figure 8 — Deployment topology. One host for development; two managed services for a public demo.</div>
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>Why Docker?</h3><p>Tesseract is a native binary and OpenCV needs system graphics libraries. A container pins the OS-level dependencies that a pure Python build would miss.</p></div>
+        <div class="card"><h3>Why a static SPA?</h3><p>The frontend has no server-side rendering or secrets. Vercel serves a small bundle from the edge; the API URL is injected at build time.</p></div>
+        <div class="card"><h3>Operational truth</h3><p>The Render free tier is a demo, not a durable store. Sessions and uploads are ephemeral by design; the architecture does not pretend otherwise.</p></div>
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Deployment checklist</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:22px;color:#0D9488;font-weight:700;">✓</td><td style="width:170px;color:#0B1F3A;font-weight:600;">Backend image builds</td><td>Dockerfile installs Tesseract, language data, libGL and libglib before pip.</td><td style="width:72px;color:#0F766E;font-weight:700;">required</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">✓</td><td style="color:#0B1F3A;font-weight:600;">Health check passes</td><td><span class="mono">GET /health</span> returns <span class="mono">{"status":"healthy"}</span>; OCR status is visible at <span class="mono">/api/system</span>.</td><td style="color:#0F766E;font-weight:700;">required</td></tr>
+          <tr><td style="color:#0D9488;font-weight:700;">✓</td><td style="color:#0B1F3A;font-weight:600;">Frontend points at API</td><td><span class="mono">VITE_API_URL</span> is set at build time; rebuild after changing it.</td><td style="color:#0F766E;font-weight:700;">required</td></tr>
+          <tr><td style="color:#D97706;font-weight:700;">!</td><td style="color:#0B1F3A;font-weight:600;">Durable storage attached</td><td>Mount a disk for uploads/session JSON or replace with a database + object store.</td><td style="color:#D97706;font-weight:700;">before real use</td></tr>
+          <tr><td style="color:#D97706;font-weight:700;">!</td><td style="color:#0B1F3A;font-weight:600;">CORS locked down</td><td>Replace the development wildcard with the exact Vercel origin.</td><td style="color:#D97706;font-weight:700;">before real use</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">12</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 13 — SECURITY ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">11 · Security &amp; reliability</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Defence in depth, honestly scoped</div>
+      <h1 class="sec">Treat the PDF as hostile.<br>Treat the export as dangerous.</h1>
+      <p class="lede">Financial documents and spreadsheets are both attack surfaces. Uploads are validated as bytes and structure, filenames are sanitised, account numbers are masked, and every exported string is checked for formula injection. The audit trail is designed to survive human error.</p>
+
+      <div class="diagram-wrap" style="margin-bottom:9px;">
+        <svg class="diagram" viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="s1ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker></defs>
+          <g font-size="9">
+            <rect x="8" y="18" width="140" height="64" rx="9" fill="#EFF6FF" stroke="#93C5FD"/>
+            <text x="78" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E3A8A">Untrusted input</text>
+            <text x="78" y="57" text-anchor="middle" fill="#64748B">PDF bytes · filename</text>
+            <text x="78" y="71" text-anchor="middle" fill="#94A3B8">unknown provenance</text>
+
+            <rect x="172" y="18" width="150" height="64" rx="9" fill="#F0FDFA" stroke="#5EEAD4"/>
+            <text x="247" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0F766E">Validate &amp; sanitise</text>
+            <text x="247" y="57" text-anchor="middle" fill="#64748B">magic bytes · size · pages</text>
+            <text x="247" y="71" text-anchor="middle" fill="#94A3B8">traversal-safe filename</text>
+
+            <rect x="346" y="18" width="150" height="64" rx="9" fill="#F5F3FF" stroke="#C4B5FD"/>
+            <text x="421" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5B21B6">Process locally</text>
+            <text x="421" y="57" text-anchor="middle" fill="#64748B">no outbound inference</text>
+            <text x="421" y="71" text-anchor="middle" fill="#94A3B8">raw OCR preserved</text>
+
+            <rect x="520" y="18" width="150" height="64" rx="9" fill="#FFFBEB" stroke="#FDE68A"/>
+            <text x="595" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400E">Mask &amp; audit</text>
+            <text x="595" y="57" text-anchor="middle" fill="#64748B">XXXXXX•••• display</text>
+            <text x="595" y="71" text-anchor="middle" fill="#94A3B8">corrections keep originals</text>
+
+            <rect x="694" y="18" width="150" height="64" rx="9" fill="#FEF2F2" stroke="#FCA5A5"/>
+            <text x="769" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991B1B">Safe export</text>
+            <text x="769" y="57" text-anchor="middle" fill="#64748B">formula-prefix neutralised</text>
+            <text x="769" y="71" text-anchor="middle" fill="#94A3B8">numbers stay numeric</text>
+
+            <rect x="868" y="18" width="124" height="64" rx="9" fill="#0B1F3A"/>
+            <text x="930" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5EEAD4">Human review</text>
+            <text x="930" y="57" text-anchor="middle" fill="#CBD5E1">ambiguous rows</text>
+            <text x="930" y="71" text-anchor="middle" fill="#94A3B8">never auto-guessed</text>
+          </g>
+          <path d="M148 50 H170" stroke="#0D9488" stroke-width="2" marker-end="url(#s1ar)" fill="none"/>
+          <path d="M322 50 H344" stroke="#0D9488" stroke-width="2" marker-end="url(#s1ar)" fill="none"/>
+          <path d="M496 50 H518" stroke="#0D9488" stroke-width="2" marker-end="url(#s1ar)" fill="none"/>
+          <path d="M670 50 H692" stroke="#0D9488" stroke-width="2" marker-end="url(#s1ar)" fill="none"/>
+          <path d="M844 50 H866" stroke="#0D9488" stroke-width="2" marker-end="url(#s1ar)" fill="none"/>
+        </svg>
+      </div>
+
+      <table class="tbl" style="font-size:7.9px; line-height:1.3;">
+        <thead>
+          <tr><th style="width:160px;">Threat / failure</th><th style="width:225px;">Control</th><th>Implementation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Malformed or fake PDF</strong></td><td>Magic-byte + structural validation; zero-page and encrypted rejection</td><td class="mono">helpers.validate_pdf_content · PDFDetector.detect</td></tr>
+          <tr><td><strong>Oversized upload</strong></td><td>25 MB hard limit before persistence; HTTP 413</td><td class="mono">validate_pdf_content(max_size_mb=25)</td></tr>
+          <tr><td><strong>Duplicate / replay upload</strong></td><td>SHA-256 identity; return existing statement instead of creating a duplicate</td><td class="mono">PDFDetector.calculate_file_hash · process_upload_content</td></tr>
+          <tr><td><strong>Path traversal</strong></td><td>Strip directories, control characters and null bytes from filenames</td><td class="mono">helpers.sanitize_filename</td></tr>
+          <tr><td><strong>Encrypted PDF</strong></td><td>Reject with an actionable message; never attempt a blank-password bypass</td><td class="mono">doc.is_encrypted check</td></tr>
+          <tr><td><strong>Spreadsheet formula injection (CWE-1236)</strong></td><td>Prefix strings starting with = + − @ tab or CR with a single quote; keep numerics numeric</td><td class="mono">sanitize_spreadsheet_value</td></tr>
+          <tr><td><strong>PII exposure</strong></td><td>Display account as XXXXXX••••; mask digit runs in logs</td><td class="mono">mask_account_number · mask_sensitive_log</td></tr>
+          <tr><td><strong>Silent OCR corruption</strong></td><td>Correct only when the running balance proves one reading; otherwise flag for review</td><td class="mono">DataValidator.correct_ocr_amounts</td></tr>
+          <tr><td><strong>Duplicate transactions</strong></td><td>Exact and potential matches are flagged; nothing is deleted automatically</td><td class="mono">DataValidator.detect_duplicate_transactions</td></tr>
+          <tr><td><strong>Arithmetic drift</strong></td><td>Row-level and statement-level equations with ±0.05 tolerance; discrepancy surfaced</td><td class="mono">DataValidator · ReconciliationService</td></tr>
+          <tr><td><strong>Loss of audit trail</strong></td><td>Original OCR text, original values, correction reasons and edit history retained</td><td class="mono">Transaction.original_ocr_value / audit_history</td></tr>
+          <tr><td><strong>State loss on restart</strong></td><td>Session aggregate persisted to JSON and rehydrated only if the PDF still exists</td><td class="mono">routes._save_sessions / _load_sessions</td></tr>
+        </tbody>
+      </table>
+
+      <div class="grid g2" style="margin-top:9px;">
+        <div class="card" style="border-left:3px solid #D97706;">
+          <h3 style="color:#92400E;">Production hardening backlog</h3>
+          <p style="margin-top:3px;"><strong>Authentication &amp; RBAC</strong> — v1 has no login; a real deployment needs SSO/session auth and per-user statement isolation.
+          <strong>CORS</strong> — currently permissive for local development; restrict to the deployed frontend origin.
+          <strong>Encryption</strong> — uploads and session JSON are plaintext on disk; encrypt at rest or move to an object store with KMS.
+          <strong>Rate limiting &amp; malware scanning</strong> — not implemented; put them at the edge or API gateway.</p>
+        </div>
+        <div class="card" style="border-left:3px solid #0D9488;">
+          <h3 style="color:#0F766E;">Why local processing is a security property</h3>
+          <p style="margin-top:3px;">The statement never leaves the host for inference. There is no API key to leak, no prompt to inject, no third-party retention policy to audit and no per-token cost. The only outbound traffic is the initial page and static assets — which is exactly the threat model appropriate for sensitive bank documents.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Audit trail · what is written when a row changes</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:150px;color:#0B1F3A;font-weight:600;">Field edited</td><td>New value persisted in the transaction; original value retained in <span class="mono">audit_history[].previous</span> where applicable.</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">OCR correction</td><td><span class="mono">original_ocr_value</span> + <span class="mono">ocr_correction { field, original, corrected, reason }</span> attached to the row.</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Status change</td><td><span class="mono">review_status</span> moves to Corrected; the classification method becomes Manual Override with confidence 1.00.</td></tr>
+          <tr><td style="color:#0B1F3A;font-weight:600;">Downstream effect</td><td>Reconciliation and classification stats are recomputed; the Review Flags sheet lists the exception on export.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">13</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 14 — UI INGESTION ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">12 · UI walkthrough · 1 of 4</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Live capture · ingestion</div>
+      <h1 class="sec">Upload, detect, and watch<br>the six-stage state machine.</h1>
+      <p class="lede">The first module is the control room. A drag-and-drop zone accepts one or many PDFs; the stage tracker reflects the selected statement; the queue exposes type, size, hash prefix and per-file actions. Duplicate uploads remain visible as evidence rather than being silently discarded.</p>
+
+      <img class="shot" src="assets/01-ingestion.png" alt="StatementIQ ingestion dashboard">
+      <div class="shot-cap">Capture 1 — Ingestion module · scanned statement STMT-5BAC4B30 selected · all six stages complete · 7 queue items including intentional duplicates and one UNKNOWN sample.</div>
+
+      <div class="grid g4" style="margin-top:10px;">
+        <div class="card"><h3>Stage tracker</h3><p>Stages 01–06 are shown as a progress board, not a spinner. Each completed stage carries its own check; the current stage is highlighted.</p></div>
+        <div class="card"><h3>Type + confidence</h3><p>The PDF type chip (DIGITAL / SCANNED / UNKNOWN) is paired with the detection explanation, so the user can see why OCR was or was not used.</p></div>
+        <div class="card"><h3>Duplicate identity</h3><p>SHA-256 prefixes and DUPLICATE / PROCESSED badges expose re-uploads. The original statement is never overwritten.</p></div>
+        <div class="card"><h3>Quick test path</h3><p>Two bundled samples load in one click: a native HDFC PDF and an image-based scan that exercises the full OCR route.</p></div>
+      </div>
+
+      <div class="note" style="margin-top:10px;">
+        <strong>What the capture proves.</strong> The selected statement was ingested as a scanned PDF, routed through OCR, parsed into 17 transactions, classified and reconciled to a zero-discrepancy close. The queue deliberately retains duplicate records and an UNKNOWN sample to demonstrate duplicate protection and rejection behaviour.
+      </div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:5px;">Queue status semantics</h3>
+        <table class="tbl" style="font-size:8.2px;">
+          <tr><td style="width:150px;" class="mono">newly_uploaded</td><td>First time this byte sequence has been seen; a new statement ID was created.</td></tr>
+          <tr><td class="mono">duplicate</td><td>Same SHA-256 as an existing statement that has not completed the pipeline; the existing record is returned.</td></tr>
+          <tr><td class="mono">already_processed</td><td>Same bytes as a completed statement; the user is told which statement it duplicates.</td></tr>
+          <tr><td class="mono">error / UNKNOWN</td><td>Validation or detection failed; the record remains inspectable and can be retried or deleted.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">14</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 15 — UI PARSER ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">12 · UI walkthrough · 2 of 4</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Live capture · extraction audit</div>
+      <h1 class="sec">Every field is editable.<br>Every number is visible.</h1>
+      <p class="lede">The extraction module exposes the account header, the full ledger, per-row status and the running balance. Rows can be corrected inline; saving recalculates totals, re-runs reconciliation and appends an audit entry.</p>
+
+      <img class="shot" src="assets/02-parser.png" alt="StatementIQ extraction and validation screen">
+      <div class="shot-cap">Capture 2 — Account header and the first nine rows of the extracted ledger for the scanned statement. Opening ₹45,200.00 → closing ₹1,28,450.00. The full ledger contains 17 rows.</div>
+
+      <div class="card" style="margin-top:9px;">
+        <h3 style="margin-bottom:6px;">Inline correction loop</h3>
+        <svg viewBox="0 0 1000 78" style="width:100%;height:auto;">
+          <defs><marker id="corr" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto" viewBox="0 0 9 6" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#0D9488"/></marker></defs>
+          <g font-size="9.5">
+            <rect x="0" y="8" width="214" height="48" rx="7" fill="#F0FDFA" stroke="#5EEAD4"/>
+            <text x="107" y="27" text-anchor="middle" font-weight="700" fill="#0F766E">1 · Select a row</text>
+            <text x="107" y="43" text-anchor="middle" fill="#475569">pencil icon opens the editor</text>
+
+            <rect x="252" y="8" width="244" height="48" rx="7" fill="#fff" stroke="#CBD5E1"/>
+            <text x="374" y="27" text-anchor="middle" font-weight="700" fill="#0B1F3A">2 · Correct the field</text>
+            <text x="374" y="43" text-anchor="middle" fill="#475569">date · narration · amounts · category</text>
+
+            <rect x="534" y="8" width="214" height="48" rx="7" fill="#EFF6FF" stroke="#93C5FD"/>
+            <text x="641" y="27" text-anchor="middle" font-weight="700" fill="#1E40AF">3 · Recalculate</text>
+            <text x="641" y="43" text-anchor="middle" fill="#475569">totals · balance · reconciliation</text>
+
+            <rect x="786" y="8" width="214" height="48" rx="7" fill="#F5F3FF" stroke="#C4B5FD"/>
+            <text x="893" y="27" text-anchor="middle" font-weight="700" fill="#5B21B6">4 · Audit</text>
+            <text x="893" y="43" text-anchor="middle" fill="#475569">status Corrected · history entry</text>
+          </g>
+          <path d="M216 32 H249" stroke="#0D9488" stroke-width="2" marker-end="url(#corr)" fill="none"/>
+          <path d="M498 32 H531" stroke="#0D9488" stroke-width="2" marker-end="url(#corr)" fill="none"/>
+          <path d="M750 32 H783" stroke="#0D9488" stroke-width="2" marker-end="url(#corr)" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="grid g3" style="margin-top:8px;">
+        <div class="card"><h3>Masked account</h3><p>The header shows XXXXXX7281. The full number remains available to the backend for audit, but never in the default view.</p></div>
+        <div class="card"><h3>Running balance</h3><p>Each row contributes to the next balance. The arithmetic is checked at row level and again at statement level.</p></div>
+        <div class="card"><h3>Review state</h3><p>Verified, Needs Review and Corrected are explicit. A zero-review scan is the happy path; ambiguous OCR would surface here.</p></div>
+      </div>
+
+      <div class="note" style="margin-top:9px;">
+        <strong>What the capture proves.</strong> A scanned image was OCR’d, parsed into 17 structured rows, matched to a statement period and linked to opening/closing balances. The row-level edit control is the human escape hatch when a machine reading is wrong.
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">15</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 16 — UI CLASSIFIER ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">12 · UI walkthrough · 3 of 4</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Live capture · classification</div>
+      <h1 class="sec">The reason is part of<br>the classification.</h1>
+      <p class="lede">The classifier module shows the split between rules and ML, the average confidence, the category spend distribution and an explanation line for every transaction. A user can override a category; the override is preserved on future runs.</p>
+
+      <img class="shot" src="assets/03-classifier.png" alt="StatementIQ non-LLM classification screen" style="width:98%;margin-left:1%;">
+      <div class="shot-cap">Capture 3a — 17 transactions classified with 100% rule coverage on this statement, average confidence 96%, zero review exceptions.</div>
+
+      <div class="grid g2" style="margin-top:8px; grid-template-columns:1.2fr 1fr;">
+        <div class="card">
+          <h3>Why the demo shows 100% rules</h3>
+          <p>The synthetic statement uses recurring Indian merchants and salary narrations that the deterministic tier is designed to catch. That is the intended production behaviour: rules cover the common path, ML handles novel descriptions, and review handles ambiguity. On a less familiar statement the ML and review columns become non-zero.</p>
+        </div>
+        <div class="card tealcard">
+          <h3>Explainability payload</h3>
+          <p>“WHY: Matched rule-based keyword ‘SWIGGY’” is rendered directly from the stored explanation object. The same object feeds the Classification Explanations sheet in the Excel export.</p>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:9px;">
+        <strong>Audit behaviour.</strong> The category selector is not a free-text field: it is constrained to the taxonomy. Changing it marks the row Manual Override with confidence 1.00 and records the edit in <span class="mono">audit_history</span>.
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>Rule management</h3><p>“Manage Classification Rules” registers a keyword/category pair. Custom rules take absolute precedence and persist to <span class="mono">data/custom_rules.json</span>.</p></div>
+        <div class="card"><h3>Retraining</h3><p>“Retrain” refits TF-IDF and Naive Bayes on the labelled CSV, then writes fresh joblib artefacts. Existing statements can be reclassified through the API.</p></div>
+        <div class="card"><h3>Evaluation</h3><p>The model info panel exposes classes and vocabulary; <span class="mono">/api/classifier/evaluate</span> returns the held-out confusion matrix and per-category metrics.</p></div>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">16</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 17 — UI RECONCILIATION ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">12 · UI walkthrough · 4 of 4</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Live capture · reconciliation &amp; export</div>
+      <h1 class="sec">Prove the close,<br>then hand over the file.</h1>
+      <p class="lede">The final module displays the reconciliation verdict, the exact formula with real values, KPI cards and the complete ledger. Every export is one click away: a styled 7-sheet workbook, a safe CSV, or a portfolio roll-up across statements.</p>
+
+      <img class="shot" src="assets/04-reconciliation.png" alt="StatementIQ reconciliation and export screen">
+      <div class="shot-cap">Capture 4 — Reconciled statement: opening ₹45,200.00 + credits ₹1,73,125.00 − debits ₹89,875.00 = closing ₹1,28,450.00, discrepancy ₹0.00.</div>
+
+      <div class="grid g2" style="margin-top:9px; grid-template-columns:1.05fr 1fr;">
+        <div class="card">
+          <h3 style="margin-bottom:5px;">7-sheet Excel workbook</h3>
+          <table class="tbl" style="font-size:8.2px;">
+            <tr><td style="width:18px;color:#0D9488;font-weight:700;">1</td><td><strong>Account Details</strong> — institution, holder, masked account, IFSC, period, balances</td></tr>
+            <tr><td style="color:#0D9488;font-weight:700;">2</td><td><strong>Transactions</strong> — formatted debit/credit/balance, category, method, confidence, totals</td></tr>
+            <tr><td style="color:#0D9488;font-weight:700;">3</td><td><strong>Summary</strong> — net flow, discrepancy, reconciliation notes</td></tr>
+            <tr><td style="color:#0D9488;font-weight:700;">4</td><td><strong>Income by Category</strong> — credit aggregation and share</td></tr>
+            <tr><td style="color:#0D9488;font-weight:700;">5</td><td><strong>Expense by Category</strong> — debit aggregation and share</td></tr>
+            <tr><td style="color:#0D9488;font-weight:700;">6</td><td><strong>Review Flags</strong> — exceptions, duplicates, OCR corrections</td></tr>
+            <tr><td style="color:#0D9488;font-weight:700;">7</td><td><strong>Classification Explanations</strong> — method, keyword, probability breakdown</td></tr>
+          </table>
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid #EEF2F7;">
+            <p class="xs muted" style="margin:0;line-height:1.55;"><strong style="color:#0B1F3A;">Formatting contract.</strong> Monetary cells are native numbers with <span class="mono">#,##0.00</span> formatting, headers are navy with white type, columns auto-fit, and the Transactions sheet carries a totals row. Sheet names remain stable for downstream automation.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card tealcard">
+            <h3>Reconciliation verdict</h3>
+            <p style="margin-top:3px;">The green banner is produced by <span class="mono">is_reconciled</span>, not by a hard-coded success. If the arithmetic differs by more than ₹0.05, the same banner turns red and names the variance. Missing balances produce a third state: “Missing Balance Information”.</p>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <h3>Portfolio export</h3>
+            <p style="margin-top:3px;">All processed statements can be combined into one workbook: statement summaries, combined transactions with source IDs, combined income/expense and a consolidated review queue. Duplicate rows are never silently merged.</p>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <h3>CSV safety</h3>
+            <p style="margin-top:3px;">Any text beginning with <span class="mono">= + − @</span>, tab or carriage return is prefixed with an apostrophe before export. Numeric cells remain numbers so formulas still calculate.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:9px;">
+        <strong>Three verdicts, never a false success.</strong> Reconciled means the variance is within ±0.05. Discrepancy Detected names the exact difference and carries it into the Summary sheet. Missing Balance Information keeps the ledger exportable but marks reconciliation as unverified.
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">17</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 18 — MODEL EVALUATION ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">13 · Model evaluation</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Held-out evaluation · 25% test split</div>
+      <h1 class="sec">Small model, honest numbers.</h1>
+      <p class="lede">The ML tier is evaluated on a stratified 25% holdout with a fixed random seed. It is a fallback classifier for narrations the rule engine does not recognise — not a claim of production-grade accuracy on unseen banks.</p>
+
+      <div class="grid g4">
+        <div class="card"><div class="num-big">52.83<span style="font-size:16px;">%</span></div><div class="kpi-label">Accuracy</div></div>
+        <div class="card"><div class="num-big">46.99<span style="font-size:16px;">%</span></div><div class="kpi-label">Weighted precision</div></div>
+        <div class="card"><div class="num-big">52.83<span style="font-size:16px;">%</span></div><div class="kpi-label">Weighted recall</div></div>
+        <div class="card"><div class="num-big">47.96<span style="font-size:16px;">%</span></div><div class="kpi-label">Weighted F1</div></div>
+      </div>
+
+      <div class="grid g2" style="margin-top:10px; grid-template-columns:1.1fr 1fr;">
+        <div class="card">
+          <h3>Metric comparison</h3>
+          <svg viewBox="0 0 560 250" style="width:100%;height:auto;margin-top:5px;">
+            <g font-family="Segoe UI,Arial" font-size="11">
+              <line x1="58" y1="196" x2="548" y2="196" stroke="#E2E8F0"/>
+              <line x1="58" y1="146" x2="548" y2="146" stroke="#F1F5F9"/>
+              <line x1="58" y1="96" x2="548" y2="96" stroke="#F1F5F9"/>
+              <line x1="58" y1="46" x2="548" y2="46" stroke="#F1F5F9"/>
+              <text x="48" y="200" text-anchor="end" fill="#94A3B8" font-size="9">0</text>
+              <text x="48" y="150" text-anchor="end" fill="#94A3B8" font-size="9">25</text>
+              <text x="48" y="100" text-anchor="end" fill="#94A3B8" font-size="9">50</text>
+              <text x="48" y="50" text-anchor="end" fill="#94A3B8" font-size="9">75</text>
+              <text x="48" y="26" text-anchor="end" fill="#94A3B8" font-size="9">100%</text>
+              <rect x="84" y="90" width="72" height="106" rx="5" fill="#0D9488"/>
+              <text x="120" y="82" text-anchor="middle" fill="#0F766E" font-weight="700">52.8%</text>
+              <text x="120" y="216" text-anchor="middle" fill="#475569" font-size="9.5">Accuracy</text>
+              <rect x="202" y="102" width="72" height="94" rx="5" fill="#2563EB"/>
+              <text x="238" y="94" text-anchor="middle" fill="#1E40AF" font-weight="700">47.0%</text>
+              <text x="238" y="216" text-anchor="middle" fill="#475569" font-size="9.5">Precision</text>
+              <rect x="320" y="90" width="72" height="106" rx="5" fill="#7C3AED"/>
+              <text x="356" y="82" text-anchor="middle" fill="#5B21B6" font-weight="700">52.8%</text>
+              <text x="356" y="216" text-anchor="middle" fill="#475569" font-size="9.5">Recall</text>
+              <rect x="438" y="100" width="72" height="96" rx="5" fill="#D97706"/>
+              <text x="474" y="92" text-anchor="middle" fill="#92400E" font-weight="700">48.0%</text>
+              <text x="474" y="216" text-anchor="middle" fill="#475569" font-size="9.5">F1 score</text>
+            </g>
+          </svg>
+          <p class="xs muted" style="margin-top:4px;">Weighted averages, held-out 53 samples. Model: TF-IDF 1–2 grams + Multinomial Naive Bayes, α=0.2, random_state=42.</p>
+        </div>
+
+        <div class="card">
+          <h3>Test-set coverage</h3>
+          <table class="tbl" style="font-size:8.1px;margin-top:4px;">
+            <thead><tr><th>Category</th><th style="width:48px;">Train+Test</th><th style="width:45px;">F1</th></tr></thead>
+            <tbody>
+              <tr><td>Food &amp; Dining</td><td>22</td><td><span style="color:#0F766E;font-weight:700;">0.667</span></td></tr>
+              <tr><td>Shopping</td><td>22</td><td>0.471</td></tr>
+              <tr><td>Salary</td><td>17</td><td>0.533</td></tr>
+              <tr><td>Travel &amp; Transport</td><td>17</td><td>0.444</td></tr>
+              <tr><td>Utilities &amp; Bills</td><td>16</td><td>0.571</td></tr>
+              <tr><td>Investments</td><td>12</td><td>0.000</td></tr>
+              <tr><td>Transfers</td><td>12</td><td>1.000</td></tr>
+              <tr><td>Bank Charges</td><td>12</td><td>0.667</td></tr>
+              <tr><td>Rent</td><td>11</td><td>0.400</td></tr>
+              <tr><td>Healthcare</td><td>11</td><td>0.000</td></tr>
+              <tr><td>EMI/Loan</td><td>10</td><td>1.000</td></tr>
+              <tr><td>Education</td><td>10</td><td>0.400</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card"><h3>211 records · 18 labels</h3><p>Synthetic Indian banking narrations with merchants, typos and abbreviations. The corpus is intentionally small and balanced only loosely; rare classes drag weighted metrics down.</p></div>
+        <div class="card"><h3>Why accuracy is honest</h3><p>No test leakage: the vectorizer is fitted only on the training split, then applied to the holdout. The evaluation endpoint re-runs the split rather than reporting cached training accuracy.</p></div>
+        <div class="card"><h3>How it is used</h3><p>Rule coverage is measured on every statement. In the live demo, 100% of 17 rows were rule-classified at 96% average confidence; the ML tier had no vote. That is the point.</p></div>
+      </div>
+
+      <div class="grid g2" style="margin-top:9px;grid-template-columns:1fr 1fr;">
+        <div class="card">
+          <h3>Reproduce these numbers</h3>
+          <p style="margin-top:4px;">The evaluation endpoint re-runs the split; it does not return a cached score. From the UI, open the classifier module and request evaluation; from the shell:</p>
+          <div class="code" style="margin-top:6px;font-size:8px;">curl http://127.0.0.1:8000/api/classifier/evaluate
+<span class="c"># returns accuracy, precision, recall, F1,</span>
+<span class="c"># confusion matrix and per-category samples</span></div>
+        </div>
+        <div class="card" style="border-left:3px solid #D97706;">
+          <h3 style="color:#92400E;">How to read a 1.000</h3>
+          <p style="margin-top:4px;">Transfers and EMI/Loan score 1.000 because the test split contains a handful of highly distinctive narrations. That is not evidence of generalisation. The same applies to 0.000 classes: two samples cannot support a stable F1.</p>
+          <p style="margin-top:5px;">The right production metric is <strong>rules-first coverage</strong> (how many rows avoid ML entirely) plus review rate — not raw model accuracy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">18</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 19 — TESTING ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">14 · Testing &amp; quality</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Evidence over assertion</div>
+      <h1 class="sec">38 tests, including the<br>uncomfortable paths.</h1>
+      <p class="lede">The suite covers extraction, OCR, detection, queue behaviour, duplicate protection, export security and end-to-end flows. The interesting tests are not the happy path: they are the corrupt PDFs, the ambiguous OCR rows and the spreadsheet formula payloads.</p>
+
+      <div class="grid g2" style="grid-template-columns:1fr 1.15fr;">
+        <div class="card" style="background:#0B1F3A;border-color:#0B1F3A;">
+          <div style="display:flex;align-items:flex-end;gap:12px;">
+            <div class="num-big" style="color:#5EEAD4;">38</div>
+            <div style="padding-bottom:3px;"><div style="font-size:10px;color:#CBD5E1;font-weight:600;">pytest tests passing</div><div style="font-size:8.5px;color:#94A3B8;">plus a 10-step async API smoke script</div></div>
+          </div>
+          <div style="height:1px;background:#1E3A5F;margin:11px 0;"></div>
+          <div style="font-size:9px;color:#CBD5E1;line-height:1.7;">
+            <div>✓ Corrupt / empty / encrypted PDF rejection</div>
+            <div>✓ SHA-256 duplicate re-upload identity</div>
+            <div>✓ Digital, scanned and mixed detection</div>
+            <div>✓ OCR deskew and rotation handling</div>
+            <div>✓ Multi-page and wrapped narrations</div>
+            <div>✓ Balance formula and OCR correction</div>
+            <div>✓ Formula-injection sanitisation</div>
+            <div>✓ 7-sheet and portfolio exports</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Tests by file</h3>
+          <svg viewBox="0 0 560 240" style="width:100%;height:auto;margin-top:4px;">
+            <g font-family="Segoe UI,Arial" font-size="9.5">
+              <text x="0" y="22" fill="#475569">Extraction scenarios</text>
+              <rect x="160" y="9" width="320" height="18" rx="4" fill="#E2E8F0"/><rect x="160" y="9" width="320" height="18" rx="4" fill="#0D9488"/>
+              <text x="496" y="22" fill="#0F766E" font-weight="700">8</text>
+
+              <text x="0" y="54" fill="#475569">Exports + security</text>
+              <rect x="160" y="41" width="320" height="18" rx="4" fill="#E2E8F0"/><rect x="160" y="41" width="280" height="18" rx="4" fill="#2563EB"/>
+              <text x="456" y="54" fill="#1E40AF" font-weight="700">7</text>
+
+              <text x="0" y="86" fill="#475569">Pipeline</text>
+              <rect x="160" y="73" width="320" height="18" rx="4" fill="#E2E8F0"/><rect x="160" y="73" width="240" height="18" rx="4" fill="#7C3AED"/>
+              <text x="416" y="86" fill="#5B21B6" font-weight="700">6</text>
+
+              <text x="0" y="118" fill="#475569">Queue + detection</text>
+              <rect x="160" y="105" width="320" height="18" rx="4" fill="#E2E8F0"/><rect x="160" y="105" width="240" height="18" rx="4" fill="#D97706"/>
+              <text x="416" y="118" fill="#92400E" font-weight="700">6</text>
+
+              <text x="0" y="150" fill="#475569">Scanned OCR + validation</text>
+              <rect x="160" y="137" width="320" height="18" rx="4" fill="#E2E8F0"/><rect x="160" y="137" width="240" height="18" rx="4" fill="#0891B2"/>
+              <text x="416" y="150" fill="#0E7490" font-weight="700">6</text>
+
+              <text x="0" y="182" fill="#475569">Duplicates + model info</text>
+              <rect x="160" y="169" width="320" height="18" rx="4" fill="#E2E8F0"/><rect x="160" y="169" width="200" height="18" rx="4" fill="#DB2777"/>
+              <text x="376" y="182" fill="#9D174D" font-weight="700">5</text>
+
+              <text x="0" y="214" fill="#94A3B8">API smoke script</text>
+              <rect x="160" y="201" width="320" height="18" rx="4" fill="#F1F5F9"/>
+              <text x="270" y="214" fill="#64748B">10 async steps · httpx ASGI</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <table class="tbl" style="font-size:8.1px;margin-top:10px;">
+        <thead><tr><th style="width:210px;">Suite</th><th style="width:42px;">Tests</th><th>What it proves</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">test_extraction_scenarios.py</td><td>8</td><td>Multi-page continuity, wrapped narrations, single-column Dr/Cr, missing balances, format variants.</td></tr>
+          <tr><td class="mono">test_exports_security_and_e2e.py</td><td>7</td><td>Formula injection neutralised, all 7 sheets present, portfolio export, end-to-end upload → process → classify → export.</td></tr>
+          <tr><td class="mono">test_pipeline.py</td><td>6</td><td>Stage transitions, no-transaction failure, reconciliation arithmetic, classification stats and explanations.</td></tr>
+          <tr><td class="mono">test_queue_and_detection.py</td><td>6</td><td>DIGITAL / SCANNED / MIXED / UNKNOWN detection, corrupt and zero-byte rejection, encrypted handling.</td></tr>
+          <tr><td class="mono">test_scanned_ocr_and_validation.py</td><td>6</td><td>OCR preprocessing, rotation/deskew, balance-verified correction, ambiguity stays flagged.</td></tr>
+          <tr><td class="mono">test_duplicates_and_model_info.py</td><td>5</td><td>SHA-256 duplicate identity, re-upload semantics, model metadata and rules registry.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code" style="margin-top:9px;"><span class="c"># full suite</span>
+python -m pytest backend/tests -v -p no:cacheprovider
+
+<span class="c"># production bundle</span>
+cd frontend &amp;&amp; npm run build</div>
+
+      <div class="note" style="margin-top:8px;">
+        <strong>What is not covered.</strong> There is no browser E2E suite (Playwright/Cypress), no load test for large scans, and no fuzz harness for the parser. Those are known gaps, not hidden ones; the test suite focuses on the financial logic and security boundaries that matter most in this assessment.
+      </div>
+
+      <div class="grid g2" style="margin-top:9px;">
+        <div class="card">
+          <h3>Deterministic fixtures</h3>
+          <p style="margin-top:4px;">Synthetic PDFs are generated for each layout: 3-page digital, mixed digital/scan, rotated 90°, wrapped narration, no-balance ledger and a single-column Dr/Cr statement. Corrupt, zero-byte, empty and encrypted files are created as negative fixtures.</p>
+        </div>
+        <div class="card">
+          <h3>Environment verified</h3>
+          <p style="margin-top:4px;">Windows · Python 3.13.2 · Node 24.14 · Tesseract 5.5.3 · pytest 8.x. The suite is deterministic: fixed seeds, local files, no network. The only host prerequisite is a discoverable Tesseract binary for the OCR cases.</p>
+        </div>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">19</span> / 20</span></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 20 — LIMITATIONS & ROADMAP ================= -->
+<section class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <div class="brandline">
+        <div class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="#5EEAD4" stroke-width="2"><path d="M12 3l7 3v5c0 4.7-3 7.6-7 9-4-1.4-7-4.3-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><div class="brandname">StatementIQ</div><div class="brandsub">Architecture &amp; Technical Documentation</div></div>
+      </div>
+      <div class="section-tag">15 · Limitations &amp; roadmap</div>
+    </div>
+    <div class="page-body">
+      <div class="eyebrow">Where it stops, and what comes next</div>
+      <h1 class="sec">A credible system says<br>what it cannot do.</h1>
+      <p class="lede">StatementIQ is complete for the assessment scope: a local, auditable, non-LLM pipeline with a working UI, exports and tests. It is not a production banking platform. The boundary is drawn explicitly so the next engineer knows exactly where to start.</p>
+
+      <div class="grid g2" style="grid-template-columns:1.02fr 1fr;">
+        <div>
+          <h3 style="font-size:11.5px;color:#991B1B;margin:0 0 6px;">Known limitations</h3>
+
+          <div class="card" style="margin-bottom:7px;border-left:3px solid #DC2626;">
+            <h3>1 · Scan quality is fate</h3>
+            <p>OCR accuracy drops with low DPI, warping, faint thermal print or handwriting. The pipeline can flag uncertainty, but it cannot invent missing glyphs. Below ≈150 DPI, manual review is expected.</p>
+          </div>
+          <div class="card" style="margin-bottom:7px;border-left:3px solid #D97706;">
+            <h3>2 · Layout heterogeneity</h3>
+            <p>The parser handles standard column layouts and multi-line narrations, not arbitrary free-form prose. A bank with an unusual narrative statement may need a dedicated template.</p>
+          </div>
+          <div class="card" style="margin-bottom:7px;border-left:3px solid #D97706;">
+            <h3>3 · Scanned page cap</h3>
+            <p>OCR is capped at 10 pages per document call (<span class="mono">max_pages=10</span>). Long scanned statements need the cap raised or chunked processing before production use.</p>
+          </div>
+          <div class="card" style="margin-bottom:7px;border-left:3px solid #D97706;">
+            <h3>4 · Encrypted PDFs</h3>
+            <p>Password-protected statements are rejected, not cracked. The user must decrypt before upload. This is deliberate: bypassing document encryption is not a feature.</p>
+          </div>
+          <div class="card" style="border-left:3px solid #D97706;">
+            <h3>5 · Single-operator state</h3>
+            <p>No authentication, no tenancy, no durable database. Session JSON and uploads live on the local filesystem; a free Render instance loses them on redeploy. Fine for a demo, not for a bank.</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size:11.5px;color:#0F766E;margin:0 0 6px;">Next improvements, in order</h3>
+
+          <div class="card tealcard" style="margin-bottom:7px;">
+            <h3>Persist and isolate</h3>
+            <p>PostgreSQL for the statement aggregate, object storage for PDFs, per-user ownership and role checks. This is the first thing to build before any real user touches the system.</p>
+          </div>
+          <div class="card" style="margin-bottom:7px;">
+            <h3>Calibrate the model</h3>
+            <p>Platt scaling or isotonic regression so “0.62” means 62% empirically, not just a raw Naive Bayes posterior. Add a proper confusion-matrix report per bank.</p>
+          </div>
+          <div class="card" style="margin-bottom:7px;">
+            <h3>Bank layout templates</h3>
+            <p>Declarative column maps for HDFC, ICICI, SBI, Axis and international formats. A template match should beat generic positional parsing.</p>
+          </div>
+          <div class="card" style="margin-bottom:7px;">
+            <h3>Local layout detection</h3>
+            <p>PP-Structure or a small LayoutLM-class model running offline to detect table regions before OCR. No generative AI, no cloud call.</p>
+          </div>
+          <div class="card">
+            <h3>Async processing</h3>
+            <p>Move OCR/parse/classify to a background worker with progress events. The current synchronous request is fine for a 2-page sample, not for a 200-page portfolio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:10px;background:#0B1F3A;border-color:#0B1F3A;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
+          <div>
+            <div style="font-size:8.5px;color:#5EEAD4;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-bottom:4px;">Closing statement</div>
+            <div style="font-size:14px;color:#E2E8F0;font-weight:600;line-height:1.45;max-width:560px;">A bank statement is not a prompt. It is evidence.<br>StatementIQ treats it that way — deterministically, locally, and with the arithmetic shown.</div>
+          </div>
+          <div style="text-align:right;flex:0 0 auto;">
+            <div style="font-size:25px;font-weight:800;color:#5EEAD4;letter-spacing:-.03em;">20 / 20</div>
+            <div style="font-size:8px;color:#94A3B8;letter-spacing:.12em;">END OF DOCUMENT</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-top:9px;">
+        <div class="card soft"><h3>Reproduce</h3><p class="mono" style="font-size:8.2px;">start_servers.bat<br>http://localhost:5173<br>http://127.0.0.1:8000/docs</p></div>
+        <div class="card soft"><h3>Verify</h3><p class="mono" style="font-size:8.2px;">python -m pytest backend/tests -v<br>cd frontend &amp;&amp; npm run build</p></div>
+        <div class="card soft"><h3>Read</h3><p>README.md for setup; this document for architecture; the running UI for behaviour. All three should agree — and they do.</p></div>
+      </div>
+    </div>
+    <div class="page-footer"><span>StatementIQ v1.0 · Non-LLM Bank Statement Intelligence</span><span><span class="num">20</span> / 20</span></div>
+  </div>
+</section>
+
+</body>
+</html>

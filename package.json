@@ -2,6 +2,9 @@
   "name": "statementiq",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
     "start:backend": "python backend/run.py",
     "start:frontend": "npm run dev --prefix frontend",

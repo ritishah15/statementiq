@@ -1005,64 +1005,6 @@
       "sample_preview": ""
     }
   },
-  "STMT-FF4D2781": {
-    "metadata": {
-      "statement_id": "STMT-FF4D2781",
-      "filename": "single_column_drcr_statement.pdf",
-      "file_size": 2812,
-      "file_hash": "3b1ba1f1861b1c899465cf6b065b607d6daa96dca4d7c0c50255bae2b17740f8",
-      "page_count": 0,
-      "digital_pages": 0,
-      "scanned_pages": 0,
-      "pdf_type": "UNKNOWN",
-      "detection_confidence": 0.0,
-      "text_density_score": 0.0,
-      "detection_explanation": null,
-      "page_analysis": [],
-      "ocr_applied": false,
-      "status": "uploaded",
-      "current_stage": 1,
-      "total_stages": 6,
-      "stage_name": "File Uploaded",
-      "error_message": null,
-      "created_at": "2026-11-05 02:00:48",
-      "is_duplicate": false,
-      "duplicate_of": null,
-      "duplicate_notice": null,
-      "upload_status": "newly_uploaded",
-      "transaction_count": 0
-    },
-    "file_path": "C:\\Users\\RITI\\Desktop\\projects\\befree\\n_bank\\backend\\uploads\\STMT-FF4D2781_single_column_drcr_statement.pdf",
-    "account_details": {
-      "bank_name": "Not Found",
-      "account_holder": "Not Found",
-      "account_number": "Not Found",
-      "masked_account_number": "Not Found",
-      "ifsc_code": "Not Found",
-      "statement_period_start": "Not Found",
-      "statement_period_end": "Not Found",
-      "opening_balance": null,
-      "closing_balance": null,
-      "currency": "INR"
-    },
-    "transactions": [],
-    "reconciliation": {
-      "total_transactions": 0,
-      "total_debits": 0.0,
-      "total_credits": 0.0,
-      "net_flow": 0.0,
-      "opening_balance": null,
-      "closing_balance": null,
-      "calculated_closing_balance": null,
-      "discrepancy": null,
-      "is_reconciled": false,
-      "reconciliation_status": "Pending",
-      "notes": ""
-    },
-    "classification_stats": null,
-    "raw_text": "",
-    "detection_info": {}
-  },
   "STMT-9D950557": {
     "metadata": {
       "statement_id": "STMT-9D950557",
@@ -1106,210 +1048,6 @@
       "transaction_count": 0
     },
     "file_path": "C:\\Users\\RITI\\Desktop\\projects\\befree\\n_bank\\backend\\uploads\\STMT-9D950557_hdfc_digital_statement.pdf",
-    "account_details": {
-      "bank_name": "Not Found",
-      "account_holder": "Not Found",
-      "account_number": "Not Found",
-      "masked_account_number": "Not Found",
-      "ifsc_code": "Not Found",
-      "statement_period_start": "Not Found",
-      "statement_period_end": "Not Found",
-      "opening_balance": null,
-      "closing_balance": null,
-      "currency": "INR"
-    },
-    "transactions": [],
-    "reconciliation": {
-      "total_transactions": 0,
-      "total_debits": 0.0,
-      "total_credits": 0.0,
-      "net_flow": 0.0,
-      "opening_balance": null,
-      "closing_balance": null,
-      "calculated_closing_balance": null,
-      "discrepancy": null,
-      "is_reconciled": false,
-      "reconciliation_status": "Pending",
-      "notes": ""
-    },
-    "classification_stats": null,
-    "raw_text": "",
-    "detection_info": {
-      "pdf_type": "DIGITAL",
-      "confidence": 0.98,
-      "text_density_score": 788.5,
-      "page_count": 2,
-      "digital_pages": 2,
-      "scanned_pages": 0,
-      "ocr_required": false,
-      "explanation": "Digital PDF: All 2 page(s) contain searchable digital text (avg 788 chars, 98 words/page).",
-      "reasons": [
-        "Digital PDF: All 2 page(s) contain searchable digital text (avg 788 chars, 98 words/page)."
-      ],
-      "page_analysis": [
-        {
-          "page_number": 1,
-          "type": "DIGITAL",
-          "char_count": 949,
-          "word_count": 118,
-          "image_count": 0
-        },
-        {
-          "page_number": 2,
-          "type": "DIGITAL",
-          "char_count": 628,
-          "word_count": 78,
-          "image_count": 0
-        }
-      ],
-      "sample_preview": "HDFC BANK LIMITED\nBranch: KORAMANGALA 4TH BLOCK, BANGALORE | Phone: 080-61234567\nCustomer Name:\nVIKRAMADITYA SINGHANIA\nStatement Period:\n01/05/2024 to 31/05/2024\nAccount Number:\n50100492817291\nIFSC Co ... TRANSACTION ACTIVITY (PAGE 2) - CONTINUED\nDate\nNarration / Description\nWithdrawal (Dr)\nDeposit "
-    }
-  },
-  "STMT-12E8F714": {
-    "metadata": {
-      "statement_id": "STMT-12E8F714",
-      "filename": "hdfc_digital_statement.pdf",
-      "file_size": 4535,
-      "file_hash": "16dadf95a40dfa2ee340a67fccd58c7b7d233c915a89a3728892a5e578803c13",
-      "page_count": 2,
-      "digital_pages": 2,
-      "scanned_pages": 0,
-      "pdf_type": "DIGITAL",
-      "detection_confidence": 0.98,
-      "text_density_score": 788.5,
-      "detection_explanation": "Digital PDF: All 2 page(s) contain searchable digital text (avg 788 chars, 98 words/page).",
-      "page_analysis": [
-        {
-          "page_number": 1,
-          "type": "DIGITAL",
-          "char_count": 949,
-          "word_count": 118,
-          "image_count": 0
-        },
-        {
-          "page_number": 2,
-          "type": "DIGITAL",
-          "char_count": 628,
-          "word_count": 78,
-          "image_count": 0
-        }
-      ],
-      "ocr_applied": false,
-      "status": "type_detected",
-      "current_stage": 2,
-      "total_stages": 6,
-      "stage_name": "Type Detected",
-      "error_message": null,
-      "created_at": "2026-11-05 05:00:48",
-      "is_duplicate": true,
-      "duplicate_of": "STMT-16233CB9",
-      "duplicate_notice": "Duplicate of hdfc_digital_statement.pdf (STMT-16233CB9)",
-      "upload_status": "duplicate",
-      "transaction_count": 0
-    },
-    "file_path": "C:\\Users\\RITI\\Desktop\\projects\\befree\\n_bank\\backend\\uploads\\STMT-12E8F714_hdfc_digital_statement.pdf",
-    "account_details": {
-      "bank_name": "Not Found",
-      "account_holder": "Not Found",
-      "account_number": "Not Found",
-      "masked_account_number": "Not Found",
-      "ifsc_code": "Not Found",
-      "statement_period_start": "Not Found",
-      "statement_period_end": "Not Found",
-      "opening_balance": null,
-      "closing_balance": null,
-      "currency": "INR"
-    },
-    "transactions": [],
-    "reconciliation": {
-      "total_transactions": 0,
-      "total_debits": 0.0,
-      "total_credits": 0.0,
-      "net_flow": 0.0,
-      "opening_balance": null,
-      "closing_balance": null,
-      "calculated_closing_balance": null,
-      "discrepancy": null,
-      "is_reconciled": false,
-      "reconciliation_status": "Pending",
-      "notes": ""
-    },
-    "classification_stats": null,
-    "raw_text": "",
-    "detection_info": {
-      "pdf_type": "DIGITAL",
-      "confidence": 0.98,
-      "text_density_score": 788.5,
-      "page_count": 2,
-      "digital_pages": 2,
-      "scanned_pages": 0,
-      "ocr_required": false,
-      "explanation": "Digital PDF: All 2 page(s) contain searchable digital text (avg 788 chars, 98 words/page).",
-      "reasons": [
-        "Digital PDF: All 2 page(s) contain searchable digital text (avg 788 chars, 98 words/page)."
-      ],
-      "page_analysis": [
-        {
-          "page_number": 1,
-          "type": "DIGITAL",
-          "char_count": 949,
-          "word_count": 118,
-          "image_count": 0
-        },
-        {
-          "page_number": 2,
-          "type": "DIGITAL",
-          "char_count": 628,
-          "word_count": 78,
-          "image_count": 0
-        }
-      ],
-      "sample_preview": "HDFC BANK LIMITED\nBranch: KORAMANGALA 4TH BLOCK, BANGALORE | Phone: 080-61234567\nCustomer Name:\nVIKRAMADITYA SINGHANIA\nStatement Period:\n01/05/2024 to 31/05/2024\nAccount Number:\n50100492817291\nIFSC Co ... TRANSACTION ACTIVITY (PAGE 2) - CONTINUED\nDate\nNarration / Description\nWithdrawal (Dr)\nDeposit "
-    }
-  },
-  "STMT-D0C2A6D0": {
-    "metadata": {
-      "statement_id": "STMT-D0C2A6D0",
-      "filename": "hdfc_digital_statement.pdf",
-      "file_size": 4535,
-      "file_hash": "16dadf95a40dfa2ee340a67fccd58c7b7d233c915a89a3728892a5e578803c13",
-      "page_count": 2,
-      "digital_pages": 2,
-      "scanned_pages": 0,
-      "pdf_type": "DIGITAL",
-      "detection_confidence": 0.98,
-      "text_density_score": 788.5,
-      "detection_explanation": "Digital PDF: All 2 page(s) contain searchable digital text (avg 788 chars, 98 words/page).",
-      "page_analysis": [
-        {
-          "page_number": 1,
-          "type": "DIGITAL",
-          "char_count": 949,
-          "word_count": 118,
-          "image_count": 0
-        },
-        {
-          "page_number": 2,
-          "type": "DIGITAL",
-          "char_count": 628,
-          "word_count": 78,
-          "image_count": 0
-        }
-      ],
-      "ocr_applied": false,
-      "status": "type_detected",
-      "current_stage": 2,
-      "total_stages": 6,
-      "stage_name": "Type Detected",
-      "error_message": null,
-      "created_at": "2026-11-05 05:01:16",
-      "is_duplicate": true,
-      "duplicate_of": "STMT-16233CB9",
-      "duplicate_notice": "Duplicate of hdfc_digital_statement.pdf (STMT-16233CB9)",
-      "upload_status": "duplicate",
-      "transaction_count": 0
-    },
-    "file_path": "C:\\Users\\RITI\\Desktop\\projects\\befree\\n_bank\\backend\\uploads\\STMT-D0C2A6D0_hdfc_digital_statement.pdf",
     "account_details": {
       "bank_name": "Not Found",
       "account_holder": "Not Found",
@@ -1478,6 +1216,442 @@
         }
       ],
       "sample_preview": "HDFC BANK LIMITED\nBranch: KORAMANGALA 4TH BLOCK, BANGALORE | Phone: 080-61234567\nCustomer Name:\nVIKRAMADITYA SINGHANIA\nStatement Period:\n01/05/2024 to 31/05/2024\nAccount Number:\n50100492817291\nIFSC Co ... TRANSACTION ACTIVITY (PAGE 2) - CONTINUED\nDate\nNarration / Description\nWithdrawal (Dr)\nDeposit "
+    }
+  },
+  "STMT-0BC9A03C": {
+    "metadata": {
+      "statement_id": "STMT-0BC9A03C",
+      "filename": "StatementIQ_sample_text_based_bank_statement.pdf",
+      "file_size": 29006,
+      "file_hash": "de9a54c5195423b0b46b49a719331f27bf29802b11333e63512dd5fc5ba598f0",
+      "page_count": 1,
+      "digital_pages": 1,
+      "scanned_pages": 0,
+      "pdf_type": "DIGITAL",
+      "detection_confidence": 0.98,
+      "text_density_score": 1418.0,
+      "detection_explanation": "Digital PDF: All 1 page(s) contain searchable digital text (avg 1418 chars, 193 words/page).",
+      "page_analysis": [
+        {
+          "page_number": 1,
+          "type": "DIGITAL",
+          "char_count": 1418,
+          "word_count": 193,
+          "image_count": 0,
+          "confidence": 0.98,
+          "explanation": "Page contains extractable digital text (1418 chars, 193 words)."
+        }
+      ],
+      "ocr_applied": false,
+      "status": "completed",
+      "current_stage": 6,
+      "total_stages": 6,
+      "stage_name": "Processing & Validation Complete",
+      "error_message": null,
+      "created_at": "2026-11-05 07:51:37",
+      "is_duplicate": true,
+      "duplicate_of": null,
+      "duplicate_notice": "Duplicate of StatementIQ_sample_text_based_bank_statement.pdf (already processed as STMT-0BC9A03C)",
+      "upload_status": "duplicate",
+      "transaction_count": 12
+    },
+    "file_path": "C:\\Users\\RITI\\Desktop\\projects\\befree\\n_bank\\backend\\uploads\\STMT-0BC9A03C_StatementIQ_sample_text_based_bank_statement.pdf",
+    "account_details": {
+      "bank_name": "Sample National Bank",
+      "account_holder": "Aarav Mehta",
+      "account_number": "XXXXXX4821",
+      "masked_account_number": "XXXXXX4821",
+      "ifsc_code": "SNBK0000123",
+      "statement_period_start": "2026-10-01",
+      "statement_period_end": "2026-10-31",
+      "opening_balance": 25000.0,
+      "closing_balance": 61150.0,
+      "currency": "INR"
+    },
+    "transactions": [
+      {
+        "id": "TXN-C5DCAA85",
+        "date": "2026-10-01",
+        "description": "SALARY CREDIT - ACME TECHNOLOGIES",
+        "debit": 0.0,
+        "credit": 65000.0,
+        "balance": 90000.0,
+        "category": "Salary",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "01-Oct-2026 SALARY CREDIT - ACME TECHNOLOGIES - 65,000.00 90,000.00",
+        "explanation": {
+          "category": "Salary",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "SALARY",
+          "reason": "Matched rule-based keyword 'SALARY'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-58B10DE9",
+        "date": "2026-10-03",
+        "description": "UPI/PAYMENT/RAJ GROCERY STORE",
+        "debit": 1250.0,
+        "credit": 0.0,
+        "balance": 88749.99,
+        "category": "Food & Dining",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "03-Oct-2026 UPI/PAYMENT/RAJ GROCERY STORE 1,250.00 - 88,750.00",
+        "explanation": {
+          "category": "Food & Dining",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "GROCERY",
+          "reason": "Matched rule-based keyword 'GROCERY'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": [
+          {
+            "field": "balance",
+            "old_value": 88750.0,
+            "new_value": 88749.99,
+            "timestamp": "2026-11-05 07:57:58"
+          }
+        ]
+      },
+      {
+        "id": "TXN-58DF3B1D",
+        "date": "2026-10-05",
+        "description": "SWIGGY ORDER 784512",
+        "debit": 480.0,
+        "credit": 0.0,
+        "balance": 88270.0,
+        "category": "Food & Dining",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "05-Oct-2026 SWIGGY ORDER 784512 480.00 - 88,270.00",
+        "explanation": {
+          "category": "Food & Dining",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "SWIGGY",
+          "reason": "Matched rule-based keyword 'SWIGGY'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-5C3A8D26",
+        "date": "2026-10-07",
+        "description": "RENT PAYMENT - OCTOBER",
+        "debit": 15000.0,
+        "credit": 0.0,
+        "balance": 73270.0,
+        "category": "Rent",
+        "classification_method": "Rule-Based",
+        "confidence": 0.9,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "07-Oct-2026 RENT PAYMENT - OCTOBER 15,000.00 - 73,270.00",
+        "explanation": {
+          "category": "Rent",
+          "method": "Rule-Based",
+          "confidence": 0.9,
+          "matched_keyword": "RENT",
+          "reason": "Matched rule-based keyword 'RENT'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-04986A52",
+        "date": "2026-10-09",
+        "description": "ELECTRICITY BILL PAYMENT",
+        "debit": 1850.0,
+        "credit": 0.0,
+        "balance": 71420.0,
+        "category": "Utilities & Bills",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "09-Oct-2026 ELECTRICITY BILL PAYMENT 1,850.00 - 71,420.00",
+        "explanation": {
+          "category": "Utilities & Bills",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "ELECTRICITY",
+          "reason": "Matched rule-based keyword 'ELECTRICITY'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-B4C62D69",
+        "date": "2026-10-11",
+        "description": "ATM CASH WITHDRAWAL",
+        "debit": 2000.0,
+        "credit": 0.0,
+        "balance": 69420.0,
+        "category": "ATM Withdrawal",
+        "classification_method": "Rule-Based",
+        "confidence": 0.9,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "11-Oct-2026 ATM CASH WITHDRAWAL 2,000.00 - 69,420.00",
+        "explanation": {
+          "category": "ATM Withdrawal",
+          "method": "Rule-Based",
+          "confidence": 0.9,
+          "matched_keyword": "ATM",
+          "reason": "Matched rule-based keyword 'ATM'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-6139EF7C",
+        "date": "2026-10-14",
+        "description": "NEFT CREDIT - REFUND",
+        "debit": 0.0,
+        "credit": 3500.0,
+        "balance": 72920.0,
+        "category": "Refunds",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "14-Oct-2026 NEFT CREDIT - REFUND - 3,500.00 72,920.00",
+        "explanation": {
+          "category": "Refunds",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "REFUND",
+          "reason": "Matched rule-based keyword 'REFUND'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-277DB9D9",
+        "date": "2026-10-17",
+        "description": "AMAZON INDIA PURCHASE",
+        "debit": 2499.0,
+        "credit": 0.0,
+        "balance": 70421.0,
+        "category": "Shopping",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "17-Oct-2026 AMAZON INDIA PURCHASE 2,499.00 - 70,421.00",
+        "explanation": {
+          "category": "Shopping",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "AMAZON",
+          "reason": "Matched rule-based keyword 'AMAZON'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-EFF1AE20",
+        "date": "2026-10-20",
+        "description": "UBER TRIP PAYMENT",
+        "debit": 350.0,
+        "credit": 0.0,
+        "balance": 70071.0,
+        "category": "Travel & Transport",
+        "classification_method": "Rule-Based",
+        "confidence": 0.9,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "20-Oct-2026 UBER TRIP PAYMENT 350.00 - 70,071.00",
+        "explanation": {
+          "category": "Travel & Transport",
+          "method": "Rule-Based",
+          "confidence": 0.9,
+          "matched_keyword": "UBER",
+          "reason": "Matched rule-based keyword 'UBER'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-35BBCED7",
+        "date": "2026-10-23",
+        "description": "PHARMACY MEDICAL STORE",
+        "debit": 720.0,
+        "credit": 0.0,
+        "balance": 69351.0,
+        "category": "Healthcare",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "23-Oct-2026 PHARMACY MEDICAL STORE 720.00 - 69,351.00",
+        "explanation": {
+          "category": "Healthcare",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "PHARMACY",
+          "reason": "Matched rule-based keyword 'PHARMACY'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-A3D49778",
+        "date": "2026-10-26",
+        "description": "BANK SERVICE CHARGES",
+        "debit": 200.0,
+        "credit": 0.0,
+        "balance": 69151.0,
+        "category": "Bank Charges",
+        "classification_method": "Rule-Based",
+        "confidence": 0.98,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "26-Oct-2026 BANK SERVICE CHARGES 200.00 - 69,151.00",
+        "explanation": {
+          "category": "Bank Charges",
+          "method": "Rule-Based",
+          "confidence": 0.98,
+          "matched_keyword": "SERVICE CHARGE",
+          "reason": "Matched rule-based keyword 'SERVICE CHARGE'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      },
+      {
+        "id": "TXN-E7B98100",
+        "date": "2026-10-29",
+        "description": "UPI TRANSFER TO PRIYA SHAH",
+        "debit": 8001.0,
+        "credit": 0.0,
+        "balance": 61150.0,
+        "category": "Transfers",
+        "classification_method": "Rule-Based",
+        "confidence": 0.9,
+        "review_status": "Verified",
+        "validation_flags": [],
+        "raw_text": "29-Oct-2026 UPI TRANSFER TO PRIYA SHAH 8,001.00 - 61,150.00",
+        "explanation": {
+          "category": "Transfers",
+          "method": "Rule-Based",
+          "confidence": 0.9,
+          "matched_keyword": "UPI",
+          "reason": "Matched rule-based keyword 'UPI'",
+          "model_probabilities": []
+        },
+        "original_ocr_value": null,
+        "ocr_correction": null,
+        "audit_history": []
+      }
+    ],
+    "reconciliation": {
+      "total_transactions": 12,
+      "total_debits": 32350.0,
+      "total_credits": 68500.0,
+      "net_flow": 36150.0,
+      "opening_balance": 25000.0,
+      "closing_balance": 61150.0,
+      "calculated_closing_balance": 61150.0,
+      "discrepancy": 0.0,
+      "is_reconciled": true,
+      "reconciliation_status": "Reconciled",
+      "notes": "All extracted transactions mathematically reconcile with opening and closing balances (0.00 discrepancy)."
+    },
+    "classification_stats": {
+      "total_classified": 12,
+      "rule_based_count": 12,
+      "rule_based_pct": 100.0,
+      "ml_count": 0,
+      "ml_pct": 0.0,
+      "needs_review_count": 0,
+      "needs_review_pct": 0.0,
+      "average_confidence": 0.95,
+      "category_distribution": {
+        "Salary": 1,
+        "Food & Dining": 2,
+        "Rent": 1,
+        "Utilities & Bills": 1,
+        "ATM Withdrawal": 1,
+        "Refunds": 1,
+        "Shopping": 1,
+        "Travel & Transport": 1,
+        "Healthcare": 1,
+        "Bank Charges": 1,
+        "Transfers": 1
+      },
+      "spend_by_category": {
+        "Salary": 0.0,
+        "Food & Dining": 1730.0,
+        "Rent": 15000.0,
+        "Utilities & Bills": 1850.0,
+        "ATM Withdrawal": 2000.0,
+        "Refunds": 0.0,
+        "Shopping": 2499.0,
+        "Travel & Transport": 350.0,
+        "Healthcare": 720.0,
+        "Bank Charges": 200.0,
+        "Transfers": 8001.0
+      }
+    },
+    "raw_text": "SAMPLE NATIONAL BANK\nIllustrative Bank Statement | Fictional data for software testing only\nAccount Holder\nAarav Mehta\nBank Name\nSample National Bank\nAccount Number\nXXXXXX4821\nIFSC Code\nSNBK0000123\nAccount Type\nSavings\nCurrency\nINR\nStatement Period\n01-Oct-2026 to 31-Oct-2026\nBranch\nAhmedabad - Sample Branch\nAccount Summary\nOpening Balance\nI25,000.00\nTotal Credits\nI68,500.00\nTotal Debits\nI32,350.00\nClosing Balance\nI61,150.00\nTransaction Details\nDate\nDescription\nDebit (INR)\nCredit (INR)\nBalance (INR)\n01-Oct-2026\nSALARY CREDIT - ACME TECHNOLOGIES\n-\n65,000.00\n90,000.00\n03-Oct-2026\nUPI/PAYMENT/RAJ GROCERY STORE\n1,250.00\n-\n88,750.00\n05-Oct-2026\nSWIGGY ORDER 784512\n480.00\n-\n88,270.00\n07-Oct-2026\nRENT PAYMENT - OCTOBER\n15,000.00\n-\n73,270.00\n09-Oct-2026\nELECTRICITY BILL PAYMENT\n1,850.00\n-\n71,420.00\n11-Oct-2026\nATM CASH WITHDRAWAL\n2,000.00\n-\n69,420.00\n14-Oct-2026\nNEFT CREDIT - REFUND\n-\n3,500.00\n72,920.00\n17-Oct-2026\nAMAZON INDIA PURCHASE\n2,499.00\n-\n70,421.00\n20-Oct-2026\nUBER TRIP PAYMENT\n350.00\n-\n70,071.00\n23-Oct-2026\nPHARMACY MEDICAL STORE\n720.00\n-\n69,351.00\n26-Oct-2026\nBANK SERVICE CHARGES\n200.00\n-\n69,151.00\n29-Oct-2026\nUPI TRANSFER TO PRIYA SHAH\n8,001.00\n-\n61,150.00\nReconciliation check: Opening balance I25,000.00 + credits I68,500.00 - debits I32,350.00 = closing balance I61,150.00.\nThis document is not issued by a real bank and contains no real customer or bank information. For software testing only.\n",
+    "detection_info": {
+      "pdf_type": "DIGITAL",
+      "confidence": 0.98,
+      "text_density_score": 1418.0,
+      "page_count": 1,
+      "digital_pages": 1,
+      "scanned_pages": 0,
+      "unknown_pages": 0,
+      "ocr_required": false,
+      "explanation": "Digital PDF: All 1 page(s) contain searchable digital text (avg 1418 chars, 193 words/page).",
+      "reasons": [
+        "Digital PDF: All 1 page(s) contain searchable digital text (avg 1418 chars, 193 words/page)."
+      ],
+      "page_analysis": [
+        {
+          "page_number": 1,
+          "type": "DIGITAL",
+          "char_count": 1418,
+          "word_count": 193,
+          "image_count": 0,
+          "confidence": 0.98,
+          "explanation": "Page contains extractable digital text (1418 chars, 193 words)."
+        }
+      ],
+      "sample_preview": "SAMPLE NATIONAL BANK\nIllustrative Bank Statement | Fictional data for software testing only\nAccount Holder\nAarav Mehta\nBank Name\nSample National Bank\nAccount Number\nXXXXXX4821\nIFSC Code\nSNBK0000123\nAc"
     }
   }
 }
