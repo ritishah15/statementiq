@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-fixed-variant":"#3a4a45","on-primary-fixed-variant":"#1339b1","on-secondary-container":"#5c6370","inverse-primary":"#b8c4ff","inverse-surface":"#243049","inverse-on-surface":"#edf0ff","on-primary-container":"#fffbff","tertiary-fixed":"#d5e7df","primary-fixed":"#dde1ff","secondary-fixed-dim":"#bfc7d6","on-tertiary-fixed":"#0f1e1a","tertiary":"#4f5f59","surface-variant":"#d8e2ff","error-container":"#ffdad6","surface-bright":"#f9f9ff","surface-tint":"#3554c9","on-tertiary-container":"#f4fff9","on-primary-fixed":"#001354","surface-container-highest":"#d8e2ff","on-tertiary":"#ffffff","primary-fixed-dim":"#b8c4ff","error":"#ba1a1a","secondary-container":"#d9e0f0","tertiary-fixed-dim":"#b9cac3","outline-variant":"#c4c5d6","surface-container-high":"#e0e8ff","surface-container-low":"#f1f3ff","surface":"#f9f9ff","on-background":"#0e1b33","on-error":"#ffffff","on-secondary":"#ffffff","on-surface":"#0e1b33","on-secondary-fixed":"#151c27","secondary":"#575f6c","surface-container":"#e9edff","on-error-container":"#93000a","secondary-fixed":"#dce3f2","on-surface-variant":"#444653","surface-dim":"#cedafa","surface-container-lowest":"#ffffff","outline":"#747685","primary":"#3251c7","background":"#f9f9ff","on-primary":"#ffffff","primary-container":"#4e6be1","on-secondary-fixed-variant":"#404754","tertiary-container":"#677872"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem",margin:"2rem","space-sm":"0.5rem",gutter:"1.5rem","space-lg":"1.5rem","space-md":"1rem","space-xl":"2rem"},fontFamily:{"body-md":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],display:["Plus Jakarta Sans"],"body-sm":["Inter"],"body-lg":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"tabular-md":["Inter"],"headline-lg":["Plus Jakarta Sans"]},fontSize:{"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["22px",{lineHeight:"30px",letterSpacing:"-0.015em",fontWeight:"600"}],display:["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-sm":["13px",{lineHeight:"18px",letterSpacing:"0em",fontWeight:"400"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}],"label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.01em",fontWeight:"600"}],"tabular-md":["14px",{lineHeight:"20px",letterSpacing:"-0.01em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-lowest border-r border-outline-variant/30 z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-outline-variant/20"><img alt="LedgerParse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VwZIjt7OA2CpMK9W4HyibtVxk6hFYp7Tzcs5K3Jz9BX_wSEjVXuEMpW0jOhWmjYzweLIHjEp1iadZoj3BrugOcJ0orORCcNszlsamlZWl_7l8NP2w45Zd9JWwhEQmgOEn03B4fxZ5YTwlYPmYwwhgW7_vMh5e4FyYYjh6gRuOG3BRyV9XxFl11L-q1c20J1qFtpkj0un9Rj7-m82hCV5CiRgvSDv1rVo6oo3m2RGg"/><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">LedgerParse</span><span class="px-1.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-label-sm uppercase tracking-wider font-semibold">OS</span></div></div><div class="px-space-md pt-space-md pb-space-xs"><span class="text-[11px] font-label-sm uppercase tracking-wider text-outline font-semibold">Main Platform</span></div><nav class="flex flex-col gap-1 px-space-sm" data-active-classes="bg-surface-container-high text-primary font-semibold relative before:content-[''] before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:bg-primary before:rounded-r-full"><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] transition-colors bg-surface-container-high text-primary font-semibold relative before:content-[''] before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:bg-primary before:rounded-r-full" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Overview</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="upload-statements" href="#"><span class="material-symbols-outlined text-[20px]">cloud_upload</span><span>Upload Statements</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="transactions" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Transactions</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="classification" href="#"><span class="material-symbols-outlined text-[20px]">account_tree</span><span>Classification</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports-and-exports" href="#"><span class="material-symbols-outlined text-[20px]">summarize</span><span>Reports &amp; Exports</span></a><div class="my-2 border-t border-outline-variant/20"></div><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-2"><div class="flex items-center justify-between"><span class="text-[11px] font-label-sm font-semibold uppercase tracking-wider text-outline">Quota Usage</span><span class="text-[11px] font-label-sm font-semibold text-primary">84%</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[84%] rounded-full"></div></div><span class="text-[11px] font-body-sm text-on-surface-variant">4,200 of 5,000 pages parsed</span></div></aside><div class="pl-[240px]"><header class="sticky top-0 h-16 w-full bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30 z-40 px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 font-body-sm text-body-sm text-outline"><span class="material-symbols-outlined text-[18px]">corporate_fare</span><span>LedgerParse Workspace</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-medium">Statements Engine</span></div></div><div class="flex-1 max-w-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">search</span><input class="w-full h-10 pl-9 pr-12 rounded-lg bg-surface border border-outline-variant/40 text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all" placeholder="Search transactions, statement batches, vendors..." type="text"/><kbd class="absolute right-3 px-1.5 py-0.5 rounded border border-outline-variant/40 bg-surface-container-lowest text-[11px] font-label-sm font-semibold text-outline">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><button class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"></span></button><div class="h-5 w-px bg-outline-variant/30"></div><div class="flex items-center gap-3 pl-1"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsgXwMH_eIB6o0YzEQW8uqsjKJ6KaCQM7D54vsFCQUwMLL72DVEVzsCcfQdSNDsPQN7xme852en5IEyc-mAyPGj2evI4_67NeunvdwF0B-RuclR1yElR83SVfO9MAclbBNUuaI-KL1v4eZlmkQLyfB-Y6a6xPOmCMNg2KfqdXYqXZHUcMgIAqeZhinSZNI2ECKR_LRNO2QhNRAKKt5MrsBQgK9jamc_it6RWRkqzQ"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Sarah Jenkins</span><span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight">Operations Lead</span></div></div></div></header><main class="w-full min-h-[calc(100vh-64px)] p-margin bg-surface"><div class="flex flex-col w-full">
+<!-- Header & Primary Controls -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-lg mb-8">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Welcome back, Sarah</h1>
+<span class="text-xl">👋</span>
+</div>
+<p class="font-body-md text-body-md text-secondary">Here's an overview of your automated statement processing and ledger sync activity today.</p>
+</div>
+<div class="flex items-center gap-3">
+<!-- Quick Filter Dropdown Button -->
+<div class="relative">
+<button class="h-10 px-4 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors shadow-sm flex items-center gap-2 font-label-md text-label-md" id="filterDropdownBtn">
+<span class="material-symbols-outlined text-[18px] text-primary">calendar_today</span>
+<span>Last 30 Days</span>
+<span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+</button>
+</div>
+<!-- Export Report Soft Button -->
+<button class="h-10 px-4 rounded-xl bg-surface-container-high text-primary hover:bg-surface-variant transition-colors flex items-center gap-2 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span>Export Log</span>
+</button>
+<!-- Primary Action: Upload Batch -->
+<button class="h-10 px-5 rounded-xl bg-primary text-on-primary hover:bg-primary-container shadow-md hover:shadow-lg transition-all flex items-center gap-2 font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>New Statement Batch</span>
+</button>
+</div>
+</div>
+<!-- KPI Metric Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-8">
+<!-- KPI 1: Statements Processed (Soft Blue tint) -->
+<div class="p-6 rounded-2xl bg-[#E8EFFF] shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Statements Processed</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">description</span>
+</div>
+</div>
+<div>
+<div class="font-display text-display text-on-surface font-bold tracking-tight mb-2">1,248</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-[#E5F7EF] text-[#127F52] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+            14.2%
+          </span>
+<span class="font-body-sm text-body-sm text-secondary">vs last month</span>
+</div>
+</div>
+</div>
+<!-- KPI 2: Total Transactions (Mint Green tint) -->
+<div class="p-6 rounded-2xl bg-[#E5F7EF] shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total Transactions</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center text-[#127F52] shadow-sm">
+<span class="material-symbols-outlined text-[22px]">sync_alt</span>
+</div>
+</div>
+<div>
+<div class="font-display text-display text-on-surface font-bold tracking-tight mb-2">48,920</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-surface-container-lowest text-[#127F52] font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+            8.6%
+          </span>
+<span class="font-body-sm text-body-sm text-secondary">vs last month</span>
+</div>
+</div>
+</div>
+<!-- KPI 3: Total Credits (Lavender tint) -->
+<div class="p-6 rounded-2xl bg-[#F0EBFF] shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total Credits</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center text-[#6B46C1] shadow-sm">
+<span class="material-symbols-outlined text-[22px]">trending_up</span>
+</div>
+</div>
+<div>
+<div class="font-display text-display text-on-surface font-bold tracking-tight mb-2">$3,842,510<span class="text-secondary font-medium text-headline-sm">.00</span></div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-lowest text-[#6B46C1] font-label-sm text-label-sm shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-[#6B46C1]"></span>
+            99.4% Auto-classified
+          </span>
+</div>
+</div>
+</div>
+<!-- KPI 4: Total Debits (Soft Peach tint) -->
+<div class="p-6 rounded-2xl bg-[#FFF0E5] shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total Debits</span>
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center text-[#C05621] shadow-sm">
+<span class="material-symbols-outlined text-[22px]">trending_down</span>
+</div>
+</div>
+<div>
+<div class="font-display text-display text-on-surface font-bold tracking-tight mb-2">$2,195,430<span class="text-secondary font-medium text-headline-sm">.40</span></div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-lowest text-[#C05621] font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px]">flag</span>
+            12 flagged for review
+          </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Real-Time OCR Status Banner Strip -->
+<div class="w-full mb-8 p-4 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#E5F7EF] text-[#127F52]">
+<span class="material-symbols-outlined text-[22px] animate-pulse">memory</span>
+<span class="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-[#127F52]"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Neural OCR Parser Pipeline Active</span>
+<span class="px-2 py-0.2 rounded-md bg-[#E8EFFF] text-primary font-label-sm text-[11px] font-semibold">Cluster v4.2</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">3 batches currently streaming through heuristic validation &amp; reconciliation mapping</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-4">
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Avg Extraction Latency</span>
+<span class="font-tabular-md text-tabular-md text-on-surface font-semibold">418ms / page</span>
+</div>
+<div class="h-8 w-px bg-surface-container-high"></div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Precision Accuracy</span>
+<span class="font-tabular-md text-tabular-md text-[#127F52] font-semibold">99.82%</span>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant font-label-sm text-label-sm transition-colors">
+        Engine Metrics
+      </button>
+</div>
+</div>
+<!-- Main Analytics Section (60% Area Chart / 40% Donut Breakdown) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-8">
+<!-- Left Column (60% / 7-8 cols): Monthly Transaction Activity -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Monthly Transaction Activity</h2>
+<p class="font-body-sm text-body-sm text-secondary">Volume reconciliation across verified credits and debits (H1 2024)</p>
+</div>
+<!-- Chart Legend & Toggle -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-secondary">Credits</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-surface-variant"></span>
+<span class="font-label-sm text-label-sm text-secondary">Debits</span>
+</div>
+<div class="h-4 w-px bg-surface-container-high mx-1"></div>
+<span class="font-label-sm text-label-sm text-primary font-semibold cursor-pointer hover:underline">Analytics Deep Dive →</span>
+</div>
+</div>
+<!-- Inline Bar / Trend Visualizer SVG -->
+<div class="w-full h-64 flex flex-col justify-end">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 680 220">
+<defs>
+<lineargradient id="primaryBarGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#3251c7" stop-opacity="0.95"></stop>
+<stop offset="100%" stop-color="#4e6be1" stop-opacity="0.8"></stop>
+</lineargradient>
+<lineargradient id="debitBarGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#d8e2ff" stop-opacity="1"></stop>
+<stop offset="100%" stop-color="#cedafa" stop-opacity="0.85"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Reference Gridlines -->
+<line stroke="#f1f3ff" stroke-dasharray="4 4" stroke-width="1.5" x1="0" x2="680" y1="20" y2="20"></line>
+<line stroke="#f1f3ff" stroke-dasharray="4 4" stroke-width="1.5" x1="0" x2="680" y1="70" y2="70"></line>
+<line stroke="#f1f3ff" stroke-dasharray="4 4" stroke-width="1.5" x1="0" x2="680" y1="120" y2="120"></line>
+<line stroke="#f1f3ff" stroke-width="1.5" x1="0" x2="680" y1="170" y2="170"></line>
+<!-- Grouped Bars: Jan -->
+<rect fill="url(#primaryBarGrad)" height="115" rx="5" width="22" x="40" y="55"></rect>
+<rect fill="url(#debitBarGrad)" height="85" rx="5" width="22" x="66" y="85"></rect>
+<text class="text-[12px] fill-[#575f6c] font-sans font-medium" text-anchor="middle" x="64" y="195">Jan</text>
+<!-- Grouped Bars: Feb -->
+<rect fill="url(#primaryBarGrad)" height="125" rx="5" width="22" x="150" y="45"></rect>
+<rect fill="url(#debitBarGrad)" height="100" rx="5" width="22" x="176" y="70"></rect>
+<text class="text-[12px] fill-[#575f6c] font-sans font-medium" text-anchor="middle" x="174" y="195">Feb</text>
+<!-- Grouped Bars: Mar -->
+<rect fill="url(#primaryBarGrad)" height="138" rx="5" width="22" x="260" y="32"></rect>
+<rect fill="url(#debitBarGrad)" height="105" rx="5" width="22" x="286" y="65"></rect>
+<text class="text-[12px] fill-[#575f6c] font-sans font-medium" text-anchor="middle" x="284" y="195">Mar</text>
+<!-- Grouped Bars: Apr -->
+<rect fill="url(#primaryBarGrad)" height="110" rx="5" width="22" x="370" y="60"></rect>
+<rect fill="url(#debitBarGrad)" height="75" rx="5" width="22" x="396" y="95"></rect>
+<text class="text-[12px] fill-[#575f6c] font-sans font-medium" text-anchor="middle" x="394" y="195">Apr</text>
+<!-- Grouped Bars: May -->
+<rect fill="url(#primaryBarGrad)" height="146" rx="5" width="22" x="480" y="24"></rect>
+<rect fill="url(#debitBarGrad)" height="118" rx="5" width="22" x="506" y="52"></rect>
+<text class="text-[12px] fill-[#575f6c] font-sans font-medium" text-anchor="middle" x="504" y="195">May</text>
+<!-- Grouped Bars: Jun (Highlighted Peak) -->
+<rect fill="url(#primaryBarGrad)" height="156" rx="5" width="22" x="590" y="14"></rect>
+<rect fill="url(#debitBarGrad)" height="128" rx="5" width="22" x="616" y="42"></rect>
+<text class="text-[12px] fill-[#0e1b33] font-sans font-bold" text-anchor="middle" x="614" y="195">Jun</text>
+</svg>
+</div>
+<!-- Monthly Summary Footer Strip -->
+<div class="mt-6 pt-4 border-t border-surface-container-high grid grid-cols-3 gap-4 text-center">
+<div>
+<span class="font-body-sm text-body-sm text-secondary">Peak Net Flow</span>
+<p class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-0.5">$648.2k</p>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-secondary">Reconciliation Rate</span>
+<p class="font-headline-sm text-headline-sm text-[#127F52] font-semibold mt-0.5">99.8%</p>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-secondary">Avg Batch Clearance</span>
+<p class="font-headline-sm text-headline-sm text-primary font-semibold mt-0.5">3.4 min</p>
+</div>
+</div>
+</div>
+<!-- Right Column (40% / 5 cols): Category Distribution Donut -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Category Distribution</h2>
+<p class="font-body-sm text-body-sm text-secondary">Breakdown of classified expenditures</p>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">H1 Ledger</span>
+</div>
+<!-- Interactive Donut Graphic -->
+<div class="flex items-center justify-center my-3 relative">
+<svg class="w-44 h-44 -rotate-90" viewbox="0 0 160 160">
+<!-- Background Track -->
+<circle cx="80" cy="80" fill="none" r="58" stroke="#f1f3ff" stroke-width="18"></circle>
+<!-- Payroll: 34% (stroke-dasharray = 34 * 3.64 = ~124) -->
+<circle cx="80" cy="80" fill="none" r="58" stroke="#3251c7" stroke-dasharray="123.8 364.4" stroke-dashoffset="0" stroke-linecap="round" stroke-width="18"></circle>
+<!-- Vendor Pay: 26% (~94.7) -->
+<circle cx="80" cy="80" fill="none" r="58" stroke="#4e6be1" stroke-dasharray="94.7 364.4" stroke-dashoffset="-126" stroke-linecap="round" stroke-width="18"></circle>
+<!-- Subscriptions: 18% (~65.6) -->
+<circle cx="80" cy="80" fill="none" r="58" stroke="#677872" stroke-dasharray="65.6 364.4" stroke-dashoffset="-223" stroke-linecap="round" stroke-width="18"></circle>
+<!-- Operational: 14% (~51) -->
+<circle cx="80" cy="80" fill="none" r="58" stroke="#b9cac3" stroke-dasharray="51.0 364.4" stroke-dashoffset="-291" stroke-linecap="round" stroke-width="18"></circle>
+<!-- Miscellaneous: 8% (~29) -->
+<circle cx="80" cy="80" fill="none" r="58" stroke="#d9e0f0" stroke-dasharray="29.0 364.4" stroke-dashoffset="-344" stroke-linecap="round" stroke-width="18"></circle>
+</svg>
+<!-- Donut Center Value Indicator -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="font-display text-headline-lg font-bold text-on-surface leading-tight">$2.19M</span>
+<span class="font-body-sm text-body-sm text-secondary">Allocated</span>
+</div>
+</div>
+<!-- Category Legend Table -->
+<div class="flex flex-col gap-2.5 mt-2">
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#3251c7]"></span>
+<span class="font-medium text-on-surface">Payroll &amp; Staffing</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-tabular-md text-secondary">$746,446</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary w-8 text-right">34%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#4e6be1]"></span>
+<span class="font-medium text-on-surface">Vendor Disbursals</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-tabular-md text-secondary">$570,812</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary w-8 text-right">26%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#677872]"></span>
+<span class="font-medium text-on-surface">Software &amp; Subscriptions</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-tabular-md text-secondary">$395,177</span>
+<span class="font-label-sm text-label-sm font-semibold text-tertiary w-8 text-right">18%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#b9cac3]"></span>
+<span class="font-medium text-on-surface">Operational &amp; Facilities</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-tabular-md text-secondary">$307,360</span>
+<span class="font-label-sm text-label-sm font-semibold text-secondary w-8 text-right">14%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#d9e0f0]"></span>
+<span class="font-medium text-on-surface">Miscellaneous</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-tabular-md text-secondary">$175,635</span>
+<span class="font-label-sm text-label-sm font-semibold text-secondary w-8 text-right">8%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Statements Data Grid & Filter Module -->
+<div class="w-full bg-surface-container-lowest rounded-2xl p-6 shadow-sm mb-8">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-surface-container-high">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Recent Statements</h2>
+<p class="font-body-sm text-body-sm text-secondary">Verified document ingestions across registered treasury entities</p>
+</div>
+<!-- Search & Pill Bank Filters -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- Search -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface border border-outline-variant/30 text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Filter batch or file..." type="text"/>
+</div>
+<!-- Filter Pills -->
+<div class="flex items-center gap-1.5 bg-surface-container-low p-1 rounded-xl">
+<button class="px-3 py-1 rounded-lg bg-surface-container-lowest text-primary font-label-sm text-label-sm font-semibold shadow-sm">All Banks</button>
+<button class="px-3 py-1 rounded-lg text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors">Chase</button>
+<button class="px-3 py-1 rounded-lg text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors">BofA</button>
+<button class="px-3 py-1 rounded-lg text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors">Wells Fargo</button>
+<button class="px-3 py-1 rounded-lg text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors">SVB</button>
+</div>
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline ml-2" href="#">View All (42)</a>
+</div>
+</div>
+<!-- Data Grid Table -->
+<div class="overflow-x-auto w-full mt-2">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="h-12 border-b border-surface-container-high text-outline font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4 font-semibold">Statement File</th>
+<th class="py-3 px-4 font-semibold">Institution &amp; Account</th>
+<th class="py-3 px-4 font-semibold">Processed Date</th>
+<th class="py-3 px-4 font-semibold text-center">Tx Count</th>
+<th class="py-3 px-4 font-semibold text-right">Total Volume</th>
+<th class="py-3 px-4 font-semibold text-center">Parsing Status</th>
+<th class="py-3 px-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high font-body-md text-body-md">
+<!-- Row 1: Chase Operating -->
+<tr class="h-16 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#E8EFFF] text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-on-surface group-hover:text-primary transition-colors truncate">Chase_Operating_May2024.pdf</span>
+<span class="font-body-sm text-body-sm text-outline">Batch #LP-9942 • 24 Pages</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">JPMorgan Chase Bank</span>
+<span class="font-body-sm text-body-sm text-outline">Checking •••• 4821</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary font-body-sm">
+              Today, 09:42 AM
+            </td>
+<td class="py-3 px-4 text-center font-tabular-md font-medium text-on-surface">
+              342
+            </td>
+<td class="py-3 px-4 text-right font-tabular-md font-semibold text-on-surface">
+              $1,124,500.00
+            </td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5F7EF] text-[#127F52] font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#127F52]"></span>
+                Completed
+              </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Download CSV">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: BofA Payroll -->
+<tr class="h-16 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#E8EFFF] text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-on-surface group-hover:text-primary transition-colors truncate">BofA_Payroll_Q2.pdf</span>
+<span class="font-body-sm text-body-sm text-outline">Batch #LP-9938 • 18 Pages</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Bank of America</span>
+<span class="font-body-sm text-body-sm text-outline">Payroll Corp •••• 9012</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary font-body-sm">
+              Yesterday, 16:15 PM
+            </td>
+<td class="py-3 px-4 text-center font-tabular-md font-medium text-on-surface">
+              814
+            </td>
+<td class="py-3 px-4 text-right font-tabular-md font-semibold text-on-surface">
+              $984,210.50
+            </td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0E5] text-[#C05621] font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">priority_high</span>
+                In Review (3)
+              </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Download CSV">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Wells Fargo Tax Escrow -->
+<tr class="h-16 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#E8EFFF] text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-on-surface group-hover:text-primary transition-colors truncate">WellsFargo_Tax_Escrow.pdf</span>
+<span class="font-body-sm text-body-sm text-outline">Batch #LP-9931 • 8 Pages</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Wells Fargo Treasury</span>
+<span class="font-body-sm text-body-sm text-outline">Escrow Trust •••• 1154</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary font-body-sm">
+              Jun 12, 2024
+            </td>
+<td class="py-3 px-4 text-center font-tabular-md font-medium text-on-surface">
+              128
+            </td>
+<td class="py-3 px-4 text-right font-tabular-md font-semibold text-on-surface">
+              $442,190.20
+            </td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5F7EF] text-[#127F52] font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#127F52]"></span>
+                Completed
+              </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Download CSV">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Silicon Valley Bank Seed Wire -->
+<tr class="h-16 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#E8EFFF] text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-semibold text-on-surface group-hover:text-primary transition-colors truncate">SiliconValleyBank_Seed_Wire.pdf</span>
+<span class="font-body-sm text-body-sm text-outline">Batch #LP-9925 • 42 Pages</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Silicon Valley Bank (SVB)</span>
+<span class="font-body-sm text-body-sm text-outline">Venture Growth •••• 7731</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary font-body-sm">
+              Jun 10, 2024
+            </td>
+<td class="py-3 px-4 text-center font-tabular-md font-medium text-on-surface">
+              1,450
+            </td>
+<td class="py-3 px-4 text-right font-tabular-md font-semibold text-on-surface">
+              $1,291,609.70
+            </td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0EBFF] text-[#6B46C1] font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] animate-spin">refresh</span>
+                Processing (82%)
+              </span>
+</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Download CSV">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="flex items-center justify-between pt-5 mt-2 border-t border-surface-container-high">
+<span class="font-body-sm text-body-sm text-secondary">Showing 4 of 42 parsed statements</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-surface-container-high text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors">Previous</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold">1</button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:bg-surface-container-low font-label-sm text-label-sm transition-colors">2</button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:bg-surface-container-low font-label-sm text-label-sm transition-colors">3</button>
+<button class="px-3 py-1.5 rounded-lg border border-surface-container-high text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Bottom Strip: Live System Audit Feed & Sync Bridges -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-8">
+<!-- Real-time Verification Activity -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">history_toggle_off</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Real-Time OCR &amp; Audit Feed</h3>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Live Socket • Connected</span>
+</div>
+<div class="space-y-3.5">
+<div class="flex items-start gap-3 p-3 rounded-xl bg-surface-container-low">
+<div class="w-2 h-2 rounded-full bg-[#127F52] mt-1.5 shrink-0"></div>
+<div class="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between text-body-sm">
+<span class="text-on-surface font-medium">Reconciliation Rule #21 (Payroll Tax Split) applied to 42 transactions</span>
+<span class="text-outline font-body-sm text-[11px] shrink-0">2 mins ago</span>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-xl bg-surface-container-low">
+<div class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0"></div>
+<div class="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between text-body-sm">
+<span class="text-on-surface font-medium">Chase Operating statement parsed: 342 lines extracted with zero OCR ambiguity</span>
+<span class="text-outline font-body-sm text-[11px] shrink-0">14 mins ago</span>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-xl bg-surface-container-low">
+<div class="w-2 h-2 rounded-full bg-[#C05621] mt-1.5 shrink-0"></div>
+<div class="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between text-body-sm">
+<span class="text-on-surface font-medium">Flagged 3 transactions in BofA_Payroll_Q2 for missing vendor tax identification codes</span>
+<span class="text-outline font-body-sm text-[11px] shrink-0">48 mins ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Active Sync Integrations Status -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Ledger Sync Bridges</h3>
+<span class="material-symbols-outlined text-outline text-[20px]">hub</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-4">Autonomous webhooks delivering approved parsed rows straight into destination ledgers.</p>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center font-bold text-[12px] text-primary shadow-sm">QB</span>
+<span class="font-label-md text-label-md text-on-surface">QuickBooks Online</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-[#127F52] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#127F52]"></span>
+              Synced
+            </span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center font-bold text-[12px] text-[#4f5f59] shadow-sm">NS</span>
+<span class="font-label-md text-label-md text-on-surface">NetSuite ERP</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-[#127F52] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#127F52]"></span>
+              Synced
+            </span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center font-bold text-[12px] text-secondary shadow-sm">XR</span>
+<span class="font-label-md text-label-md text-on-surface">Xero Accounting</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+              Idle (Paused)
+            </span>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 h-9 rounded-xl bg-surface-container text-primary hover:bg-surface-variant font-label-sm text-label-sm font-semibold transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">settings_ethernet</span>
+<span>Configure Sync Endpoints</span>
+</button>
+</div>
+</div>
+<!-- Interactive script for quick filters & visual toggles -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterBtn = document.getElementById('filterDropdownBtn');
+      if (filterBtn) {
+        filterBtn.addEventListener('click', () => {
+          const periods = ['Last 7 Days', 'Last 30 Days', 'This Quarter', 'Year to Date'];
+          const currentText = filterBtn.querySelector('span:nth-child(2)').textContent.trim();
+          const nextIndex = (periods.indexOf(currentText) + 1) % periods.length;
+          filterBtn.querySelector('span:nth-child(2)').textContent = periods[nextIndex];
+        });
+      }
+    });
+  </script>
+</div></main></div></body></html>

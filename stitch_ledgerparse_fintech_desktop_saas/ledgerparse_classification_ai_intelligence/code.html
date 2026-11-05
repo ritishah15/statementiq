@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-fixed-variant":"#3a4a45","on-primary-fixed-variant":"#1339b1","on-secondary-container":"#5c6370","inverse-primary":"#b8c4ff","inverse-surface":"#243049","inverse-on-surface":"#edf0ff","on-primary-container":"#fffbff","tertiary-fixed":"#d5e7df","primary-fixed":"#dde1ff","secondary-fixed-dim":"#bfc7d6","on-tertiary-fixed":"#0f1e1a","tertiary":"#4f5f59","surface-variant":"#d8e2ff","error-container":"#ffdad6","surface-bright":"#f9f9ff","surface-tint":"#3554c9","on-tertiary-container":"#f4fff9","on-primary-fixed":"#001354","surface-container-highest":"#d8e2ff","on-tertiary":"#ffffff","primary-fixed-dim":"#b8c4ff","error":"#ba1a1a","secondary-container":"#d9e0f0","tertiary-fixed-dim":"#b9cac3","outline-variant":"#c4c5d6","surface-container-high":"#e0e8ff","surface-container-low":"#f1f3ff","surface":"#f9f9ff","on-background":"#0e1b33","on-error":"#ffffff","on-secondary":"#ffffff","on-surface":"#0e1b33","on-secondary-fixed":"#151c27","secondary":"#575f6c","surface-container":"#e9edff","on-error-container":"#93000a","secondary-fixed":"#dce3f2","on-surface-variant":"#444653","surface-dim":"#cedafa","surface-container-lowest":"#ffffff","outline":"#747685","primary":"#3251c7","background":"#f9f9ff","on-primary":"#ffffff","primary-container":"#4e6be1","on-secondary-fixed-variant":"#404754","tertiary-container":"#677872"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem",margin:"2rem","space-sm":"0.5rem",gutter:"1.5rem","space-lg":"1.5rem","space-md":"1rem","space-xl":"2rem"},fontFamily:{"body-md":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],display:["Plus Jakarta Sans"],"body-sm":["Inter"],"body-lg":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"tabular-md":["Inter"],"headline-lg":["Plus Jakarta Sans"]},fontSize:{"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["22px",{lineHeight:"30px",letterSpacing:"-0.015em",fontWeight:"600"}],display:["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-sm":["13px",{lineHeight:"18px",letterSpacing:"0em",fontWeight:"400"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}],"label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.01em",fontWeight:"600"}],"tabular-md":["14px",{lineHeight:"20px",letterSpacing:"-0.01em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-lowest border-r border-outline-variant/30 z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-outline-variant/20"><img alt="LedgerParse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VwZIjt7OA2CpMK9W4HyibtVxk6hFYp7Tzcs5K3Jz9BX_wSEjVXuEMpW0jOhWmjYzweLIHjEp1iadZoj3BrugOcJ0orORCcNszlsamlZWl_7l8NP2w45Zd9JWwhEQmgOEn03B4fxZ5YTwlYPmYwwhgW7_vMh5e4FyYYjh6gRuOG3BRyV9XxFl11L-q1c20J1qFtpkj0un9Rj7-m82hCV5CiRgvSDv1rVo6oo3m2RGg"/><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">LedgerParse</span><span class="px-1.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-label-sm uppercase tracking-wider font-semibold">OS</span></div></div><div class="px-space-md pt-space-md pb-space-xs"><span class="text-[11px] font-label-sm uppercase tracking-wider text-outline font-semibold">Main Platform</span></div><nav class="flex flex-col gap-1 px-space-sm" data-active-classes="bg-surface-container-high text-primary font-semibold relative before:content-[''] before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:bg-primary before:rounded-r-full"><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Overview</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="upload-statements" href="#"><span class="material-symbols-outlined text-[20px]">cloud_upload</span><span>Upload Statements</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="transactions" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Transactions</span></a><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] transition-colors bg-surface-container-high text-primary font-semibold relative before:content-[''] before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:bg-primary before:rounded-r-full" data-path="classification" href="#"><span class="material-symbols-outlined text-[20px]">account_tree</span><span>Classification</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports-and-exports" href="#"><span class="material-symbols-outlined text-[20px]">summarize</span><span>Reports &amp; Exports</span></a><div class="my-2 border-t border-outline-variant/20"></div><a class="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-2"><div class="flex items-center justify-between"><span class="text-[11px] font-label-sm font-semibold uppercase tracking-wider text-outline">Quota Usage</span><span class="text-[11px] font-label-sm font-semibold text-primary">84%</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[84%] rounded-full"></div></div><span class="text-[11px] font-body-sm text-on-surface-variant">4,200 of 5,000 pages parsed</span></div></aside><div class="pl-[240px]"><header class="sticky top-0 h-16 w-full bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30 z-40 px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-2 font-body-sm text-body-sm text-outline"><span class="material-symbols-outlined text-[18px]">corporate_fare</span><span>LedgerParse Workspace</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-medium">Statements Engine</span></div></div><div class="flex-1 max-w-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">search</span><input class="w-full h-10 pl-9 pr-12 rounded-lg bg-surface border border-outline-variant/40 text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all" placeholder="Search transactions, statement batches, vendors..." type="text"/><kbd class="absolute right-3 px-1.5 py-0.5 rounded border border-outline-variant/40 bg-surface-container-lowest text-[11px] font-label-sm font-semibold text-outline">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><button class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"></span></button><div class="h-5 w-px bg-outline-variant/30"></div><div class="flex items-center gap-3 pl-1"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsgXwMH_eIB6o0YzEQW8uqsjKJ6KaCQM7D54vsFCQUwMLL72DVEVzsCcfQdSNDsPQN7xme852en5IEyc-mAyPGj2evI4_67NeunvdwF0B-RuclR1yElR83SVfO9MAclbBNUuaI-KL1v4eZlmkQLyfB-Y6a6xPOmCMNg2KfqdXYqXZHUcMgIAqeZhinSZNI2ECKR_LRNO2QhNRAKKt5MrsBQgK9jamc_it6RWRkqzQ"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Sarah Jenkins</span><span class="font-body-sm text-body-sm text-outline text-[11px] leading-tight">Operations Lead</span></div></div></div></header><main class="w-full min-h-[calc(100vh-64px)] p-margin bg-surface"><div class="flex flex-col w-full">
+<!-- Top Context Header Area -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg mb-space-xl">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2 font-body-sm text-body-sm text-outline">
+<span class="font-medium">Statements</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-medium">AI Classification Engine</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Classification &amp; Intelligence</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Configure rule-based categorization logic, audit machine learning model accuracy, and resolve exceptions.
+      </p>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center flex-wrap gap-space-sm">
+<button class="h-10 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-outline">sync</span>
+<span>Sync Chart of Accounts</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-md text-label-md transition-colors flex items-center gap-2 shadow-sm" id="open-rule-modal">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Create Classification Rule</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-all flex items-center gap-2 shadow-md hover:shadow-lg">
+<span class="material-symbols-outlined text-[18px]">model_training</span>
+<span>Train ML Model</span>
+</button>
+</div>
+</div>
+<!-- Top Metrics Strip (4 Spacious Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-lg mb-space-xl">
+<!-- Card 1: Mint -->
+<div class="relative overflow-hidden rounded-2xl p-6 bg-[#E5F7EF] flex flex-col justify-between shadow-sm min-h-[170px] transition-transform hover:-translate-y-0.5">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-[#127F52] font-semibold">Automated Accuracy Rate</span>
+<span class="p-2 rounded-xl bg-white/70 text-[#127F52] flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2 mb-1.5">
+<span class="font-display text-display text-[#127F52] font-bold tracking-tight">98.7%</span>
+<span class="font-label-sm text-label-sm text-[#127F52] font-semibold flex items-center">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +0.4%
+          </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#1b5e3f] leading-snug">
+          1,398 of 1,420 transactions automatically classified with zero human intervention
+        </p>
+</div>
+</div>
+<!-- Card 2: Soft Blue -->
+<div class="relative overflow-hidden rounded-2xl p-6 bg-[#E8EFFF] flex flex-col justify-between shadow-sm min-h-[170px] transition-transform hover:-translate-y-0.5">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-primary font-semibold">Rule-Based Matches</span>
+<span class="p-2 rounded-xl bg-white/70 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">rule_folder</span>
+</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2 mb-1.5">
+<span class="font-display text-display text-primary font-bold tracking-tight">72.4%</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">1,028 txns</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+          Predefined deterministic vendor rules (e.g., Gusto, AWS, Stripe, Slack)
+        </p>
+</div>
+</div>
+<!-- Card 3: Lavender -->
+<div class="relative overflow-hidden rounded-2xl p-6 bg-[#F0EBFF] flex flex-col justify-between shadow-sm min-h-[170px] transition-transform hover:-translate-y-0.5">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-[#6B46C1] font-semibold">Machine Learning NLP</span>
+<span class="p-2 rounded-xl bg-white/70 text-[#6B46C1] flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2 mb-1.5">
+<span class="font-display text-display text-[#6B46C1] font-bold tracking-tight">26.3%</span>
+<span class="font-label-sm text-label-sm text-[#6B46C1] font-semibold">370 txns</span>
+</div>
+<p class="font-body-sm text-body-sm text-[#553C9A] leading-snug">
+          Transformer embedding classifier for complex or novel merchant descriptors
+        </p>
+</div>
+</div>
+<!-- Card 4: Soft Peach -->
+<div class="relative overflow-hidden rounded-2xl p-6 bg-[#FFF0E5] flex flex-col justify-between shadow-sm min-h-[170px] transition-transform hover:-translate-y-0.5">
+<div class="flex items-start justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-[#C05621] font-semibold">Exceptions &amp; Review</span>
+<span class="p-2 rounded-xl bg-white/70 text-[#C05621] flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2 mb-1.5">
+<span class="font-display text-display text-[#C05621] font-bold tracking-tight">22 Txns</span>
+<span class="font-label-sm text-label-sm text-[#C05621] font-semibold">1.5% queue</span>
+</div>
+<p class="font-body-sm text-body-sm text-[#9C4221] leading-snug">
+          Confidence &lt; 85% awaiting one-click human verification and ledger sync
+        </p>
+</div>
+</div>
+</div>
+<!-- Dual Analytics & Rules Intelligence Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg mb-space-xl">
+<!-- Left Column: Category Volume & Donut (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-6">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Spend Allocation</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">Category Volume &amp; Distribution</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold hover:bg-surface-container-high transition-colors">
+            Current Statement Period
+          </button>
+</div>
+</div>
+<!-- Donut Visual + Breakdown List -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+<!-- Donut SVG Diagram -->
+<div class="md:col-span-5 flex flex-col items-center justify-center relative">
+<div class="relative w-44 h-44 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 160 160">
+<!-- Background circle -->
+<circle cx="80" cy="80" fill="transparent" r="64" stroke="#E9EDFF" stroke-width="16"></circle>
+<!-- Payroll (62%) -->
+<circle cx="80" cy="80" fill="transparent" r="64" stroke="#3251C7" stroke-dasharray="402.12" stroke-dashoffset="152.8" stroke-linecap="round" stroke-width="16"></circle>
+<!-- Cloud & Infra (21%) -->
+<circle cx="80" cy="80" fill="transparent" r="64" stroke="#4E6BE1" stroke-dasharray="402.12" stroke-dashoffset="317.6" stroke-linecap="round" stroke-width="16"></circle>
+<!-- Marketing (10%) -->
+<circle cx="80" cy="80" fill="transparent" r="64" stroke="#B8C4FF" stroke-dasharray="402.12" stroke-dashoffset="361.9" stroke-linecap="round" stroke-width="16"></circle>
+<!-- Office & Travel (7%) -->
+<circle cx="80" cy="80" fill="transparent" r="64" stroke="#677872" stroke-dasharray="402.12" stroke-dashoffset="374" stroke-linecap="round" stroke-width="16"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">$1.93M</span>
+<span class="font-body-sm text-body-sm text-outline text-[11px] uppercase tracking-wide">Total Classified</span>
+</div>
+</div>
+<div class="mt-3 flex items-center gap-1.5 text-outline font-body-sm text-[12px]">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>1,420 Txns processed</span>
+</div>
+</div>
+<!-- Breakdown Progress Bars -->
+<div class="md:col-span-7 flex flex-col gap-3.5">
+<!-- Payroll -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-medium text-on-surface">Payroll &amp; Benefits</span>
+</div>
+<div class="flex items-center gap-3 font-tabular-md text-tabular-md">
+<span class="font-semibold text-on-surface">$1,200,000</span>
+<span class="text-outline w-10 text-right">62.1%</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 62.1%"></div>
+</div>
+</div>
+<!-- Cloud & Infrastructure -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-medium text-on-surface">Cloud &amp; Infrastructure</span>
+</div>
+<div class="flex items-center gap-3 font-tabular-md text-tabular-md">
+<span class="font-semibold text-on-surface">$420,000</span>
+<span class="text-outline w-10 text-right">21.7%</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 21.7%"></div>
+</div>
+</div>
+<!-- Marketing -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-inverse-primary"></span>
+<span class="font-medium text-on-surface">Marketing &amp; Growth</span>
+</div>
+<div class="flex items-center gap-3 font-tabular-md text-tabular-md">
+<span class="font-semibold text-on-surface">$192,000</span>
+<span class="text-outline w-10 text-right">9.9%</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-inverse-primary h-full rounded-full" style="width: 9.9%"></div>
+</div>
+</div>
+<!-- Office Supplies -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+<span class="font-medium text-on-surface">Office Supplies &amp; Tech</span>
+</div>
+<div class="flex items-center gap-3 font-tabular-md text-tabular-md">
+<span class="font-semibold text-on-surface">$84,000</span>
+<span class="text-outline w-10 text-right">4.3%</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full rounded-full" style="width: 4.3%"></div>
+</div>
+</div>
+<!-- Travel & Meals -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-medium text-on-surface">Travel &amp; Entertainment</span>
+</div>
+<div class="flex items-center gap-3 font-tabular-md text-tabular-md">
+<span class="font-semibold text-on-surface">$38,000</span>
+<span class="text-outline w-10 text-right">2.0%</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 2.0%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 flex items-center justify-between text-body-sm text-outline">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+          All 5 master chart accounts balanced to general ledger
+        </span>
+<a class="text-primary font-label-sm text-label-sm font-semibold hover:underline" href="#">Download Distribution Audit</a>
+</div>
+</div>
+<!-- Right Column: Rule Engine vs ML Model Status (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- Active Rule Engine Stats Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">alt_route</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Deterministic Rule Engine</h3>
+<span class="font-body-sm text-body-sm text-outline">Deterministic vendor-match execution</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#E5F7EF] text-[#127F52] font-label-sm text-label-sm font-semibold">Active</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-2">
+<div class="p-3.5 rounded-xl bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Active Rules</span>
+<div class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">142</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">+8 added this month</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Engine Hit Rate</span>
+<div class="font-headline-lg text-headline-lg text-primary font-bold mt-1">98.0%</div>
+<span class="font-body-sm text-body-sm text-[#127F52] text-[11px] font-semibold">0 conflicting rules</span>
+</div>
+</div>
+<!-- Quick Rule Creator snippet -->
+<div class="mt-4 p-3.5 rounded-xl bg-surface-container flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase font-semibold text-outline">Rule Logic Example</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Exact Regex Match</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface bg-surface-container-lowest p-2.5 rounded-lg font-mono text-[12px] flex items-center gap-1.5 flex-wrap">
+<span class="text-primary font-semibold">IF</span>
+<span class="text-on-surface-variant">description</span>
+<span class="text-primary font-semibold">CONTAINS</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high rounded text-on-surface font-semibold">[Google Workspace]</span>
+<span class="text-primary font-semibold">THEN CATEGORY =</span>
+<span class="px-1.5 py-0.5 bg-[#E8EFFF] text-primary rounded font-semibold">[Software]</span>
+</div>
+</div>
+</div>
+<!-- ML Model Status Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#F0EBFF] flex items-center justify-center text-[#6B46C1]">
+<span class="material-symbols-outlined text-[22px]">memory</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">NLP Foundation Model</h3>
+<span class="font-body-sm text-body-sm text-outline">Model Version: 3.4.2-FinBERT</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#F0EBFF] text-[#6B46C1] font-label-sm text-label-sm font-semibold">v3.4.2</span>
+</div>
+<div class="flex items-center justify-between py-2 text-body-sm text-on-surface-variant">
+<div class="flex flex-col">
+<span class="text-outline text-[12px]">Trained Corpus</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">2.4M lines</span>
+</div>
+<div class="flex flex-col text-center">
+<span class="text-outline text-[12px]">F1 Confidence Score</span>
+<span class="font-headline-sm text-headline-sm font-bold text-[#127F52]">99.1%</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="text-outline text-[12px]">Inference Latency</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">18ms</span>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-3 text-body-sm">
+<span class="text-outline text-[12px]">Last weights checkpoint: Today at 04:30 AM UTC</span>
+<button class="text-primary font-label-sm text-label-sm font-semibold hover:underline flex items-center gap-1">
+<span>Model Logs</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Manual Category Review & Correction Queue (Spacious Card) -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm flex flex-col mb-space-xl">
+<!-- Queue Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#FFF0E5] text-[#C05621] flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">assignment_late</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold flex items-center gap-2">
+<span>Exception Resolution Queue</span>
+<span class="px-2 py-0.5 rounded-full bg-[#FFF0E5] text-[#C05621] font-label-sm text-label-sm font-bold">22 Pending</span>
+</h2>
+<span class="font-body-sm text-body-sm text-outline">
+            Transactions with inference confidence below 85% requiring one-click confirmation
+          </span>
+</div>
+</div>
+<div class="flex items-center gap-2.5">
+<button class="h-9 px-4 rounded-lg bg-[#E5F7EF] hover:bg-[#d4f2e4] text-[#127F52] font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5" id="batch-confirm-btn">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span>Batch Accept (&gt;80%)</span>
+</button>
+<button class="h-9 px-3 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-outline">filter_list</span>
+<span>Filter</span>
+</button>
+</div>
+</div>
+<!-- Table of Exceptions -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-outline font-label-sm text-label-sm uppercase tracking-wider bg-surface-container-low/60 rounded-xl">
+<th class="py-3 px-4 rounded-l-xl font-semibold">Transaction Descriptor &amp; Metadata</th>
+<th class="py-3 px-4 font-semibold text-right">Amount</th>
+<th class="py-3 px-4 font-semibold">AI Suggestion &amp; Model Output</th>
+<th class="py-3 px-4 font-semibold text-center">Confidence</th>
+<th class="py-3 px-4 rounded-r-xl font-semibold text-right">Resolution Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0" id="exception-table-body">
+<!-- Row 1: Drift Technologies -->
+<tr class="group hover:bg-surface transition-colors" data-row-id="row-1">
+<td class="py-4 px-4 min-w-[280px]">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">corporate_fare</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface leading-tight">ACH DEBIT DRIFT TECHNOLOGIES INC</span>
+<span class="font-body-sm text-body-sm text-outline text-[12px] leading-tight">Ref: TR-89102 • Silicon Valley Bank SVB-9021</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap font-tabular-md text-tabular-md font-bold text-on-surface">
+              $4,200.00
+            </td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-3 py-1 rounded-full bg-[#E8EFFF] text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                  Marketing Software
+                </span>
+<span class="text-outline font-body-sm text-[12px]">Sub: Inbound Bot SLA</span>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF0E5] text-[#C05621] font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#C05621]"></span>
+<span>82%</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-2">
+<button class="h-8 px-3 rounded-lg bg-[#E5F7EF] hover:bg-[#d4f2e4] text-[#127F52] font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="resolveRow('row-1')">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                  Confirm
+                </button>
+<div class="relative inline-block text-left">
+<button class="h-8 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1">
+<span>Change</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+</div>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" title="Create auto-classification rule">
+<span class="material-symbols-outlined text-[16px]">add_task</span>
+<span>Create Rule</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Capital Lease Wire -->
+<tr class="group hover:bg-surface transition-colors" data-row-id="row-2">
+<td class="py-4 px-4 min-w-[280px]">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface leading-tight">WIRE OUT REF #98213 CAPITAL LEASE</span>
+<span class="font-body-sm text-body-sm text-outline text-[12px] leading-tight">Ref: WR-44021 • First Republic Treasury</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap font-tabular-md text-tabular-md font-bold text-on-surface">
+              $18,450.00
+            </td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-3 py-1 rounded-full bg-[#E8EFFF] text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                  Equipment Financing
+                </span>
+<span class="text-outline font-body-sm text-[12px]">Sub: Server Hardware</span>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF0E5] text-[#C05621] font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#C05621]"></span>
+<span>79%</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-2">
+<button class="h-8 px-3 rounded-lg bg-[#E5F7EF] hover:bg-[#d4f2e4] text-[#127F52] font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="resolveRow('row-2')">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                  Confirm
+                </button>
+<div class="relative inline-block text-left">
+<button class="h-8 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1">
+<span>Change</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+</div>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" title="Create auto-classification rule">
+<span class="material-symbols-outlined text-[16px]">add_task</span>
+<span>Create Rule</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Square Bread Bakery -->
+<tr class="group hover:bg-surface transition-colors" data-row-id="row-3">
+<td class="py-4 px-4 min-w-[280px]">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface leading-tight">SQUARE INC SQ* BREAD BAKERY SF</span>
+<span class="font-body-sm text-body-sm text-outline text-[12px] leading-tight">Ref: POS-1192 • Brex Card Corp #4412</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap font-tabular-md text-tabular-md font-bold text-on-surface">
+              $84.20
+            </td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-3 py-1 rounded-full bg-[#E8EFFF] text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                  Meals &amp; Entertainment
+                </span>
+<span class="text-outline font-body-sm text-[12px]">Sub: Team Offsite</span>
+</div>
+</td>
+<td class="py-4 px-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF0E5] text-[#C05621] font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#C05621]"></span>
+<span>84%</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-2">
+<button class="h-8 px-3 rounded-lg bg-[#E5F7EF] hover:bg-[#d4f2e4] text-[#127F52] font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="resolveRow('row-3')">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                  Confirm
+                </button>
+<div class="relative inline-block text-left">
+<button class="h-8 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1">
+<span>Change</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+</div>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" title="Create auto-classification rule">
+<span class="material-symbols-outlined text-[16px]">add_task</span>
+<span>Create Rule</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Queue Pagination & State Summary -->
+<div class="pt-4 mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-body-sm text-body-sm text-outline">
+<div class="flex items-center gap-2">
+<span>Showing 3 of 22 exceptions</span>
+<span>•</span>
+<span class="text-on-surface-variant font-medium">19 queued for next review batch</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors disabled:opacity-50" disabled="">
+          Previous
+        </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors">
+          Next Page
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Rule Creator Flyout/Modal Mockup -->
+<div class="hidden fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-50 flex items-center justify-center p-4" id="rule-modal">
+<div class="bg-surface-container-lowest rounded-2xl max-w-xl w-full p-6 shadow-xl flex flex-col gap-5">
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">New Classification Rule</h3>
+</div>
+<button class="p-1 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors" id="close-rule-modal">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 font-body-sm text-body-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Target Vendor / Match Description</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="e.g. AWS, Stripe, Google Cloud, Gusto" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Target Category</label>
+<select class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface focus:outline-none">
+<option>Cloud &amp; Infrastructure</option>
+<option>Payroll &amp; Benefits</option>
+<option>Marketing Software</option>
+<option>Office Supplies</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Matching Logic</label>
+<select class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface focus:outline-none">
+<option>CONTAINS (Sub-string match)</option>
+<option>EXACT (Strict match)</option>
+<option>REGEX (Advanced Pattern)</option>
+</select>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-surface-container text-[12px] text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">info</span>
+<span>Rules take precedence over NLP machine learning inference and execute instantly upon statement ingestion.</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-3">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" id="cancel-rule-modal">
+          Cancel
+        </button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors" id="save-rule-modal">
+          Create &amp; Apply Rule
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interactions for confirm buttons
+  function resolveRow(rowId) {
+    const row = document.querySelector(`[data-row-id="${rowId}"]`);
+    if (row) {
+      row.style.transition = 'all 0.3s ease';
+      row.style.opacity = '0';
+      row.style.transform = 'translateX(20px)';
+      setTimeout(() => {
+        row.remove();
+      }, 300);
+    }
+  }
+
+  // Batch confirm button handler
+  document.getElementById('batch-confirm-btn')?.addEventListener('click', () => {
+    const rows = document.querySelectorAll('#exception-table-body tr');
+    rows.forEach((row, i) => {
+      setTimeout(() => {
+        row.style.transition = 'all 0.3s ease';
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(20px)';
+        setTimeout(() => row.remove(), 300);
+      }, i * 120);
+    });
+  });
+
+  // Modal show/hide handlers
+  const ruleModal = document.getElementById('rule-modal');
+  const openRuleBtn = document.getElementById('open-rule-modal');
+  const closeRuleBtn = document.getElementById('close-rule-modal');
+  const cancelRuleBtn = document.getElementById('cancel-rule-modal');
+  const saveRuleBtn = document.getElementById('save-rule-modal');
+
+  const toggleModal = (show) => {
+    if (ruleModal) {
+      if (show) {
+        ruleModal.classList.remove('hidden');
+      } else {
+        ruleModal.classList.add('hidden');
+      }
+    }
+  };
+
+  openRuleBtn?.addEventListener('click', () => toggleModal(true));
+  closeRuleBtn?.addEventListener('click', () => toggleModal(false));
+  cancelRuleBtn?.addEventListener('click', () => toggleModal(false));
+  saveRuleBtn?.addEventListener('click', () => {
+    toggleModal(false);
+  });
+</script></main></div></body></html>

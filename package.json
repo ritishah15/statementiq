@@ -1,0 +1,14 @@
+{
+  "name": "statementiq",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "start:backend": "python backend/run.py",
+    "start:frontend": "npm run dev --prefix frontend",
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "test": "python backend/tests/run_tests.py"
+  }
+}
