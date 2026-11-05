@@ -15,7 +15,6 @@ import {
   Eye,
   FileCode,
   ShieldCheck,
-  Zap,
   ArrowRight,
   RefreshCw,
   Copy,
